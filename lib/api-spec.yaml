@@ -1,0 +1,225 @@
+components:
+  schemas:
+    Body_create_interview_questions_interview_questions_post:
+      properties:
+        cover_letter:
+          description: Cover letter as a text file
+          format: binary
+          title: Cover Letter
+          type: string
+        interview_focus:
+          description: "Interview focus: technical, personality"
+          title: Interview Focus
+          type: string
+        interview_type:
+          description:
+            "Interview type: real(\uC2E4\uC804\uBA74\uC811), general(\uBAA8\
+            \uC758\uBA74\uC811)"
+          title: Interview Type
+          type: string
+        job_role:
+          description: "Job role: frontend, backend, cloud, ai"
+          title: Job Role
+          type: string
+        language:
+          default: ko
+          description: Language of the interview
+          title: Language
+          type: string
+        media_type:
+          description: "Media type: text, audio, video"
+          title: Media Type
+          type: string
+      required:
+        - cover_letter
+        - interview_type
+        - interview_focus
+        - media_type
+        - job_role
+      title: Body_create_interview_questions_interview_questions_post
+      type: object
+    Body_evaluate_interview_request_interview_evaluation_post:
+      properties:
+        answers:
+          description: Answers as a JSON file
+          format: binary
+          title: Answers
+          type: string
+        cover_letter:
+          description: Cover letter as a text file
+          format: binary
+          title: Cover Letter
+          type: string
+        interview_focus:
+          description: "Interview focus: technical, personality"
+          title: Interview Focus
+          type: string
+        interview_type:
+          description:
+            "Interview type: real(\uC2E4\uC804\uBA74\uC811), general(\uBAA8\
+            \uC758\uBA74\uC811)"
+          title: Interview Type
+          type: string
+        job_role:
+          description: "Job role: frontend, backend, cloud, ai"
+          title: Job Role
+          type: string
+        language:
+          default: ko
+          description: Language of the interview
+          title: Language
+          type: string
+        media_type:
+          description: "Media type: text, audio, video"
+          title: Media Type
+          type: string
+        questions:
+          description: Questions as a JSON file
+          format: binary
+          title: Questions
+          type: string
+      required:
+        - cover_letter
+        - questions
+        - answers
+        - interview_type
+        - interview_focus
+        - media_type
+        - job_role
+      title: Body_evaluate_interview_request_interview_evaluation_post
+      type: object
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: "#/components/schemas/ValidationError"
+          title: Detail
+          type: array
+      title: HTTPValidationError
+      type: object
+    Question:
+      properties:
+        core_competency:
+          items:
+            type: string
+          title: Core Competency
+          type: array
+        model_answer:
+          title: Model Answer
+          type: string
+        question_id:
+          title: Question Id
+          type: integer
+        question_intent:
+          title: Question Intent
+          type: string
+        question_text:
+          title: Question Text
+          type: string
+      required:
+        - question_id
+        - question_text
+        - question_intent
+        - core_competency
+        - model_answer
+      title: Question
+      type: object
+    QuestionsResponse:
+      properties:
+        questions:
+          items:
+            $ref: "#/components/schemas/Question"
+          title: Questions
+          type: array
+      required:
+        - questions
+      title: QuestionsResponse
+      type: object
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+              - type: string
+              - type: integer
+          title: Location
+          type: array
+        msg:
+          title: Message
+          type: string
+        type:
+          title: Error Type
+          type: string
+      required:
+        - loc
+        - msg
+        - type
+      title: ValidationError
+      type: object
+info:
+  description: Description of your API
+  title: Your API Title
+  version: 1.0.0
+openapi: 3.1.0
+paths:
+  /:
+    get:
+      operationId: root__get
+      responses:
+        "200":
+          content:
+            application/json:
+              schema: {}
+          description: Successful Response
+      summary: Root
+      tags:
+        - Common
+  /interview/evaluation:
+    post:
+      operationId: evaluate_interview_request_interview_evaluation_post
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: "#/components/schemas/Body_evaluate_interview_request_interview_evaluation_post"
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema: {}
+          description: Successful Response
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HTTPValidationError"
+          description: Validation Error
+      summary: Evaluate Interview Request
+      tags:
+        - Interview
+  /interview/questions:
+    post:
+      operationId: create_interview_questions_interview_questions_post
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: "#/components/schemas/Body_create_interview_questions_interview_questions_post"
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/QuestionsResponse"
+          description: Successful Response
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HTTPValidationError"
+          description: Validation Error
+      summary: Create Interview Questions
+      tags:
+        - Interview

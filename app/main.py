@@ -1,5 +1,9 @@
 from fastapi import FastAPI
 from app.routers import interview
+import os
+import yaml
+from fastapi.openapi.utils import get_openapi
+from contextlib import asynccontextmanager
 
 app = FastAPI(
     title="Devterview AI API",
@@ -15,6 +19,28 @@ app = FastAPI(
     ]
 )
 
+def generate_openapi_yaml():
+    openapi_schema = get_openapi(
+        title="Your API Title",
+        version="1.0.0",
+        description="Description of your API",
+        routes=app.routes,
+    )
+    
+    os.makedirs("lib", exist_ok=True)
+    
+    with open("lib/api-spec.yaml", "w") as file:
+        yaml.dump(openapi_schema, file, default_flow_style=False)
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    # Server starts
+    yield
+    # Server is shutting down
+    generate_openapi_yaml()
+
+
+app = FastAPI(lifespan=lifespan)
 
 app.include_router(interview.router)
 
