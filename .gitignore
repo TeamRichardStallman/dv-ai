@@ -1,0 +1,19 @@
+# Python 관련
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# 환경 변수 파일
+.env
+
+# 가상 환경
+venv/
+.env/
+
+# Docker 관련
+*.log
+
+# 기타
+.idea/
+.vscode/
