@@ -1,5 +1,5 @@
 from app.utils.llm_config import GPT_MODEL, SEED, TEMPERATURE, TOP_P
-from app.utils.prompts import generate_questions_prompt
+from app.utils.prompts import generate_questions_prompt, generate_evaluation_prompt
 from openai import OpenAI
 import json
 import os
@@ -26,3 +26,25 @@ def generate_questions_from_cover_letter(cover_letter: str, user_data: dict):
     )
     
     return json.loads(response.choices[0].message.content)["questions"]
+
+def evaluate_interview(cover_letter: str, merged_input: dict, user_data: dict):
+    prompt = generate_evaluation_prompt(user_data)
+
+    response = client_gpt.chat.completions.create(
+        model=GPT_MODEL,
+        messages=[
+            {
+                "role": "system",
+                "content": prompt  
+            },
+            {
+                "role": "user",
+                "content": json.dumps(merged_input) 
+            }
+        ],
+        seed=SEED,
+        temperature=TEMPERATURE,
+        top_p=TOP_P
+    )
+
+    return json.loads(response.choices[0].message.content)
