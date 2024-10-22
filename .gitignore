@@ -13,7 +13,6 @@ venv/
 
 # Docker 관련
 *.log
-Dockerfile
 
 # 기타
 .idea/
