@@ -16,7 +16,6 @@ app = FastAPI(
 )
 
 
-# 라우터 추가
 app.include_router(interview.router)
 
 @app.get("/", tags=['Common'])
