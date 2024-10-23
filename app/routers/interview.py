@@ -1,6 +1,7 @@
 from fastapi import APIRouter, File, UploadFile, HTTPException, Form
 from app.services.ai_model import generate_questions_from_cover_letter, evaluate_interview
 from app.models.questions_response import QuestionsResponse 
+from app.models.evaluation_response import EvaluationResponse
 from app.utils.merge import merge_questions_answers
 import json
 
@@ -9,7 +10,7 @@ router = APIRouter(
     tags=["Interview"]
 )
 
-@router.post("/questions", response_model=QuestionsResponse)
+@router.post("/questions", tags=["Interview"], response_model=QuestionsResponse)
 async def create_interview_questions(
     cover_letter: UploadFile = File(..., description="Cover letter as a text file"),
     interview_type: str = Form(..., description="Interview type: real(실전면접), general(모의면접)"),
@@ -34,7 +35,7 @@ async def create_interview_questions(
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error generating questions: {str(e)}")
 
-@router.post("/evaluation")
+@router.post("/evaluation", tags=["Interview"], response_model=EvaluationResponse)
 async def evaluate_interview_request(
     cover_letter: UploadFile = File(..., description="Cover letter as a text file"),
     questions: UploadFile = File(..., description="Questions as a JSON file"),
@@ -53,9 +54,6 @@ async def evaluate_interview_request(
         cover_letter_data = cover_letter_content.decode("utf-8")
         questions_data = json.loads(questions_content.decode("utf-8"))
         answers_data = json.loads(answers_content.decode("utf-8"))
-
-        print("Questions Data:", questions_data)  # {"questions": [...]}
-        print("Answers Data:", answers_data)
 
         merged_input = merge_questions_answers(questions_data, answers_data)
 
