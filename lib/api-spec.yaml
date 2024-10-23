@@ -1,5 +1,22 @@
 components:
   schemas:
+    AnswerEvaluation:
+      properties:
+        feedback_text:
+          title: Feedback Text
+          type: string
+        question_id:
+          title: Question Id
+          type: integer
+        score:
+          title: Score
+          type: integer
+      required:
+      - question_id
+      - score
+      - feedback_text
+      title: AnswerEvaluation
+      type: object
     Body_create_interview_questions_interview_questions_post:
       properties:
         cover_letter:
@@ -8,17 +25,16 @@ components:
           title: Cover Letter
           type: string
         interview_focus:
-          description: "Interview focus: technical, personality"
+          description: 'Interview focus: technical, personality'
           title: Interview Focus
           type: string
         interview_type:
-          description:
-            "Interview type: real(\uC2E4\uC804\uBA74\uC811), general(\uBAA8\
+          description: "Interview type: real(\uC2E4\uC804\uBA74\uC811), general(\uBAA8\
             \uC758\uBA74\uC811)"
           title: Interview Type
           type: string
         job_role:
-          description: "Job role: frontend, backend, cloud, ai"
+          description: 'Job role: frontend, backend, cloud, ai'
           title: Job Role
           type: string
         language:
@@ -27,15 +43,15 @@ components:
           title: Language
           type: string
         media_type:
-          description: "Media type: text, audio, video"
+          description: 'Media type: text, audio, video'
           title: Media Type
           type: string
       required:
-        - cover_letter
-        - interview_type
-        - interview_focus
-        - media_type
-        - job_role
+      - cover_letter
+      - interview_type
+      - interview_focus
+      - media_type
+      - job_role
       title: Body_create_interview_questions_interview_questions_post
       type: object
     Body_evaluate_interview_request_interview_evaluation_post:
@@ -51,17 +67,16 @@ components:
           title: Cover Letter
           type: string
         interview_focus:
-          description: "Interview focus: technical, personality"
+          description: 'Interview focus: technical, personality'
           title: Interview Focus
           type: string
         interview_type:
-          description:
-            "Interview type: real(\uC2E4\uC804\uBA74\uC811), general(\uBAA8\
+          description: "Interview type: real(\uC2E4\uC804\uBA74\uC811), general(\uBAA8\
             \uC758\uBA74\uC811)"
           title: Interview Type
           type: string
         job_role:
-          description: "Job role: frontend, backend, cloud, ai"
+          description: 'Job role: frontend, backend, cloud, ai'
           title: Job Role
           type: string
         language:
@@ -70,7 +85,7 @@ components:
           title: Language
           type: string
         media_type:
-          description: "Media type: text, audio, video"
+          description: 'Media type: text, audio, video'
           title: Media Type
           type: string
         questions:
@@ -79,23 +94,54 @@ components:
           title: Questions
           type: string
       required:
-        - cover_letter
-        - questions
-        - answers
-        - interview_type
-        - interview_focus
-        - media_type
-        - job_role
+      - cover_letter
+      - questions
+      - answers
+      - interview_type
+      - interview_focus
+      - media_type
+      - job_role
       title: Body_evaluate_interview_request_interview_evaluation_post
+      type: object
+    EvaluationResponse:
+      properties:
+        answer_evaluations:
+          items:
+            $ref: '#/components/schemas/AnswerEvaluation'
+          title: Answer Evaluations
+          type: array
+        overall_evaluation:
+          $ref: '#/components/schemas/OverallEvaluation'
+      required:
+      - answer_evaluations
+      - overall_evaluation
+      title: EvaluationResponse
       type: object
     HTTPValidationError:
       properties:
         detail:
           items:
-            $ref: "#/components/schemas/ValidationError"
+            $ref: '#/components/schemas/ValidationError'
           title: Detail
           type: array
       title: HTTPValidationError
+      type: object
+    OverallEvaluation:
+      properties:
+        development_skill:
+          $ref: '#/components/schemas/AnswerEvaluation'
+        growth_potential:
+          $ref: '#/components/schemas/AnswerEvaluation'
+        technical_depth:
+          $ref: '#/components/schemas/AnswerEvaluation'
+        work_attitude:
+          $ref: '#/components/schemas/AnswerEvaluation'
+      required:
+      - development_skill
+      - growth_potential
+      - work_attitude
+      - technical_depth
+      title: OverallEvaluation
       type: object
     Question:
       properties:
@@ -117,22 +163,22 @@ components:
           title: Question Text
           type: string
       required:
-        - question_id
-        - question_text
-        - question_intent
-        - core_competency
-        - model_answer
+      - question_id
+      - question_text
+      - question_intent
+      - core_competency
+      - model_answer
       title: Question
       type: object
     QuestionsResponse:
       properties:
         questions:
           items:
-            $ref: "#/components/schemas/Question"
+            $ref: '#/components/schemas/Question'
           title: Questions
           type: array
       required:
-        - questions
+      - questions
       title: QuestionsResponse
       type: object
     ValidationError:
@@ -140,8 +186,8 @@ components:
         loc:
           items:
             anyOf:
-              - type: string
-              - type: integer
+            - type: string
+            - type: integer
           title: Location
           type: array
         msg:
@@ -151,14 +197,32 @@ components:
           title: Error Type
           type: string
       required:
-        - loc
-        - msg
-        - type
+      - loc
+      - msg
+      - type
       title: ValidationError
       type: object
 info:
-  description: Description of your API
-  title: Your API Title
+  description: "\n        Devterview AI API\uB294 \uAC1C\uBC1C\uC790 \uBA74\uC811\uC744\
+    \ \uC704\uD55C \uC9C8\uBB38 \uC0DD\uC131\uACFC \uD3C9\uAC00\uB97C \uC218\uD589\
+    \uD558\uB294 API\uC785\uB2C8\uB2E4. \n        \uC774 API\uB294 \uC9C0\uC6D0\uC790\
+    \uC758 \uC790\uC18C\uC11C\uC640 \uBA74\uC811 \uB370\uC774\uD130\uB97C \uAE30\uBC18\
+    \uC73C\uB85C \uB9DE\uCDA4\uD615 \uBA74\uC811 \uC9C8\uBB38\uC744 \uC0DD\uC131\uD558\
+    \uACE0, \n        \uC9C0\uC6D0\uC790\uC758 \uB2F5\uBCC0\uC5D0 \uB300\uD55C \uD3C9\
+    \uAC00\uB97C \uC81C\uACF5\uD569\uB2C8\uB2E4.\n\n        \uC8FC\uC694 \uAE30\uB2A5\
+    :\n        - \uC790\uC18C\uC11C\uB97C \uAE30\uBC18\uC73C\uB85C \uD55C \uB9DE\uCDA4\
+    \uD615 \uBA74\uC811 \uC9C8\uBB38 \uC0DD\uC131\n        - \uAE30\uC220\uC801, \uC131\
+    \uACA9\uC801 \uBA74\uC811 \uD3C9\uAC00\n        - \uB2F5\uBCC0\uC5D0 \uB300\uD55C\
+    \ \uC138\uBD80\uC801\uC778 \uD53C\uB4DC\uBC31 \uC81C\uACF5\n        - \uC0AC\uC6A9\
+    \uC790 \uC815\uC758 \uAC00\uB2A5\uD55C \uBA74\uC811 \uC720\uD615\uACFC \uC9C1\uBB34\
+    \uC5D0 \uB530\uB978 \uC9C8\uBB38 \uBC0F \uD3C9\uAC00\n\n        \uC774 API\uB294\
+    \ \uB2E4\uC591\uD55C \uC9C1\uBB34(\uD504\uB860\uD2B8\uC5D4\uB4DC, \uBC31\uC5D4\
+    \uB4DC, \uD074\uB77C\uC6B0\uB4DC, AI \uB4F1)\uC640 \uB2E4\uC591\uD55C \uBA74\uC811\
+    \ \uBC29\uC2DD(\uC2E4\uC804 \uBA74\uC811, \uBAA8\uC758 \uBA74\uC811)\uC744 \n\
+    \        \uC9C0\uC6D0\uD558\uBA70, \uAE30\uC220\uC801\uC778 \uC131\uC7A5 \uAC00\
+    \uB2A5\uC131\uACFC \uC5C5\uBB34 \uD0DC\uB3C4\uC5D0 \uB300\uD55C \uC885\uD569\uC801\
+    \uC778 \uD3C9\uAC00\uB97C \uC81C\uACF5\uD569\uB2C8\uB2E4.\n        "
+  title: Devterview AI API
   version: 1.0.0
 openapi: 3.1.0
 paths:
@@ -166,14 +230,14 @@ paths:
     get:
       operationId: root__get
       responses:
-        "200":
+        '200':
           content:
             application/json:
               schema: {}
           description: Successful Response
       summary: Root
       tags:
-        - Common
+      - Common
   /interview/evaluation:
     post:
       operationId: evaluate_interview_request_interview_evaluation_post
@@ -181,23 +245,25 @@ paths:
         content:
           multipart/form-data:
             schema:
-              $ref: "#/components/schemas/Body_evaluate_interview_request_interview_evaluation_post"
+              $ref: '#/components/schemas/Body_evaluate_interview_request_interview_evaluation_post'
         required: true
       responses:
-        "200":
-          content:
-            application/json:
-              schema: {}
-          description: Successful Response
-        "422":
+        '200':
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/HTTPValidationError"
+                $ref: '#/components/schemas/EvaluationResponse'
+          description: Successful Response
+        '422':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
           description: Validation Error
       summary: Evaluate Interview Request
       tags:
-        - Interview
+      - Interview
+      - Interview
   /interview/questions:
     post:
       operationId: create_interview_questions_interview_questions_post
@@ -205,21 +271,22 @@ paths:
         content:
           multipart/form-data:
             schema:
-              $ref: "#/components/schemas/Body_create_interview_questions_interview_questions_post"
+              $ref: '#/components/schemas/Body_create_interview_questions_interview_questions_post'
         required: true
       responses:
-        "200":
+        '200':
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/QuestionsResponse"
+                $ref: '#/components/schemas/QuestionsResponse'
           description: Successful Response
-        "422":
+        '422':
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/HTTPValidationError"
+                $ref: '#/components/schemas/HTTPValidationError'
           description: Validation Error
       summary: Create Interview Questions
       tags:
-        - Interview
+      - Interview
+      - Interview
