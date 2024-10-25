@@ -129,19 +129,32 @@ components:
     OverallEvaluation:
       properties:
         development_skill:
-          $ref: '#/components/schemas/AnswerEvaluation'
+          $ref: '#/components/schemas/OverallScore'
         growth_potential:
-          $ref: '#/components/schemas/AnswerEvaluation'
+          $ref: '#/components/schemas/OverallScore'
         technical_depth:
-          $ref: '#/components/schemas/AnswerEvaluation'
+          $ref: '#/components/schemas/OverallScore'
         work_attitude:
-          $ref: '#/components/schemas/AnswerEvaluation'
+          $ref: '#/components/schemas/OverallScore'
       required:
       - development_skill
       - growth_potential
       - work_attitude
       - technical_depth
       title: OverallEvaluation
+      type: object
+    OverallScore:
+      properties:
+        feedback_text:
+          title: Feedback Text
+          type: string
+        score:
+          title: Score
+          type: integer
+      required:
+      - score
+      - feedback_text
+      title: OverallScore
       type: object
     Question:
       properties:
