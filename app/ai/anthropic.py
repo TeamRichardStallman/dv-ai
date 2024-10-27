@@ -1,5 +1,5 @@
 import anthropic
-from app.core.config import Config
+from app.config import Config
 
 client = anthropic.Anthropic(api_key=Config.ANTHROPIC_API_KEY)
 

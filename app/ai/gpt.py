@@ -1,6 +1,6 @@
 from openai import OpenAI
 import json
-from app.core.config import Config
+from app.config import Config
 from typing import List, Union
 
 client_gpt = OpenAI(api_key=Config.OPENAI_API_KEY)
