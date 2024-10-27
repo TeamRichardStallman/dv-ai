@@ -3,7 +3,9 @@ def generate_questions_prompt(user_data):
     interview_focus = user_data.get("interview_focus")
     language = user_data.get("language", "ko")  # 기본 언어는 영어로 설정
 
-    language_note = f"Please provide the questions in {language}." if language != "ko" else ""
+    language_note = (
+        f"Please provide the questions in {language}." if language != "ko" else ""
+    )
 
     prompt = f"""
     You are an expert in the {job_role} domain and the interviewer for a {interview_focus} interview.
@@ -38,12 +40,15 @@ def generate_questions_prompt(user_data):
 
     return prompt
 
+
 def generate_evaluation_prompt(user_data):
     job_role = user_data.get("job_role")
     interview_focus = user_data.get("interview_focus")
     language = user_data.get("language", "ko")
 
-    language_note = f"Please provide all feedback in {language}." if language != "en" else ""
+    language_note = (
+        f"Please provide all feedback in {language}." if language != "en" else ""
+    )
 
     prompt = f"""
     You are an experienced interviewer in the {job_role} domain, evaluating a {interview_focus} interview.

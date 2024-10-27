@@ -7,9 +7,11 @@ class AnswerEvaluation(BaseModel):
     score: int
     feedback_text: str
 
+
 class OverallScore(BaseModel):
     score: int
     feedback_text: str
+
 
 class OverallEvaluation(BaseModel):
     development_skill: OverallScore

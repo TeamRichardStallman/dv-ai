@@ -15,9 +15,10 @@ app = FastAPI(
         },
         {
             "name": "Interview",
-        }
-    ]
+        },
+    ],
 )
+
 
 def generate_openapi_yaml():
     openapi_schema = get_openapi(
@@ -39,11 +40,12 @@ def generate_openapi_yaml():
         """,
         routes=app.routes,
     )
-    
+
     os.makedirs("lib", exist_ok=True)
-    
+
     with open("lib/api-spec.yaml", "w") as file:
         yaml.dump(openapi_schema, file, default_flow_style=False)
+
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -57,6 +59,7 @@ app = FastAPI(lifespan=lifespan)
 
 app.include_router(interview.router)
 
-@app.get("/", tags=['Common'])
+
+@app.get("/", tags=["Common"])
 async def root():
     return {"message": "Welcome to the Devterview AI Server!"}
