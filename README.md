@@ -13,11 +13,12 @@ fastapi dev app/main.py
 ### Branch 전략
 
 Git-flow
-• main: 배포 가능한 코드
-• develop: 개발 진행 중인 코드
-• feature: 새로운 기능을 개발하는 브랜치
-• release: 릴리즈 준비를 하는 브랜치 (develop -> main 으로 머지할 때 사용)
-• hotfix: 긴급 버그 수정을 위한 브랜치 (main에서 분기하는 브랜치)
+
+- main: 배포 가능한 코드
+- develop: 개발 진행 중인 코드
+- feature: 새로운 기능을 개발하는 브랜치
+- release: 릴리즈 준비를 하는 브랜치 (develop -> main 으로 머지할 때 사용)
+- hotfix: 긴급 버그 수정을 위한 브랜치 (main에서 분기하는 브랜치)
 
 ### Commit Convention
 
@@ -25,16 +26,17 @@ Git-flow
 [jira ticket] 타입: 간단한 설명
 
 타입
-• feat: 새로운 기능 추가
-• fix: 버그 수정
-• refactor: 코드 리팩토링 (기능 변경 없이 코드 개선)
-• docs: 문서 수정 및 업데이트
-• style: 코드의 스타일이나 포맷을 수정 (기능에 영향을 주지 않는 변경)
-• test: 테스트 추가 또는 수정
-• chore: 빌드 시스템, 패키지 매니저 설정 등 기타 잡다한 변경
-• perf: 성능 개선
-• ci: CI/CD 설정 및 스크립트 변경
-• build: 빌드 관련 작업
+
+- feat: 새로운 기능 추가
+- fix: 버그 수정
+- refactor: 코드 리팩토링 (기능 변경 없이 코드 개선)
+- docs: 문서 수정 및 업데이트
+- style: 코드의 스타일이나 포맷을 수정 (기능에 영향을 주지 않는 변경)
+- test: 테스트 추가 또는 수정
+- chore: 빌드 시스템, 패키지 매니저 설정 등 기타 잡다한 변경
+- perf: 성능 개선
+- ci: CI/CD 설정 및 스크립트 변경
+- build: 빌드 관련 작업
 
 ### 의존성 설치
 
