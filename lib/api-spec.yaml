@@ -25,7 +25,8 @@ components:
           title: Cover Letter
           type: string
         interview_focus:
-          description: 'Interview focus: technical, personality'
+          description: "Interview focus: technical(\uAE30\uC220\uBA74\uC811), personal(\uC778\
+            \uC131\uBA74\uC811)"
           title: Interview Focus
           type: string
         interview_type:
@@ -37,13 +38,9 @@ components:
           description: 'Job role: frontend, backend, cloud, ai'
           title: Job Role
           type: string
-        language:
-          default: ko
-          description: Language of the interview
-          title: Language
-          type: string
         media_type:
-          description: 'Media type: text, audio, video'
+          description: "Media type: chat(\uCC44\uD305), voice(\uC74C\uC131), video(\uC601\
+            \uC0C1)"
           title: Media Type
           type: string
       required:
@@ -67,7 +64,8 @@ components:
           title: Cover Letter
           type: string
         interview_focus:
-          description: 'Interview focus: technical, personality'
+          description: "Interview focus: technical(\uAE30\uC220\uBA74\uC811), personal(\uC778\
+            \uC131\uBA74\uC811)"
           title: Interview Focus
           type: string
         interview_type:
@@ -79,13 +77,9 @@ components:
           description: 'Job role: frontend, backend, cloud, ai'
           title: Job Role
           type: string
-        language:
-          default: ko
-          description: Language of the interview
-          title: Language
-          type: string
         media_type:
-          description: 'Media type: text, audio, video'
+          description: "Media type: chat(\uCC44\uD305), voice(\uC74C\uC131), video(\uC601\
+            \uC0C1)"
           title: Media Type
           type: string
         questions:
@@ -158,14 +152,11 @@ components:
       type: object
     Question:
       properties:
-        core_competency:
+        key_terms:
           items:
             type: string
-          title: Core Competency
+          title: Key Terms
           type: array
-        model_answer:
-          title: Model Answer
-          type: string
         question_id:
           title: Question Id
           type: integer
@@ -179,8 +170,7 @@ components:
       - question_id
       - question_text
       - question_intent
-      - core_competency
-      - model_answer
+      - key_terms
       title: Question
       type: object
     QuestionsResponse:

@@ -1,5 +1,5 @@
 from pydantic import BaseModel
-from typing import List, Dict
+from typing import List
 
 
 class AnswerEvaluation(BaseModel):
@@ -7,9 +7,11 @@ class AnswerEvaluation(BaseModel):
     score: int
     feedback_text: str
 
+
 class OverallScore(BaseModel):
     score: int
     feedback_text: str
+
 
 class OverallEvaluation(BaseModel):
     development_skill: OverallScore
