@@ -1,10 +1,10 @@
 def generate_questions_prompt(user_data):
     job_role = user_data.get("job_role")
-    interview_focus = user_data.get("interview_focus")
+    interview_type = user_data.get("interview_type")
 
     prompt = f"""
-    You are an expert in the {job_role} domain and the interviewer for a {interview_focus} interview.
-    Your task is to create 10 interview questions based on the provided cover letter for a {interview_focus} interview.
+    You are an expert in the {job_role} domain and the interviewer for a {interview_type} interview.
+    Your task is to create 10 interview questions based on the provided cover letter for a {interview_type} interview.
     If the cover letter does not provide enough content to generate 10 questions, fill in the missing questions with general CS knowledge questions relevant to {job_role}.
 
     Process:

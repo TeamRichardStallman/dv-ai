@@ -1,9 +1,9 @@
 def generate_evaluation_prompt(user_data):
     job_role = user_data.get("job_role")
-    interview_focus = user_data.get("interview_focus")
+    interview_type = user_data.get("interview_type")
 
     prompt = f"""
-    You are an experienced interviewer in the {job_role} domain, evaluating a {interview_focus} interview.
+    You are an experienced interviewer in the {job_role} domain, evaluating a {interview_type} interview.
     Below are the interview questions and the candidate's answers. Evaluate each answer based on the following criteria:
 
     - Appropriate Response: Does the answer address the question properly?

@@ -14,18 +14,18 @@ router = APIRouter(prefix="/interview", tags=["Interview"])
 @router.post("/questions", tags=["Interview"], response_model=QuestionsResponse)
 async def create_interview_questions(
     cover_letter: UploadFile = File(..., description="Cover letter as a text file"),
-    interview_type: str = Form(..., description="Interview type: real(실전면접), general(모의면접)"),
-    interview_focus: str = Form(..., description="Interview focus: technical(기술면접), personal(인성면접)"),
-    media_type: str = Form(..., description="Media type: chat(채팅), voice(음성), video(영상)"),
-    job_role: str = Form(..., description="Job role: frontend, backend, cloud, ai"),
+    interview_mode: str = Form(..., description="Interview Mode: real(실전면접), general(모의면접)"),
+    interview_type: str = Form(..., description="Interview Type: technical(기술면접), personal(인성면접)"),
+    interview_method: str = Form(..., description="Interview Method: chat(채팅), voice(음성), video(영상)"),
+    job_role: str = Form(..., description="Job role: frontend, backend, infra, ai"),
 ):
     cover_letter_content = await cover_letter.read()
     cover_letter_data = cover_letter_content.decode("utf-8")
 
     user_data = {
+        "interview_mode": interview_mode,
         "interview_type": interview_type,
-        "interview_focus": interview_focus,
-        "media_type": media_type,
+        "interview_method": interview_method,
         "job_role": job_role,
     }
 
@@ -41,10 +41,10 @@ async def evaluate_interview_request(
     cover_letter: UploadFile = File(..., description="Cover letter as a text file"),
     questions: UploadFile = File(..., description="Questions as a JSON file"),
     answers: UploadFile = File(..., description="Answers as a JSON file"),
-    interview_type: str = Form(..., description="Interview type: real(실전면접), general(모의면접)"),
-    interview_focus: str = Form(..., description="Interview focus: technical(기술면접), personal(인성면접)"),
-    media_type: str = Form(..., description="Media type: chat(채팅), voice(음성), video(영상)"),
-    job_role: str = Form(..., description="Job role: frontend, backend, cloud, ai"),
+    interview_mode: str = Form(..., description="Interview Mode: real(실전면접), general(모의면접)"),
+    interview_type: str = Form(..., description="Interview Type: technical(기술면접), personal(인성면접)"),
+    interview_method: str = Form(..., description="Interview Method: chat(채팅), voice(음성), video(영상)"),
+    job_role: str = Form(..., description="Job role: frontend, backend, infra, ai"),
 ):
     # cover_letter_content = await cover_letter.read()
     ruestions_content = await questions.read()
@@ -57,9 +57,9 @@ async def evaluate_interview_request(
     merged_input = merge_questions_and_answers(questions_data, answers_data)
 
     user_data = {
+        "interview_mode": interview_mode,
         "interview_type": interview_type,
-        "interview_focus": interview_focus,
-        "media_type": media_type,
+        "interview_method": interview_method,
         "job_role": job_role,
     }
 

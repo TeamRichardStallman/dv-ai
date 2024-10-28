@@ -24,30 +24,30 @@ components:
           format: binary
           title: Cover Letter
           type: string
-        interview_focus:
-          description: "Interview focus: technical(\uAE30\uC220\uBA74\uC811), personal(\uC778\
-            \uC131\uBA74\uC811)"
-          title: Interview Focus
+        interview_method:
+          description: "Interview Method: chat(\uCC44\uD305), voice(\uC74C\uC131),\
+            \ video(\uC601\uC0C1)"
+          title: Interview Method
+          type: string
+        interview_mode:
+          description: "Interview Mode: real(\uC2E4\uC804\uBA74\uC811), general(\uBAA8\
+            \uC758\uBA74\uC811)"
+          title: Interview Mode
           type: string
         interview_type:
-          description: "Interview type: real(\uC2E4\uC804\uBA74\uC811), general(\uBAA8\
-            \uC758\uBA74\uC811)"
+          description: "Interview Type: technical(\uAE30\uC220\uBA74\uC811), personal(\uC778\
+            \uC131\uBA74\uC811)"
           title: Interview Type
           type: string
         job_role:
           description: 'Job role: frontend, backend, cloud, ai'
           title: Job Role
           type: string
-        media_type:
-          description: "Media type: chat(\uCC44\uD305), voice(\uC74C\uC131), video(\uC601\
-            \uC0C1)"
-          title: Media Type
-          type: string
       required:
       - cover_letter
+      - interview_mode
       - interview_type
-      - interview_focus
-      - media_type
+      - interview_method
       - job_role
       title: Body_create_interview_questions_interview_questions_post
       type: object
@@ -63,24 +63,24 @@ components:
           format: binary
           title: Cover Letter
           type: string
-        interview_focus:
-          description: "Interview focus: technical(\uAE30\uC220\uBA74\uC811), personal(\uC778\
-            \uC131\uBA74\uC811)"
-          title: Interview Focus
+        interview_method:
+          description: "Interview Method: chat(\uCC44\uD305), voice(\uC74C\uC131),\
+            \ video(\uC601\uC0C1)"
+          title: Interview Method
+          type: string
+        interview_mode:
+          description: "Interview Mode: real(\uC2E4\uC804\uBA74\uC811), general(\uBAA8\
+            \uC758\uBA74\uC811)"
+          title: Interview Mode
           type: string
         interview_type:
-          description: "Interview type: real(\uC2E4\uC804\uBA74\uC811), general(\uBAA8\
-            \uC758\uBA74\uC811)"
+          description: "Interview Type: technical(\uAE30\uC220\uBA74\uC811), personal(\uC778\
+            \uC131\uBA74\uC811)"
           title: Interview Type
           type: string
         job_role:
           description: 'Job role: frontend, backend, cloud, ai'
           title: Job Role
-          type: string
-        media_type:
-          description: "Media type: chat(\uCC44\uD305), voice(\uC74C\uC131), video(\uC601\
-            \uC0C1)"
-          title: Media Type
           type: string
         questions:
           description: Questions as a JSON file
@@ -91,9 +91,9 @@ components:
       - cover_letter
       - questions
       - answers
+      - interview_mode
       - interview_type
-      - interview_focus
-      - media_type
+      - interview_method
       - job_role
       title: Body_evaluate_interview_request_interview_evaluation_post
       type: object
