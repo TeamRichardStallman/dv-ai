@@ -157,6 +157,9 @@ components:
             type: string
           title: Key Terms
           type: array
+        question_excerpt:
+          title: Question Excerpt
+          type: string
         question_id:
           title: Question Id
           type: integer
@@ -168,6 +171,7 @@ components:
           type: string
       required:
       - question_id
+      - question_excerpt
       - question_text
       - question_intent
       - key_terms

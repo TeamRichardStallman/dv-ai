@@ -9,7 +9,7 @@ from wandb.sdk.data_types.trace_tree import Trace
 
 client_gpt = OpenAI(api_key=Config.OPENAI_API_KEY)
 
-def generate_run_id(prompt: str, cover_letter: str) -> hashlib._Hash:
+def generate_run_id(prompt: str, cover_letter: str):
     run_str = prompt + cover_letter
     return hashlib.md5(run_str.encode('utf-8')).hexdigest()
 
