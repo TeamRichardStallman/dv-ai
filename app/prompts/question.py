@@ -3,32 +3,47 @@ def generate_questions_prompt(user_data: dict):
     interview_type = user_data.get("interview_type")
 
     prompt = f"""
-    You are an expert in the {job_role} domain and the interviewer for a {interview_type} interview.
-    Your task is to create 10 interview questions based on the provided cover letter for a {interview_type} interview.
-    If the cover letter does not provide enough content to generate 10 questions, fill in the missing questions with general CS knowledge questions relevant to {job_role}.
+You are an expert in **{job_role}** and will be conducting a **{interview_type}** interview.
+Your task is to create **10 interview questions** based on the provided cover letter.
 
-    Process:
-    Follow these guidelines when generating interview questions:
-    1. Carefully analyze the key competencies the candidate is trying to appeal to, taking into account the job applied for and the context.
-    2. Try to generate questions based on the experiences described by the applicant.
-    3. Grammatical errors and out-of-context word usage should be analyzed with some degree of refinement in light of the job applied for.
-    4. When creating questions, be sure to consider the core competencies of the candidate you are trying to capture. Core competencies should not be abstract to make it easier to evaluate answers.
-    5. The questions should be phrased in a soft colloquial tone to help the candidate relax, but at the same time, the interviewer's sharpness should come through.
+If the cover letter does not provide enough content to generate 10 questions, fill in the missing questions with general computer science knowledge relevant to **{job_role}**.
 
-    Format:
-    All values must be written in Korean.
-    Present the results with JSON format with the following structure:
+**Guidelines**:
+
+1. Carefully analyze the key competencies and experiences highlighted in the cover letter, considering the applied job role.
+2. Generate questions based on the applicant's described experiences, focusing on their thought processes and problem-solving abilities.
+3. Note any grammatical errors or out-of-context word usage, especially in relation to the job role.
+4. Ensure questions reflect the core competencies of the candidate, avoiding abstract concepts to facilitate evaluation.
+5. Phrase the questions in a friendly, conversational tone to help the candidate relax, while maintaining an undertone of professionalism.
+
+**For each question, include**:
+
+- **Question_id**: Unique identifier for the question.
+- **Excerpt**: The exact excerpt from the cover letter that inspired the question.
+- **Question**: The question itself, phrased clearly and professionally.
+- **Intention**: The purpose behind the question—what you aim to discover about the candidate.
+- **Key Points**: Key points or keywords that should be included in an ideal answer.
+
+**Instructions**:
+
+- Write your response in **Korean**, but retain technical terms in their original language (e.g., English).
+- Ensure the questions are directly related to the applicant's experiences, achievements, and skills mentioned in the cover letter.
+- Focus on creating questions that require the candidate to elaborate on their experiences, thought processes, and problem-solving abilities.
+
+**Response Format**:
+
+```json
+{{
+  "questions": [
     {{
-      "questions": [
-        {{
-          "question_id": Unique identifier for the question,
-          "question_text": The text of the interview question,
-          "question_intent": The purpose or intent of the question,
-          "key_terms": ["competency1", "competency2", "competency3"],  # List of core competencies
-        }}
-        ...
-      ]
-    }}
-    """
-
+      "question_id": ...,
+      "question_excerpt": ...,
+      "question_text": ...,
+      "question_intent": ...,
+      "key_terms": ["competency1", "competency2", "competency3"]
+    }},
+    ...
+  ]
+}}
+"""
     return prompt
