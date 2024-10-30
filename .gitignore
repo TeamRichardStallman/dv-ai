@@ -19,13 +19,13 @@ venv/
 .vscode/
 
 # logs 폴더의 모든 파일을 무시
-logs/*
+app/logs/*
 
 # logs/ai_results 폴더는 무시하지 않음
-!logs/ai_results/
+!app/logs/ai_results/
 
 # logs/ai_results 내부의 모든 파일을 무시
-logs/ai_results/*
+app/logs/ai_results/*
 
 # logs/ai_results 폴더 내의 .gitkeep 파일만 예외적으로 추적
-!logs/ai_results/.gitkeep
+!app/logs/ai_results/.gitkeep
