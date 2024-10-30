@@ -1,4 +1,4 @@
-def generate_questions_prompt(user_data):
+def generate_questions_prompt(user_data: dict):
     job_role = user_data.get("job_role")
     interview_type = user_data.get("interview_type")
 
@@ -23,6 +23,7 @@ def generate_questions_prompt(user_data):
         {{
           "question_id": Unique identifier for the question,
           "question_text": The text of the interview question,
+          "source_sentence": The text of the interview question,
           "question_intent": The purpose or intent of the question,
           "key_terms": ["competency1", "competency2", "competency3"],  # List of core competencies
         }}
