@@ -71,3 +71,10 @@ source venv/bin/activate
 ```bash
 pip freeze > requirements.txt
 ```
+
+### 폴더 구조
+
+- app
+  - ai
+  - logs
+  - models

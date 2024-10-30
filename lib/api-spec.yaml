@@ -169,10 +169,14 @@ components:
         question_text:
           title: Question Text
           type: string
+        source_sentence:
+          title: Source Sentence
+          type: string
       required:
       - question_id
       - question_excerpt
       - question_text
+      - source_sentence
       - question_intent
       - key_terms
       title: Question
