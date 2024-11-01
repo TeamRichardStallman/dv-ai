@@ -28,6 +28,7 @@ app/logs/*
 app/logs/ai_results/*
 
 # logs/ai_results 폴더 내의 .gitkeep 파일만 예외적으로 추적
+
 !app/logs/ai_results/.gitkeep
 
 # wandb 폴더 무시
