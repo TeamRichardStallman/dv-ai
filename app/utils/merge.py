@@ -9,6 +9,7 @@ def merge_questions_and_answers(questions, answers):
             merged_data.append(
                 {
                     "question_id": question["question_id"],
+                    "question_excerpt": question["question_excerpt"],
                     "question_text": question["question_text"],
                     "source_sentence": question["source_sentence"],
                     "question_intent": question["question_intent"],
