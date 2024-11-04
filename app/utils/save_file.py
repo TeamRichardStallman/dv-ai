@@ -1,8 +1,9 @@
 import json
 import os
-import logging
 from datetime import datetime
-from app.utils.logger import setup_logger, get_logger
+
+# import logging
+# from app.utils.logger import setup_logger, get_logger
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 LOG_DIR = os.path.join(BASE_DIR, "../logs/ai_results")

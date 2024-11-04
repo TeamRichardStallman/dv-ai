@@ -1,4 +1,4 @@
-def generate_questions_prompt(user_data):
+def generate_questions_prompt(user_data: dict):
     job_role = user_data.get("job_role")
     interview_type = user_data.get("interview_type")
 
