@@ -1,4 +1,5 @@
 from fastapi import FastAPI
+from app.routers import aws
 from app.routers import interview
 import os
 import yaml
@@ -18,6 +19,7 @@ app = FastAPI(
         },
     ],
 )
+
 
 def generate_openapi_yaml():
     openapi_schema = get_openapi(
@@ -56,6 +58,7 @@ async def lifespan(app: FastAPI):
 
 app = FastAPI(lifespan=lifespan)
 
+app.include_router(aws.router)
 app.include_router(interview.router)
 
 

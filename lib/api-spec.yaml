@@ -276,6 +276,62 @@ paths:
       summary: Root
       tags:
       - Common
+  /aws/get-s3-object:
+    get:
+      operationId: get_s3_object_aws_get_s3_object_get
+      parameters:
+      - in: query
+        name: bucket_name
+        required: true
+        schema:
+          title: Bucket Name
+          type: string
+      - in: query
+        name: object_key
+        required: true
+        schema:
+          title: Object Key
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema: {}
+          description: Successful Response
+        '422':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+          description: Validation Error
+      summary: Get S3 Object
+      tags:
+      - AWS
+  /aws/list-s3-objects:
+    get:
+      operationId: list_s3_objects_aws_list_s3_objects_get
+      parameters:
+      - in: query
+        name: bucket_name
+        required: true
+        schema:
+          title: Bucket Name
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema: {}
+          description: Successful Response
+        '422':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+          description: Validation Error
+      summary: List S3 Objects
+      tags:
+      - AWS
   /interview/evaluation:
     post:
       operationId: evaluate_interview_request_interview_evaluation_post
