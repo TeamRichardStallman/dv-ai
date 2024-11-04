@@ -2,19 +2,20 @@ components:
   schemas:
     AnswerEvaluation:
       properties:
-        feedback_text:
-          title: Feedback Text
-          type: string
+        feedback:
+          $ref: '#/components/schemas/Feedback'
         question_id:
           title: Question Id
           type: integer
-        score:
-          title: Score
-          type: integer
+        scores:
+          additionalProperties:
+            $ref: '#/components/schemas/ScoreDetail'
+          title: Scores
+          type: object
       required:
       - question_id
-      - score
-      - feedback_text
+      - scores
+      - feedback
       title: AnswerEvaluation
       type: object
     Body_create_interview_questions_interview_questions_post:
@@ -111,6 +112,23 @@ components:
       - overall_evaluation
       title: EvaluationResponse
       type: object
+    Feedback:
+      properties:
+        improvement:
+          title: Improvement
+          type: string
+        strengths:
+          title: Strengths
+          type: string
+        suggestion:
+          title: Suggestion
+          type: string
+      required:
+      - strengths
+      - improvement
+      - suggestion
+      title: Feedback
+      type: object
     HTTPValidationError:
       properties:
         detail:
@@ -122,16 +140,16 @@ components:
       type: object
     OverallEvaluation:
       properties:
-        development_skill:
-          $ref: '#/components/schemas/OverallScore'
         growth_potential:
+          $ref: '#/components/schemas/OverallScore'
+        job_fit:
           $ref: '#/components/schemas/OverallScore'
         technical_depth:
           $ref: '#/components/schemas/OverallScore'
         work_attitude:
           $ref: '#/components/schemas/OverallScore'
       required:
-      - development_skill
+      - job_fit
       - growth_potential
       - work_attitude
       - technical_depth
@@ -139,15 +157,15 @@ components:
       type: object
     OverallScore:
       properties:
-        feedback_text:
-          title: Feedback Text
+        feedback:
+          title: Feedback
           type: string
         score:
           title: Score
           type: integer
       required:
       - score
-      - feedback_text
+      - feedback
       title: OverallScore
       type: object
     Question:
@@ -169,14 +187,10 @@ components:
         question_text:
           title: Question Text
           type: string
-        source_sentence:
-          title: Source Sentence
-          type: string
       required:
       - question_id
       - question_excerpt
       - question_text
-      - source_sentence
       - question_intent
       - key_terms
       title: Question
@@ -191,6 +205,19 @@ components:
       required:
       - questions
       title: QuestionsResponse
+      type: object
+    ScoreDetail:
+      properties:
+        rationale:
+          title: Rationale
+          type: string
+        score:
+          title: Score
+          type: integer
+      required:
+      - score
+      - rationale
+      title: ScoreDetail
       type: object
     ValidationError:
       properties:
