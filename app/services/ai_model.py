@@ -14,13 +14,13 @@ client_gpt = OpenAI(api_key=OPENAI_API_KEY)
 
 def generate_questions(cover_letter: str, user_data: dict):
     prompt = generate_questions_prompt(user_data)
-    data = generate_from_gpt(prompt, cover_letter)
+    data = generate_from_gpt(prompt, cover_letter, "question")
     save_prompt_and_result(prompt, cover_letter, data)
     return data
 
 
-def evaluate_interview(merged_input: dict, user_data: dict):
+def evaluate_interview(merged_input: str, user_data: dict):
     prompt = generate_evaluation_prompt(user_data)
-    data = generate_from_gpt(prompt, merged_input)
+    data = generate_from_gpt(prompt, merged_input, "evaluation")
     save_prompt_and_result(prompt, merged_input, data)
     return data

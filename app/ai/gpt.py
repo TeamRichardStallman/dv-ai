@@ -6,21 +6,25 @@ import time
 import hashlib
 import wandb
 from wandb.sdk.data_types.trace_tree import Trace
+from typing import Literal
 
 client_gpt = OpenAI(api_key=Config.OPENAI_API_KEY)
 
-def generate_run_id(prompt: str, cover_letter: str):
-    run_str = prompt + cover_letter
-    return hashlib.md5(run_str.encode('utf-8')).hexdigest()
+
+def generate_run_id(prompt: str, input: str):
+    run_str = prompt + input
+    return hashlib.md5(run_str.encode("utf-8")).hexdigest()
+
 
 # W&B login
-wandb.login(key="7d787ec1bdfa1b096605cca7083b842cc964b963")
+wandb.login(key=Config.WANDB_API_KEY)
 
-def generate_from_gpt(prompt: str, cover_letter: str) -> Any:
-    run_id = generate_run_id(prompt, cover_letter)
+
+def generate_from_gpt(prompt: str, input: str, type: Literal["question", "evaluation"]) -> Any:
+    run_id = generate_run_id(prompt, input)
     # Initialize W&B only if not already initialized
     if wandb.run is None:
-        wandb.init(project="dev_ai", name='question_prompt', id=run_id, resume='allow')
+        wandb.init(project="dev_ai", name=f"{type}_prompt", id=run_id, resume="allow")
 
     start_time = time.time()
 
@@ -32,7 +36,7 @@ def generate_from_gpt(prompt: str, cover_letter: str) -> Any:
             model=Config.GPT_MODEL,
             messages=[
                 {"role": "system", "content": prompt},
-                {"role": "user", "content": cover_letter},
+                {"role": "user", "content": input},
             ],
             response_format={"type": "json_object"},
             seed=Config.SEED,
@@ -42,7 +46,7 @@ def generate_from_gpt(prompt: str, cover_letter: str) -> Any:
 
         response_content = response.choices[0].message.content
         token_usage = response.usage.to_dict()
-        total_tokens = token_usage.get('total_tokens', 0)
+        total_tokens = token_usage.get("total_tokens", 0)
         usage_fee = (total_tokens / 1000) * COST_PER_1K_TOKENS
         status_code = "success"
         status_message = ""
@@ -71,16 +75,16 @@ def generate_from_gpt(prompt: str, cover_letter: str) -> Any:
                 "model_name": Config.GPT_MODEL,
                 "gen_time": f"{gen_time:.2f} seconds",
                 "token_usage": token_usage,
-                "usage_fee": f"${usage_fee:.6f}"
+                "usage_fee": f"${usage_fee:.6f}",
             },
             start_time_ms=int(start_time * 1000),
             end_time_ms=int(end_time * 1000),
-            inputs={"system_prompt": prompt, "cover_letter": cover_letter},
-            outputs={"response": response_content} if response_content else {}
+            inputs={"system_prompt": prompt, "input": input},
+            outputs={"response": response_content} if response_content else {},
         )
 
         root_span.log(name="dev_ai")
-        
+
         wandb.finish()
 
     return json.loads(response_content)

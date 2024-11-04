@@ -63,8 +63,10 @@ async def evaluate_interview_request(
         "job_role": job_role,
     }
 
+    merged_input_str = json.dumps(merged_input)
+
     try:
-        evaluation = evaluate_interview(merged_input, user_data)
+        evaluation = evaluate_interview(merged_input_str, user_data)
         return evaluation
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error generating evaluation: {str(e)}")
