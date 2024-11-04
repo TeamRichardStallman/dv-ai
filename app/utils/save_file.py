@@ -10,8 +10,8 @@ LOG_DIR = os.path.join(BASE_DIR, "../logs/ai_results")
 if not os.path.exists(LOG_DIR):
     os.makedirs(LOG_DIR)
 
-log_file_path = os.path.join(LOG_DIR, "app.log")
-setup_logger(log_level=logging.INFO, log_file=log_file_path)
+# log_file_path = os.path.join(LOG_DIR, "app.log")
+# setup_logger(log_level=logging.INFO, log_file=log_file_path)
 
 
 def save_prompt_and_result(prompt, model_input, result):
@@ -24,6 +24,6 @@ def save_prompt_and_result(prompt, model_input, result):
     with open(file_path, "w", encoding="utf-8") as file:
         json.dump(data, file, ensure_ascii=False, indent=4)
 
-    logger = get_logger()
-    logger.info(f"Prompt and result saved to {file_path}")
+    # logger = get_logger()
+    # logger.info(f"Prompt and result saved to {file_path}")
     print(f"Data saved to {file_path}")

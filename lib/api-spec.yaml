@@ -40,7 +40,7 @@ components:
           title: Interview Type
           type: string
         job_role:
-          description: 'Job role: frontend, backend, cloud, ai'
+          description: 'Job role: frontend, backend, infra, ai'
           title: Job Role
           type: string
       required:
@@ -79,7 +79,7 @@ components:
           title: Interview Type
           type: string
         job_role:
-          description: 'Job role: frontend, backend, cloud, ai'
+          description: 'Job role: frontend, backend, infra, ai'
           title: Job Role
           type: string
         questions:
@@ -157,6 +157,9 @@ components:
             type: string
           title: Key Terms
           type: array
+        question_excerpt:
+          title: Question Excerpt
+          type: string
         question_id:
           title: Question Id
           type: integer
@@ -168,6 +171,7 @@ components:
           type: string
       required:
       - question_id
+      - question_excerpt
       - question_text
       - question_intent
       - key_terms

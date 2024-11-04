@@ -19,7 +19,6 @@ app = FastAPI(
     ],
 )
 
-
 def generate_openapi_yaml():
     openapi_schema = get_openapi(
         title="Devterview AI API",
