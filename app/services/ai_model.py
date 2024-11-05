@@ -11,7 +11,7 @@ from app.utils.merge import merge_questions_and_answers
 async def generate_questions(user_data: QuestionUserData):
     prompt = generate_questions_prompt(user_data)
 
-    file_objects = generate_file_objects(user_data.file_paths)
+    file_objects = generate_file_objects(user_data["file_paths"])
     file_data = await generate_file_data(file_objects)
     cover_letter = file_data[0]["data"]["data"]
 
@@ -20,8 +20,8 @@ async def generate_questions(user_data: QuestionUserData):
 
 
 def evaluate_interview(user_data: EvaluationUserData):
-    questions_data = json.loads(user_data.questions)
-    answers_data = json.loads(user_data.answers)
+    questions_data = json.loads(user_data["questions"])
+    answers_data = json.loads(user_data["answers"])
 
     merged_input = merge_questions_and_answers(questions_data, answers_data)
     merged_input_str = json.dumps(merged_input)

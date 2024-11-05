@@ -2,8 +2,8 @@ from app.models.questions_response import QuestionUserData
 
 
 def generate_questions_prompt(user_data: QuestionUserData):
-    job_role = user_data.job_role
-    interview_type = user_data.interview_type
+    job_role = user_data["job_role"]
+    interview_type = user_data["interview_type"]
 
     prompt = f"""
     You are an expert in **{job_role}** and will be conducting a **{interview_type}** interview.
