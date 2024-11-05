@@ -20,82 +20,118 @@ components:
       type: object
     Body_create_interview_questions_interview_questions_post:
       properties:
-        cover_letter:
-          description: Cover letter as a text file
-          format: binary
-          title: Cover Letter
-          type: string
+        file_paths:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          description: List of file paths, where each item represents a separate file
+            path
+          title: File Paths
         interview_method:
           description: "Interview Method: chat(\uCC44\uD305), voice(\uC74C\uC131),\
             \ video(\uC601\uC0C1)"
+          enum:
+          - chat
+          - voice
+          - video
           title: Interview Method
           type: string
         interview_mode:
           description: "Interview Mode: real(\uC2E4\uC804\uBA74\uC811), general(\uBAA8\
             \uC758\uBA74\uC811)"
+          enum:
+          - real
+          - general
           title: Interview Mode
           type: string
         interview_type:
           description: "Interview Type: technical(\uAE30\uC220\uBA74\uC811), personal(\uC778\
             \uC131\uBA74\uC811)"
+          enum:
+          - technical
+          - personal
           title: Interview Type
           type: string
         job_role:
           description: 'Job role: frontend, backend, infra, ai'
+          enum:
+          - frontend
+          - backend
+          - infra
+          - ai
           title: Job Role
           type: string
       required:
-      - cover_letter
       - interview_mode
       - interview_type
       - interview_method
       - job_role
+      - file_paths
       title: Body_create_interview_questions_interview_questions_post
       type: object
     Body_evaluate_interview_request_interview_evaluation_post:
       properties:
         answers:
-          description: Answers as a JSON file
-          format: binary
+          description: List of answers as JSON string
           title: Answers
           type: string
-        cover_letter:
-          description: Cover letter as a text file
-          format: binary
-          title: Cover Letter
-          type: string
+        file_paths:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          description: List of file paths, where each item represents a separate file
+            path
+          title: File Paths
         interview_method:
           description: "Interview Method: chat(\uCC44\uD305), voice(\uC74C\uC131),\
             \ video(\uC601\uC0C1)"
+          enum:
+          - chat
+          - voice
+          - video
           title: Interview Method
           type: string
         interview_mode:
           description: "Interview Mode: real(\uC2E4\uC804\uBA74\uC811), general(\uBAA8\
             \uC758\uBA74\uC811)"
+          enum:
+          - real
+          - general
           title: Interview Mode
           type: string
         interview_type:
           description: "Interview Type: technical(\uAE30\uC220\uBA74\uC811), personal(\uC778\
             \uC131\uBA74\uC811)"
+          enum:
+          - technical
+          - personal
           title: Interview Type
           type: string
         job_role:
           description: 'Job role: frontend, backend, infra, ai'
+          enum:
+          - frontend
+          - backend
+          - infra
+          - ai
           title: Job Role
           type: string
         questions:
-          description: Questions as a JSON file
-          format: binary
+          description: List of questions as JSON string
           title: Questions
           type: string
       required:
-      - cover_letter
-      - questions
-      - answers
       - interview_mode
       - interview_type
       - interview_method
       - job_role
+      - questions
+      - answers
+      - file_paths
       title: Body_evaluate_interview_request_interview_evaluation_post
       type: object
     EvaluationResponse:
@@ -176,8 +212,10 @@ components:
           title: Key Terms
           type: array
         question_excerpt:
+          anyOf:
+          - type: string
+          - type: 'null'
           title: Question Excerpt
-          type: string
         question_id:
           title: Question Id
           type: integer
@@ -281,7 +319,7 @@ paths:
       operationId: evaluate_interview_request_interview_evaluation_post
       requestBody:
         content:
-          multipart/form-data:
+          application/x-www-form-urlencoded:
             schema:
               $ref: '#/components/schemas/Body_evaluate_interview_request_interview_evaluation_post'
         required: true
@@ -307,7 +345,7 @@ paths:
       operationId: create_interview_questions_interview_questions_post
       requestBody:
         content:
-          multipart/form-data:
+          application/x-www-form-urlencoded:
             schema:
               $ref: '#/components/schemas/Body_create_interview_questions_interview_questions_post'
         required: true
