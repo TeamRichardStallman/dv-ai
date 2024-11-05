@@ -1,5 +1,5 @@
 from pydantic import BaseModel
-from typing import Dict, List
+from typing import Dict, List, Optional, Literal
 
 
 class ScoreDetail(BaseModel):
@@ -34,3 +34,13 @@ class OverallEvaluation(BaseModel):
 class EvaluationResponse(BaseModel):
     answer_evaluations: List[AnswerEvaluation]
     overall_evaluation: OverallEvaluation
+
+
+class EvaluationUserData(BaseModel):
+    interview_mode: Literal["real", "general"]
+    interview_type: Literal["technical", "personal"]
+    interview_method: Literal["chat", "voice", "video"]
+    job_role: Literal["frontend", "backend", "infra", "ai"]
+    questions: str
+    answers: str
+    file_paths: Optional[List[str]]

@@ -1,5 +1,4 @@
 from fastapi import FastAPI
-from app.routers import aws
 from app.routers import interview
 import os
 import yaml
@@ -50,18 +49,16 @@ def generate_openapi_yaml():
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    # Server starts
     yield
-    # Server is shutting down
     generate_openapi_yaml()
 
 
 app = FastAPI(lifespan=lifespan)
 
-app.include_router(aws.router)
-app.include_router(interview.router)
-
 
 @app.get("/", tags=["Common"])
 async def root():
     return {"message": "Welcome to the Devterview AI Server!"}
+
+
+app.include_router(interview.router)
