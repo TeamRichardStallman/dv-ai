@@ -1,6 +1,7 @@
 from pydantic import BaseModel
 from typing import List, Optional, Literal
 from typing_extensions import TypedDict
+from app.models.questions_response import QuestionsResponse
 
 
 class ScoreDetail(BaseModel):
@@ -45,11 +46,20 @@ class EvaluationResponse(BaseModel):
     overall_evaluation: OverallEvaluation
 
 
-class EvaluationUserData(BaseModel):
+class Answer(BaseModel):
+    question_id: int
+    answer_text: str
+
+
+class AnswerResponse(BaseModel):
+    answers: List[Answer]
+
+
+class EvaluationRequest(BaseModel):
     interview_mode: Literal["real", "general"]
     interview_type: Literal["technical", "personal"]
     interview_method: Literal["chat", "voice", "video"]
     job_role: Literal["frontend", "backend", "infra", "ai"]
-    questions: str
-    answers: str
-    file_paths: Optional[List[str]]
+    questions: QuestionsResponse
+    answers: AnswerResponse
+    file_paths: Optional[List[str]] = (None,)

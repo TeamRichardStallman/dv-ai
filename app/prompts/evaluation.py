@@ -1,9 +1,9 @@
-from app.models.evaluation_response import EvaluationUserData
+from app.models.evaluation_response import EvaluationRequest
 
 
-def generate_evaluation_prompt(user_data: EvaluationUserData):
-    job_role = user_data["job_role"]
-    interview_type = user_data["interview_type"]
+def generate_evaluation_prompt(user_data: EvaluationRequest):
+    job_role = user_data.job_role
+    interview_type = user_data.interview_type
 
     prompt = f"""
     You are an experienced interviewer in the **{job_role}** domain, evaluating a **{interview_type}** interview. 
