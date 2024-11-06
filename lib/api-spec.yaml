@@ -8,10 +8,7 @@ components:
           title: Question Id
           type: integer
         scores:
-          additionalProperties:
-            $ref: '#/components/schemas/ScoreDetail'
-          title: Scores
-          type: object
+          $ref: '#/components/schemas/Scores'
       required:
       - question_id
       - scores
@@ -256,6 +253,26 @@ components:
       - score
       - rationale
       title: ScoreDetail
+      type: object
+    Scores:
+      properties:
+        appropriate_response:
+          $ref: '#/components/schemas/ScoreDetail'
+        consistency:
+          $ref: '#/components/schemas/ScoreDetail'
+        grammatical_errors:
+          $ref: '#/components/schemas/ScoreDetail'
+        key_terms:
+          $ref: '#/components/schemas/ScoreDetail'
+        logical_flow:
+          $ref: '#/components/schemas/ScoreDetail'
+      required:
+      - appropriate_response
+      - logical_flow
+      - key_terms
+      - consistency
+      - grammatical_errors
+      title: Scores
       type: object
     ValidationError:
       properties:

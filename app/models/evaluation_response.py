@@ -1,5 +1,6 @@
 from pydantic import BaseModel
-from typing import Dict, List, Optional, Literal
+from typing import List, Optional, Literal
+from typing_extensions import TypedDict
 
 
 class ScoreDetail(BaseModel):
@@ -13,9 +14,17 @@ class Feedback(BaseModel):
     suggestion: str
 
 
+class Scores(TypedDict):
+    appropriate_response: ScoreDetail
+    logical_flow: ScoreDetail
+    key_terms: ScoreDetail
+    consistency: ScoreDetail
+    grammatical_errors: ScoreDetail
+
+
 class AnswerEvaluation(BaseModel):
     question_id: int
-    scores: Dict[str, ScoreDetail]
+    scores: Scores
     feedback: Feedback
 
 
