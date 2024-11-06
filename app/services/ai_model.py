@@ -15,8 +15,11 @@ async def generate_questions(user_data: QusetionsRequest):
     file_data = await generate_file_data(file_objects)
 
     cover_letter = ""
-    if file_data and "data" in file_data[0] and "data" in file_data[0]["data"]:
+    if file_data and "data" in file_data[0] and "data" in file_data[0]["data"] and file_data[0]["data"]["data"]:
+        print(file_data)
         cover_letter = file_data[0]["data"]["data"]
+    else:
+        print(file_data)
 
     data = generate_from_gpt(prompt, cover_letter, "question")
     return data
