@@ -53,7 +53,7 @@ def generate_evaluation_prompt(user_data: EvaluationUserData):
                 "scores": {{
                     "appropriate_response": {{ "score": integer, "rationale": "Detailed rationale for score" }},
                     "logical_flow": {{ "score": integer, "rationale": "Detailed rationale for score" }},
-                    "ley_terms": {{ "score": integer, "rationale": "Detailed rationale for score" }},
+                    "key_terms": {{ "score": integer, "rationale": "Detailed rationale for score" }},
                     "consistency": {{ "score": integer, "rationale": "Detailed rationale for score" }},
                     "grammatical_errors": {{ "score": integer, "rationale": "Detailed rationale for score" }}
                 }},
