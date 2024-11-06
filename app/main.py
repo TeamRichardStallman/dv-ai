@@ -24,17 +24,11 @@ app = FastAPI(
 )
 
 
-env = os.getenv("ENV", "dev")
-if env == "dev":
-    allow_origins = [os.getenv("BACK_API_URL")]
-elif env == "prod":
-    allow_origins = [os.getenv("BACK_API_URL")]
-else:
-    allow_origins = [os.getenv("BACK_API_URL")]
+back_api_url = os.getenv("BACK_API_URL", "http://localhost:8080")
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=allow_origins,
+    allow_origins=[back_api_url],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
