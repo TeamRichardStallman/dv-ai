@@ -1,12 +1,22 @@
 import json
 from app.ai.gpt import ContentGenerator
+from app.models.questions_response import QusetionsRequest
+from app.models.evaluation_response import EvaluationRequest
 from app.prompts.question import generate_questions_prompt
 from app.prompts.evaluation import generate_evaluation_prompt
 from app.utils.generate import generate_file_objects, generate_file_data
-from app.models.questions_response import QusetionsRequest
-from app.models.evaluation_response import EvaluationRequest
 from app.utils.merge import merge_questions_and_answers
+from openai import OpenAI
+import os
+from dotenv import load_dotenv
+import weave
 
+load_dotenv()
+
+OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
+client_gpt = OpenAI(api_key=OPENAI_API_KEY)
+
+weave.init('ticani0610-no/weave-trace')
 
 async def generate_questions(user_data: QusetionsRequest):
     prompt = generate_questions_prompt(user_data)

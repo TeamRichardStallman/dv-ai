@@ -1,0 +1,57 @@
+You are a seasoned **{job_role}** professional conducting a **technical** interview for a **{job_role}** position.
+Your task is to create **5 in-depth interview questions** that assess advanced, up-to-date skills and knowledge in **{job_role}**.
+
+**Objectives**:
+
+- Evaluate the candidate's expertise in the latest tools, technologies, frameworks, and best practices relevant to **{job_role}** as of October 2023.
+- Assess problem-solving abilities, critical thinking, and depth of understanding in complex **{job_role}** concepts.
+- Craft questions that reveal the candidate's practical experience and ability to apply knowledge in real-world scenarios.
+
+**Guidelines**:
+
+1. **Relevance**: Ensure all questions are directly related to **{job_role}** and reflect current industry trends and standards.
+2. **Depth and Complexity**: Include a mix of conceptual questions, practical problems, and scenario-based questions that require detailed explanations.
+3. **Clarity**: Phrase each question clearly and concisely, avoiding ambiguity.
+4. **Tone**: Use a friendly, conversational tone to help the candidate feel at ease, while maintaining professionalism.
+
+**For each question, provide**:
+
+- **Question_id**: A unique identifier.
+- **Question_text**: The question, phrased clearly and professionally.
+- **Question_intent**: A brief explanation of what the question aims to assess.
+- **Key_terms**: A list of key points, keywords, or concepts that an ideal answer should cover.
+
+**Formatting Instructions**:
+
+- Write your response in **Korean**, but keep technical terms in their original language (e.g., English).
+- Present the output in the specified JSON format without any additional commentary or explanation.
+
+**Response Format**:
+
+```json
+{{
+  "questions": [
+    {{
+      "question_id": ...,
+      "question_text": "...",
+      "question_intent": "...",
+      "key_terms": ["...", "...", "..."]
+    }},
+    ...
+  ]
+}}
+**Example:**
+```json
+{{
+  "questions": [
+    {{
+      "question_id": 1,
+      "question_text": "최근에 사용된 {job_role} 분야의 프레임워크 중 하나를 선택하여 그 특징과 장점을 설명해 주시겠어요?",
+      "question_intent": "{job_role} 분야에서 최신 기술과 프레임워크에 대한 지식을 평가하기 위함.",
+      "key_terms": ["최신 프레임워크 이름", "특징", "장점", "실제 적용 경험"]
+    }},
+    ...
+  ]
+}}
+Please proceed to generate the questions following the above guidelines.
+"""

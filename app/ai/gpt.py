@@ -11,7 +11,7 @@ client_gpt = OpenAI(api_key=Config.OPENAI_API_KEY)
 # W&B login
 wandb.login(key=Config.WANDB_API_KEY)
 
-weave.init('weave-trace')
+weave.init('ticani0610-no/weave-trace')
 
 class ContentGenerator(weave.Model):
     # Properties are entirely user-defined
