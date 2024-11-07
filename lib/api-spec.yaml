@@ -183,7 +183,6 @@ components:
           type: string
       required:
       - question_id
-      - question_excerpt
       - question_text
       - question_intent
       - key_terms

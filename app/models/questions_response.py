@@ -4,7 +4,7 @@ from typing import List, Optional, Literal
 
 class Question(BaseModel):
     question_id: int
-    question_excerpt: Optional[str]
+    question_excerpt: Optional[str] = None
     question_text: str
     question_intent: str
     key_terms: List[str]
