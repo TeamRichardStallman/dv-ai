@@ -1,5 +1,6 @@
 import os
 import weave
+from app.models.questions_response import QusetionsRequest
 
 weave.init('ticani0610-no/weave-trace')
 
@@ -8,11 +9,11 @@ _prompt_cache = {}
 # Get the current directory once at module load time
 _current_dir = os.path.dirname(os.path.abspath(__file__))
 
-def generate_questions_prompt(user_data: dict):
+def generate_questions_prompt(user_data: QusetionsRequest):
     try:
-        job_role = user_data["job_role"]
-        interview_type = user_data["interview_type"]
-        interview_mode = user_data["interview_mode"]
+        job_role = user_data.job_role
+        interview_type = user_data.interview_type
+        interview_mode = user_data.interview_mode
     except KeyError as e:
         raise KeyError(f"Missing required key in user_data: {e}")
 
