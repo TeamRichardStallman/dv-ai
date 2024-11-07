@@ -11,7 +11,8 @@ def generate_file_objects(file_paths: List[str]):
     for path in new_file_paths:
         parts = path.split("/", 1)
         if len(parts) == 2:
-            type_, file_path = parts[0], path
+            type_ = parts[0][:-1]
+            file_path = path
         else:
             type_, file_path = "unknown", path
         file_objects.append({"type": type_, "file_path": file_path})

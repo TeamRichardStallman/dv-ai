@@ -56,10 +56,10 @@ class AnswerResponse(BaseModel):
 
 
 class EvaluationRequest(BaseModel):
-    interview_mode: Literal["real", "general"]
-    interview_type: Literal["technical", "personal"]
-    interview_method: Literal["chat", "voice", "video"]
-    job_role: Literal["frontend", "backend", "infra", "ai"]
+    interview_mode: Literal["real", "general"] = "real"
+    interview_type: Literal["technical", "personal"] = "technical"
+    interview_method: Literal["chat", "voice", "video"] = "chat"
+    job_role: Literal["frontend", "backend", "infra", "ai"] = "infra"
     questions: QuestionsResponse
     answers: AnswerResponse
-    file_paths: Optional[List[str]] = (None,)
+    file_paths: Optional[List[str]] = ["cover-letters/cover_letter_01.txt"]

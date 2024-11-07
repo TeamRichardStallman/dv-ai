@@ -15,8 +15,8 @@ class QuestionsResponse(BaseModel):
 
 
 class QusetionsRequest(BaseModel):
-    interview_mode: Literal["real", "general"]
-    interview_type: Literal["technical", "personal"]
-    interview_method: Literal["chat", "voice", "video"]
-    job_role: Literal["frontend", "backend", "infra", "ai"]
-    file_paths: Optional[List[str]]
+    interview_mode: Literal["real", "general"] = "real"
+    interview_type: Literal["technical", "personal"] = "technical"
+    interview_method: Literal["chat", "voice", "video"] = "chat"
+    job_role: Literal["frontend", "backend", "infra", "ai"] = "infra"
+    file_paths: Optional[List[str]] = ["cover-letters/cover_letter_01.txt"]
