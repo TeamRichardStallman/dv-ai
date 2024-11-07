@@ -50,9 +50,10 @@ components:
             type: array
           - type: 'null'
           default:
-          - null
+          - cover-letters/cover_letter_01.txt
           title: File Paths
         interview_method:
+          default: chat
           enum:
           - chat
           - voice
@@ -60,18 +61,21 @@ components:
           title: Interview Method
           type: string
         interview_mode:
+          default: real
           enum:
           - real
           - general
           title: Interview Mode
           type: string
         interview_type:
+          default: technical
           enum:
           - technical
           - personal
           title: Interview Type
           type: string
         job_role:
+          default: infra
           enum:
           - frontend
           - backend
@@ -82,10 +86,6 @@ components:
         questions:
           $ref: '#/components/schemas/QuestionsResponse'
       required:
-      - interview_mode
-      - interview_type
-      - interview_method
-      - job_role
       - questions
       - answers
       title: EvaluationRequest
@@ -208,8 +208,11 @@ components:
               type: string
             type: array
           - type: 'null'
+          default:
+          - cover-letters/cover_letter_01.txt
           title: File Paths
         interview_method:
+          default: chat
           enum:
           - chat
           - voice
@@ -217,18 +220,21 @@ components:
           title: Interview Method
           type: string
         interview_mode:
+          default: real
           enum:
           - real
           - general
           title: Interview Mode
           type: string
         interview_type:
+          default: technical
           enum:
           - technical
           - personal
           title: Interview Type
           type: string
         job_role:
+          default: infra
           enum:
           - frontend
           - backend
@@ -236,12 +242,6 @@ components:
           - ai
           title: Job Role
           type: string
-      required:
-      - interview_mode
-      - interview_type
-      - interview_method
-      - job_role
-      - file_paths
       title: QusetionsRequest
       type: object
     ScoreDetail:
@@ -360,6 +360,32 @@ paths:
       tags:
       - Interview
       - Interview
+  /interview/evaluation-test:
+    post:
+      operationId: evaluate_interview_request_test_interview_evaluation_test_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EvaluationRequest'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EvaluationResponse'
+          description: Successful Response
+        '422':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+          description: Validation Error
+      summary: Evaluate Interview Request Test
+      tags:
+      - Interview
+      - Interview
   /interview/questions:
     post:
       operationId: create_interview_questions_interview_questions_post
@@ -383,6 +409,32 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
           description: Validation Error
       summary: Create Interview Questions
+      tags:
+      - Interview
+      - Interview
+  /interview/questions-test:
+    post:
+      operationId: create_interview_questions_test_interview_questions_test_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/QusetionsRequest'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/QuestionsResponse'
+          description: Successful Response
+        '422':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+          description: Validation Error
+      summary: Create Interview Questions Test
       tags:
       - Interview
       - Interview

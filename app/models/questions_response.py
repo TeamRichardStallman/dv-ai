@@ -19,4 +19,4 @@ class QusetionsRequest(BaseModel):
     interview_type: Literal["technical", "personal"] = "technical"
     interview_method: Literal["chat", "voice", "video"] = "chat"
     job_role: Literal["frontend", "backend", "infra", "ai"] = "infra"
-    file_paths: Optional[List[str]] = "resumes/cover_letter_01.txt"
+    file_paths: Optional[List[str]] = ["cover-letters/cover_letter_01.txt"]

@@ -62,4 +62,4 @@ class EvaluationRequest(BaseModel):
     job_role: Literal["frontend", "backend", "infra", "ai"] = "infra"
     questions: QuestionsResponse
     answers: AnswerResponse
-    file_paths: Optional[List[str]] = "resumes/cover_letter_01.txt"
+    file_paths: Optional[List[str]] = ["cover-letters/cover_letter_01.txt"]
