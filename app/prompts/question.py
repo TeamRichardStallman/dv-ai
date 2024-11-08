@@ -18,8 +18,8 @@ def generate_questions_prompt(user_data: QuestionsRequest):
         raise KeyError(f"Missing required key in user_data: {e}")
 
     if interview_mode == 'real':
-        filename = 'real-tech.txt' if interview_type == 'technical' else 'real-person.txt'
-    else:
+        filename = 'real-tech.txt' if interview_type == 'technical' else 'real-personal.txt'
+    elif interview_mode == 'general':
         filename = 'general-tech.txt'
 
     file_path = os.path.join(_current_dir, filename)

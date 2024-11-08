@@ -188,17 +188,6 @@ components:
       - key_terms
       title: Question
       type: object
-    QuestionsResponse:
-      properties:
-        questions:
-          items:
-            $ref: '#/components/schemas/Question'
-          title: Questions
-          type: array
-      required:
-      - questions
-      title: QuestionsResponse
-      type: object
     QuestionsRequest:
       properties:
         file_paths:
@@ -242,6 +231,17 @@ components:
           title: Job Role
           type: string
       title: QuestionsRequest
+      type: object
+    QuestionsResponse:
+      properties:
+        questions:
+          items:
+            $ref: '#/components/schemas/Question'
+          title: Questions
+          type: array
+      required:
+      - questions
+      title: QuestionsResponse
       type: object
     ScoreDetail:
       properties:

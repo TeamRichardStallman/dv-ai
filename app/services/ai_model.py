@@ -32,7 +32,7 @@ async def generate_questions(user_data: QuestionsRequest):
     else:
         print("Cover letter data not found or missing required fields:", cover_letter_data)
 
-    generator = ContentGenerator()
+    generator = ContentGenerator(user_data=user_data)
     data = generator.invoke(prompt, cover_letter, "question")
     return data
 
