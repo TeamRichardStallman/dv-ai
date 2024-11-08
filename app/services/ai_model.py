@@ -16,7 +16,7 @@ load_dotenv()
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 client_gpt = OpenAI(api_key=OPENAI_API_KEY)
 
-weave.init('ticani0610-no/weave-trace')
+weave.init('ticani0610-no/prompt-test')
 
 async def generate_questions(user_data: QuestionsRequest):
     prompt = generate_questions_prompt(user_data)
