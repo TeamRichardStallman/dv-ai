@@ -14,7 +14,7 @@ class QuestionsResponse(BaseModel):
     questions: List[Question]
 
 
-class QusetionsRequest(BaseModel):
+class QuestionsRequest(BaseModel):
     interview_mode: Literal["real", "general"] = "real"
     interview_type: Literal["technical", "personal"] = "technical"
     interview_method: Literal["chat", "voice", "video"] = "chat"

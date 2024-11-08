@@ -1,7 +1,7 @@
-from app.models.questions_response import QusetionsRequest
+from app.models.questions_response import QuestionsRequest
 
 
-def generate_questions_prompt(user_data: QusetionsRequest):
+def generate_questions_prompt(user_data: QuestionsRequest):
     job_role = user_data.job_role
     interview_type = user_data.interview_type
 

@@ -15,7 +15,15 @@ class Feedback(BaseModel):
     suggestion: str
 
 
-class Scores(TypedDict):
+class PersonalScores(TypedDict):
+    teamwork: ScoreDetail
+    communication: ScoreDetail
+    problem_solving: ScoreDetail
+    accountability: ScoreDetail 
+    growth_mindset: ScoreDetail
+
+
+class TechnicalScores(TypedDict):
     appropriate_response: ScoreDetail
     logical_flow: ScoreDetail
     key_terms: ScoreDetail
@@ -23,9 +31,15 @@ class Scores(TypedDict):
     grammatical_errors: ScoreDetail
 
 
-class AnswerEvaluation(BaseModel):
+class PersonalAnswerEvaluation(BaseModel):
     question_id: int
-    scores: Scores
+    scores: PersonalScores
+    feedback: Feedback
+
+
+class TechnicalAnswerEvaluation(BaseModel):
+    question_id: int
+    scores: TechnicalScores
     feedback: Feedback
 
 
@@ -34,16 +48,28 @@ class OverallScore(BaseModel):
     feedback: str
 
 
-class OverallEvaluation(BaseModel):
+class PersonalOverallEvaluation(BaseModel):
+    company_fit: OverallScore
+    adaptability: OverallScore
+    interpersonal_skills: OverallScore
+    growth_attitude: OverallScore
+
+
+class TechnicalOverallEvaluation(BaseModel):
     job_fit: OverallScore
     growth_potential: OverallScore
     work_attitude: OverallScore
     technical_depth: OverallScore
 
 
-class EvaluationResponse(BaseModel):
-    answer_evaluations: List[AnswerEvaluation]
-    overall_evaluation: OverallEvaluation
+class PersonalEvaluationResponse(BaseModel):
+    answer_evaluations: List[PersonalAnswerEvaluation]
+    overall_evaluation: PersonalOverallEvaluation
+
+
+class TechnicalEvaluationResponse(BaseModel):
+    answer_evaluations: List[TechnicalAnswerEvaluation]
+    overall_evaluation: TechnicalOverallEvaluation
 
 
 class Answer(BaseModel):
@@ -59,7 +85,7 @@ class EvaluationRequest(BaseModel):
     interview_mode: Literal["real", "general"] = "real"
     interview_type: Literal["technical", "personal"] = "technical"
     interview_method: Literal["chat", "voice", "video"] = "chat"
-    job_role: Literal["frontend", "backend", "infra", "ai"] = "infra"
+    job_role: Literal["frontend", "backend", "infra", "ai"] = "ai"
     questions: QuestionsResponse
     answers: AnswerResponse
-    file_paths: Optional[List[str]] = ["cover-letters/cover_letter_01.txt"]
+    file_paths: Optional[List[str]] = ["cover-letters/SK_AI.txt"]
