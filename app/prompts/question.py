@@ -1,13 +1,8 @@
-import os
 import weave
 from app.models.questions_response import QuestionsRequest
+from app.prompts.prompt import REAL_TECH, REAL_PERSONAL, GENERAL_TECH
 
 weave.init('ticani0610-no/weave-trace')
-
-_prompt_cache = {}
-
-# Get the current directory once at module load time
-_current_dir = os.path.dirname(os.path.abspath(__file__))
 
 def generate_questions_prompt(user_data: QuestionsRequest):
     try:
@@ -17,26 +12,21 @@ def generate_questions_prompt(user_data: QuestionsRequest):
     except KeyError as e:
         raise KeyError(f"Missing required key in user_data: {e}")
 
+    # 프롬프트 변수를 직접 매핑하여 사용
     if interview_mode == 'real':
-        filename = 'real-tech.txt' if interview_type == 'technical' else 'real-personal.txt'
+        if interview_type == 'technical':
+            generation_prompt = REAL_TECH
+        elif interview_type == 'personal':
+            generation_prompt = REAL_PERSONAL
     elif interview_mode == 'general':
-        filename = 'general-tech.txt'
+        generation_prompt = GENERAL_TECH
+    else:
+        raise ValueError(f"Unknown interview_mode: {interview_mode}")
 
-    file_path = os.path.join(_current_dir, filename)
-
-    generation_prompt = _prompt_cache.get(file_path)
-    if generation_prompt is None:
-        if not os.path.exists(file_path):
-            raise FileNotFoundError(f"Cannot find the file: {file_path}")
-
-        with open(file_path, 'r', encoding='utf-8') as file:
-            generation_prompt = file.read()
-            _prompt_cache[file_path] = generation_prompt
-
-    weave.publish(obj=generation_prompt, name=f"{interview_mode}-{interview_type}")
+    weave.publish(obj=generation_prompt, name=f"prompt: {interview_mode}-{interview_type}")
 
     try:
-        prompt = generation_prompt.format(job_role=job_role, interview_type=interview_type)
+        prompt = generation_prompt.format(job_role=job_role)
     except KeyError as e:
         raise KeyError(f"Missing key during prompt formatting: {e}")
 
