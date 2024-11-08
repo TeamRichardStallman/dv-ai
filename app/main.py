@@ -5,13 +5,10 @@ import os
 import yaml
 from fastapi.openapi.utils import get_openapi
 from contextlib import asynccontextmanager
-<<<<<<< HEAD
 from dotenv import load_dotenv
+from prometheus_fastapi_instrumentator import Instrumentator
 
 load_dotenv()
-=======
-from prometheus_fastapi_instrumentator import Instrumentator
->>>>>>> 8c0de70 (feat : Prometheus 모니터링 추가)
 
 app = FastAPI(
     title="Devterview AI API",
@@ -76,7 +73,6 @@ app = FastAPI(lifespan=lifespan)
 
 Instrumentator().instrument(app).expose(app, include_in_schema=False)
 
-app.include_router(interview.router)
 
 
 @app.get("/", tags=["Common"])
