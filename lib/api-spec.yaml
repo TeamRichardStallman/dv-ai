@@ -183,24 +183,12 @@ components:
           type: string
       required:
       - question_id
-      - question_excerpt
       - question_text
       - question_intent
       - key_terms
       title: Question
       type: object
-    QuestionsResponse:
-      properties:
-        questions:
-          items:
-            $ref: '#/components/schemas/Question'
-          title: Questions
-          type: array
-      required:
-      - questions
-      title: QuestionsResponse
-      type: object
-    QusetionsRequest:
+    QuestionsRequest:
       properties:
         file_paths:
           anyOf:
@@ -242,7 +230,18 @@ components:
           - ai
           title: Job Role
           type: string
-      title: QusetionsRequest
+      title: QuestionsRequest
+      type: object
+    QuestionsResponse:
+      properties:
+        questions:
+          items:
+            $ref: '#/components/schemas/Question'
+          title: Questions
+          type: array
+      required:
+      - questions
+      title: QuestionsResponse
       type: object
     ScoreDetail:
       properties:
@@ -393,7 +392,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/QusetionsRequest'
+              $ref: '#/components/schemas/QuestionsRequest'
         required: true
       responses:
         '200':
@@ -419,7 +418,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/QusetionsRequest'
+              $ref: '#/components/schemas/QuestionsRequest'
         required: true
       responses:
         '200':
