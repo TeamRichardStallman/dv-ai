@@ -2,7 +2,7 @@ from app.ai.gpt import ContentGenerator
 from app.models.questions_response import QuestionsRequest
 from app.models.evaluation_response import EvaluationRequest
 from app.prompts.question import generate_questions_prompt
-from app.prompts.evaluation import generate_evaluation_prompt_technical, generate_evaluation_prompt_personal
+from app.prompts.evaluation import generate_evaluation_prompt
 from app.utils.generate import generate_file_objects, generate_file_data
 <<<<<<< HEAD
 =======
