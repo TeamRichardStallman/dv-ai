@@ -2,7 +2,8 @@ import weave
 from app.models.questions_response import QuestionsRequest
 from app.prompts.prompt import REAL_TECH, REAL_PERSONAL, GENERAL_TECH
 
-weave.init('ticani0610-no/prompt-test')
+weave.init("ticani0610-no/prompt-test")
+
 
 def generate_questions_prompt(user_data: QuestionsRequest):
     try:
@@ -13,12 +14,12 @@ def generate_questions_prompt(user_data: QuestionsRequest):
         raise KeyError(f"Missing required key in user_data: {e}")
 
     # 프롬프트 변수를 직접 매핑하여 사용
-    if interview_mode == 'real':
-        if interview_type == 'technical':
+    if interview_mode == "real":
+        if interview_type == "technical":
             generation_prompt = REAL_TECH
-        elif interview_type == 'personal':
+        elif interview_type == "personal":
             generation_prompt = REAL_PERSONAL
-    elif interview_mode == 'general':
+    elif interview_mode == "general":
         generation_prompt = GENERAL_TECH
     else:
         raise ValueError(f"Unknown interview_mode: {interview_mode}")
