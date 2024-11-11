@@ -4,11 +4,6 @@ from app.models.evaluation_response import EvaluationRequest
 from app.prompts.question import generate_questions_prompt
 from app.prompts.evaluation import generate_evaluation_prompt
 from app.utils.generate import generate_file_objects, generate_file_data
-<<<<<<< HEAD
-=======
-from app.models.questions_response import QuestionsRequest
-from app.models.evaluation_response import EvaluationRequest
->>>>>>> 45b8e73 (DV-116 feat:실전 기술 및  인성 Prompt 작성, 코드 변경)
 from app.utils.merge import merge_questions_and_answers
 from openai import OpenAI
 import os

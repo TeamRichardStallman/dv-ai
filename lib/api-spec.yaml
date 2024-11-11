@@ -155,20 +155,6 @@ components:
           title: Job Role
           type: string
       title: QuestionsRequest
-<<<<<<< HEAD
-      type: object
-    QuestionsResponse:
-      properties:
-        questions:
-          items:
-            $ref: '#/components/schemas/Question'
-          title: Questions
-          type: array
-      required:
-      - questions
-      title: QuestionsResponse
-=======
->>>>>>> 45b8e73 (DV-116 feat:실전 기술 및  인성 Prompt 작성, 코드 변경)
       type: object
     QuestionsResponse:
       properties:
