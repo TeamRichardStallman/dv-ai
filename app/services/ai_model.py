@@ -43,6 +43,7 @@ def evaluate_interview(user_data: EvaluationRequest):
     merged_input_str = json.dumps(merged_input, ensure_ascii=False)
 
     prompt = generate_evaluation_prompt(user_data)
+    
     generator = ContentGenerator(user_data=user_data)
     data = generator.invoke(prompt, merged_input_str, "evaluation")
 

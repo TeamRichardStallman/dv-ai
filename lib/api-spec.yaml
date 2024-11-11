@@ -13,21 +13,6 @@ components:
       - answer_text
       title: Answer
       type: object
-    AnswerEvaluation:
-      properties:
-        feedback:
-          $ref: '#/components/schemas/Feedback'
-        question_id:
-          title: Question Id
-          type: integer
-        scores:
-          $ref: '#/components/schemas/Scores'
-      required:
-      - question_id
-      - scores
-      - feedback
-      title: AnswerEvaluation
-      type: object
     AnswerResponse:
       properties:
         answers:
@@ -50,7 +35,7 @@ components:
             type: array
           - type: 'null'
           default:
-          - cover-letters/cover_letter_01.txt
+          - cover-letters/SK_AI.txt
           title: File Paths
         interview_method:
           default: chat
@@ -75,7 +60,7 @@ components:
           title: Interview Type
           type: string
         job_role:
-          default: infra
+          default: ai
           enum:
           - frontend
           - backend
@@ -90,37 +75,6 @@ components:
       - answers
       title: EvaluationRequest
       type: object
-    EvaluationResponse:
-      properties:
-        answer_evaluations:
-          items:
-            $ref: '#/components/schemas/AnswerEvaluation'
-          title: Answer Evaluations
-          type: array
-        overall_evaluation:
-          $ref: '#/components/schemas/OverallEvaluation'
-      required:
-      - answer_evaluations
-      - overall_evaluation
-      title: EvaluationResponse
-      type: object
-    Feedback:
-      properties:
-        improvement:
-          title: Improvement
-          type: string
-        strengths:
-          title: Strengths
-          type: string
-        suggestion:
-          title: Suggestion
-          type: string
-      required:
-      - strengths
-      - improvement
-      - suggestion
-      title: Feedback
-      type: object
     HTTPValidationError:
       properties:
         detail:
@@ -129,36 +83,6 @@ components:
           title: Detail
           type: array
       title: HTTPValidationError
-      type: object
-    OverallEvaluation:
-      properties:
-        growth_potential:
-          $ref: '#/components/schemas/OverallScore'
-        job_fit:
-          $ref: '#/components/schemas/OverallScore'
-        technical_depth:
-          $ref: '#/components/schemas/OverallScore'
-        work_attitude:
-          $ref: '#/components/schemas/OverallScore'
-      required:
-      - job_fit
-      - growth_potential
-      - work_attitude
-      - technical_depth
-      title: OverallEvaluation
-      type: object
-    OverallScore:
-      properties:
-        feedback:
-          title: Feedback
-          type: string
-        score:
-          title: Score
-          type: integer
-      required:
-      - score
-      - feedback
-      title: OverallScore
       type: object
     Question:
       properties:
@@ -243,39 +167,6 @@ components:
       - questions
       title: QuestionsResponse
       type: object
-    ScoreDetail:
-      properties:
-        rationale:
-          title: Rationale
-          type: string
-        score:
-          title: Score
-          type: integer
-      required:
-      - score
-      - rationale
-      title: ScoreDetail
-      type: object
-    Scores:
-      properties:
-        appropriate_response:
-          $ref: '#/components/schemas/ScoreDetail'
-        consistency:
-          $ref: '#/components/schemas/ScoreDetail'
-        grammatical_errors:
-          $ref: '#/components/schemas/ScoreDetail'
-        key_terms:
-          $ref: '#/components/schemas/ScoreDetail'
-        logical_flow:
-          $ref: '#/components/schemas/ScoreDetail'
-      required:
-      - appropriate_response
-      - logical_flow
-      - key_terms
-      - consistency
-      - grammatical_errors
-      title: Scores
-      type: object
     ValidationError:
       properties:
         loc:
@@ -346,8 +237,7 @@ paths:
         '200':
           content:
             application/json:
-              schema:
-                $ref: '#/components/schemas/EvaluationResponse'
+              schema: {}
           description: Successful Response
         '422':
           content:
@@ -372,8 +262,7 @@ paths:
         '200':
           content:
             application/json:
-              schema:
-                $ref: '#/components/schemas/EvaluationResponse'
+              schema: {}
           description: Successful Response
         '422':
           content:
