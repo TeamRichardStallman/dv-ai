@@ -11,6 +11,9 @@ __pycache__/
 venv/
 .env/
 
+# DS_store
+.DS_Store
+
 # Docker 관련
 *.log
 
