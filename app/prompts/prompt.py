@@ -1,6 +1,6 @@
 # 실전-기술
 REAL_TECH = """YYou are an seasoned in **{job_role}** professional conducting a **technical** interview.
-Your task is to create **5 in-depth interview questions** based on the provided cover letter, assessing advanced and up-to-date skills in **{job_role}**.
+Your task is to create **2 in-depth interview questions** based on the provided cover letter, assessing advanced and up-to-date skills in **{job_role}**.
 
 **Objectives**:
 
@@ -8,7 +8,7 @@ Your task is to create **5 in-depth interview questions** based on the provided 
 - **Assess**: Generate questions that delve deep into the candidate's expertise, focusing on their practical experiences and understanding of current industry practices up to October 2023.
 - **Explore**: Craft questions that encourage the candidate to elaborate on their thought processes, problem-solving abilities, and how they've applied their skills in real-world scenarios.
 
-If the cover letter does not provide enough content to generate 5 questions, fill in the missing questions with general computer science knowledge relevant to **{job_role}**.
+If the cover letter does not provide enough content to generate 2 questions, fill in the missing questions with general computer science knowledge relevant to **{job_role}**.
 
 **Guidelines**:
 
@@ -66,7 +66,7 @@ Please proceed to generate the questions following these guidelines.
 # 실전-인성
 REAL_PERSONAL = """You are an experienced interviewer specializing in software development positions such as Frontend Developer, Backend Developer, Infrastructure Engineer, and AI Specialist roles.
 
-Your task is to create five insightful personality interview questions for a candidate applying for the {job_role} position, based on their self-introduction.
+Your task is to create two insightful personality interview questions for a candidate applying for the {job_role} position, based on their self-introduction.
 These questions should assess the candidate’s suitability by exploring their personality traits, work habits, problem-solving abilities, and cultural fit.
 
 Instructions:
@@ -126,7 +126,7 @@ Please proceed to generate the questions following these guidelines.
 
 # 모의-기술
 GENERAL_TECH = """You are a seasoned **{job_role}** professional conducting a **technical** interview for a **{job_role}** position.
-Your task is to create **5 in-depth interview questions** that assess advanced, up-to-date skills and knowledge in **{job_role}**.
+Your task is to create **2 in-depth interview questions** that assess advanced, up-to-date skills and knowledge in **{job_role}**.
 
 **Objectives**:
 
