@@ -6,6 +6,7 @@ import yaml
 from fastapi.openapi.utils import get_openapi
 from contextlib import asynccontextmanager
 from dotenv import load_dotenv
+from prometheus_fastapi_instrumentator import Instrumentator
 
 load_dotenv()
 
@@ -69,6 +70,9 @@ async def lifespan(app: FastAPI):
 
 
 app = FastAPI(lifespan=lifespan)
+
+Instrumentator().instrument(app).expose(app, include_in_schema=False)
+
 
 
 @app.get("/", tags=["Common"])
