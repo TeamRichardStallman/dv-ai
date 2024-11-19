@@ -1,5 +1,5 @@
-from app.models.questions_response import QuestionsResponse
-from app.models.evaluation_response import AnswerResponse
+from app.schemas.evaluation import AnswerResponse
+from app.schemas.question import QuestionsResponse
 
 
 def merge_questions_and_answers(questions: QuestionsResponse, answers: AnswerResponse):

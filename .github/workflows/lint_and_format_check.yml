@@ -1,0 +1,32 @@
+name: Lint and Format Check
+
+on:
+  push:
+    branches:
+      - "*" # 모든 브랜치에 대해 푸시될 때 트리거
+  pull_request:
+    branches:
+      - "*" # 모든 브랜치에 대해 PR 생성될 때 트리거
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Python 3.10
+        uses: actions/setup-python@v2
+        with:
+          python-version: v3.10
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install poetry
+          poetry install
+
+      - name: Run linting and formatting checks
+        run: |
+          poetry run tox -e lint

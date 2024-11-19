@@ -19,20 +19,10 @@ venv/
 
 # 기타
 .idea/
-.vscode/
-
-# logs 폴더의 모든 파일을 무시
-app/logs/*
-
-# logs/ai_results 폴더는 무시하지 않음
-!app/logs/ai_results/
-
-# logs/ai_results 내부의 모든 파일을 무시
-app/logs/ai_results/*
-
-# logs/ai_results 폴더 내의 .gitkeep 파일만 예외적으로 추적
-
-!app/logs/ai_results/.gitkeep
 
 # wandb 폴더 무시
 wandb/
+
+# tox, egg-info ignore
+dv_ai.egg-info/
+.tox/
