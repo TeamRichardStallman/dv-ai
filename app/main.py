@@ -1,12 +1,14 @@
+import os
+from contextlib import asynccontextmanager
+
+import yaml
+from dotenv import load_dotenv
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from app.routers import interview
-import os
-import yaml
 from fastapi.openapi.utils import get_openapi
-from contextlib import asynccontextmanager
-from dotenv import load_dotenv
 from prometheus_fastapi_instrumentator import Instrumentator
+
+from app.routers import interview
 
 load_dotenv()
 
@@ -41,8 +43,8 @@ def generate_openapi_yaml():
         title="Devterview AI API",
         version="1.0.0",
         description="""
-        Devterview AI API는 개발자 면접을 위한 질문 생성과 평가를 수행하는 API입니다. 
-        이 API는 지원자의 자소서와 면접 데이터를 기반으로 맞춤형 면접 질문을 생성하고, 
+        Devterview AI API는 개발자 면접을 위한 질문 생성과 평가를 수행하는 API입니다.
+        이 API는 지원자의 자소서와 면접 데이터를 기반으로 맞춤형 면접 질문을 생성하고,
         지원자의 답변에 대한 평가를 제공합니다.
 
         주요 기능:
@@ -51,7 +53,7 @@ def generate_openapi_yaml():
         - 답변에 대한 세부적인 피드백 제공
         - 사용자 정의 가능한 면접 유형과 직무에 따른 질문 및 평가
 
-        이 API는 다양한 직무(프론트엔드, 백엔드, 클라우드, AI 등)와 다양한 면접 방식(실전 면접, 모의 면접)을 
+        이 API는 다양한 직무(프론트엔드, 백엔드, 클라우드, AI 등)와 다양한 면접 방식(실전 면접, 모의 면접)을
         지원하며, 기술적인 성장 가능성과 업무 태도에 대한 종합적인 평가를 제공합니다.
         """,
         routes=app.routes,
@@ -72,7 +74,6 @@ async def lifespan(app: FastAPI):
 app = FastAPI(lifespan=lifespan)
 
 Instrumentator().instrument(app).expose(app, include_in_schema=False)
-
 
 
 @app.get("/", tags=["Common"])

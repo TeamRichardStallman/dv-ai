@@ -78,3 +78,17 @@ pip freeze > requirements.txt
   - ai
   - logs
   - models
+
+### Poetry
+
+패키지 추가
+poetry add python-dotenv
+
+dev 패키지 추가
+poetry add pytest -D
+
+가상환경 활성화
+poetry shell
+
+설치된 패키지 확인
+poetry show

@@ -1,6 +1,8 @@
+from typing import List, Literal, Optional
+
 from pydantic import BaseModel
-from typing import List, Optional, Literal
 from typing_extensions import TypedDict
+
 from app.models.questions_response import QuestionsResponse
 
 
@@ -19,7 +21,7 @@ class PersonalScores(TypedDict):
     teamwork: ScoreDetail
     communication: ScoreDetail
     problem_solving: ScoreDetail
-    accountability: ScoreDetail 
+    accountability: ScoreDetail
     growth_mindset: ScoreDetail
 
 

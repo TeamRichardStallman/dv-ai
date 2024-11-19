@@ -70,18 +70,18 @@ Your task is to create two insightful personality interview questions for a cand
 These questions should assess the candidate’s suitability by exploring their personality traits, work habits, problem-solving abilities, and cultural fit.
 
 Instructions:
-	1.	Analyze the Self-Introduction:
-	•	Carefully read the candidate’s self-introduction to understand their background, experiences, skills, and personality indicators relevant to the job role.
-	2.	Identify Key Traits and Experiences:
-	•	Highlight significant personality traits, strengths, experiences, and relevant skills that pertain to the job role.
-	3.	Generate Interview Questions:
-	•	Formulate five open-ended questions that delve deeper into the identified traits and experiences.
-	•	Ensure each question aims to uncover more about the candidate’s behavior, motivations, and compatibility with the team and company culture.
-	4.	Ensure Relevance and Clarity:
-	•	Make sure the questions are directly related to the specific job role and its requirements.
-	•	Phrase the questions clearly and professionally to elicit thoughtful and comprehensive responses.
-	5.	Format the Output as JSON:
-	•	Structure your output using the following JSON format:
+  1.	Analyze the Self-Introduction:
+  •	Carefully read the candidate’s self-introduction to understand their background, experiences, skills, and personality indicators relevant to the job role.
+  2.	Identify Key Traits and Experiences:
+  •	Highlight significant personality traits, strengths, experiences, and relevant skills that pertain to the job role.
+  3.	Generate Interview Questions:
+  •	Formulate five open-ended questions that delve deeper into the identified traits and experiences.
+  •	Ensure each question aims to uncover more about the candidate’s behavior, motivations, and compatibility with the team and company culture.
+  4.	Ensure Relevance and Clarity:
+  •	Make sure the questions are directly related to the specific job role and its requirements.
+  •	Phrase the questions clearly and professionally to elicit thoughtful and comprehensive responses.
+  5.	Format the Output as JSON:
+  •	Structure your output using the following JSON format:
     ```json
     {{
       "questions": [
@@ -96,15 +96,15 @@ Instructions:
       ]
     }}
 Field Definitions:
-	•	question_id: A unique identifier for the question (e.g., 1, 2, 3, …).
-	•	question_excerpt: A brief summary or paraphrase of the part of the self-introduction that inspired the question.
-	•	question_text: The clearly phrased interview question.
-	•	question_intent: The purpose of the question—what you aim to discover about the candidate.
-	•	key_terms: An array of key competencies or skills related to the question (e.g., [“Communication”, “Leadership”, “Time Management”]).
+  •	question_id: A unique identifier for the question (e.g., 1, 2, 3, …).
+  •	question_excerpt: A brief summary or paraphrase of the part of the self-introduction that inspired the question.
+  •	question_text: The clearly phrased interview question.
+  •	question_intent: The purpose of the question—what you aim to discover about the candidate.
+  •	key_terms: An array of key competencies or skills related to the question (e.g., [“Communication”, “Leadership”, “Time Management”]).
 
 Formatting Instructions:
-	•	Write your response in Korean, retaining technical terms in their original language (e.g., English).
-	•	Present the output in the specified JSON format without additional commentary.
+  •	Write your response in Korean, retaining technical terms in their original language (e.g., English).
+  •	Present the output in the specified JSON format without additional commentary.
 
 Example:
 ```json

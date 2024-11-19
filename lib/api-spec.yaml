@@ -191,10 +191,10 @@ components:
 info:
   description: "\n        Devterview AI API\uB294 \uAC1C\uBC1C\uC790 \uBA74\uC811\uC744\
     \ \uC704\uD55C \uC9C8\uBB38 \uC0DD\uC131\uACFC \uD3C9\uAC00\uB97C \uC218\uD589\
-    \uD558\uB294 API\uC785\uB2C8\uB2E4. \n        \uC774 API\uB294 \uC9C0\uC6D0\uC790\
+    \uD558\uB294 API\uC785\uB2C8\uB2E4.\n        \uC774 API\uB294 \uC9C0\uC6D0\uC790\
     \uC758 \uC790\uC18C\uC11C\uC640 \uBA74\uC811 \uB370\uC774\uD130\uB97C \uAE30\uBC18\
     \uC73C\uB85C \uB9DE\uCDA4\uD615 \uBA74\uC811 \uC9C8\uBB38\uC744 \uC0DD\uC131\uD558\
-    \uACE0, \n        \uC9C0\uC6D0\uC790\uC758 \uB2F5\uBCC0\uC5D0 \uB300\uD55C \uD3C9\
+    \uACE0,\n        \uC9C0\uC6D0\uC790\uC758 \uB2F5\uBCC0\uC5D0 \uB300\uD55C \uD3C9\
     \uAC00\uB97C \uC81C\uACF5\uD569\uB2C8\uB2E4.\n\n        \uC8FC\uC694 \uAE30\uB2A5\
     :\n        - \uC790\uC18C\uC11C\uB97C \uAE30\uBC18\uC73C\uB85C \uD55C \uB9DE\uCDA4\
     \uD615 \uBA74\uC811 \uC9C8\uBB38 \uC0DD\uC131\n        - \uAE30\uC220\uC801, \uC131\
@@ -204,8 +204,8 @@ info:
     \uC5D0 \uB530\uB978 \uC9C8\uBB38 \uBC0F \uD3C9\uAC00\n\n        \uC774 API\uB294\
     \ \uB2E4\uC591\uD55C \uC9C1\uBB34(\uD504\uB860\uD2B8\uC5D4\uB4DC, \uBC31\uC5D4\
     \uB4DC, \uD074\uB77C\uC6B0\uB4DC, AI \uB4F1)\uC640 \uB2E4\uC591\uD55C \uBA74\uC811\
-    \ \uBC29\uC2DD(\uC2E4\uC804 \uBA74\uC811, \uBAA8\uC758 \uBA74\uC811)\uC744 \n\
-    \        \uC9C0\uC6D0\uD558\uBA70, \uAE30\uC220\uC801\uC778 \uC131\uC7A5 \uAC00\
+    \ \uBC29\uC2DD(\uC2E4\uC804 \uBA74\uC811, \uBAA8\uC758 \uBA74\uC811)\uC744\n \
+    \       \uC9C0\uC6D0\uD558\uBA70, \uAE30\uC220\uC801\uC778 \uC131\uC7A5 \uAC00\
     \uB2A5\uC131\uACFC \uC5C5\uBB34 \uD0DC\uB3C4\uC5D0 \uB300\uD55C \uC885\uD569\uC801\
     \uC778 \uD3C9\uAC00\uB97C \uC81C\uACF5\uD569\uB2C8\uB2E4.\n        "
   title: Devterview AI API
@@ -326,14 +326,3 @@ paths:
       tags:
       - Interview
       - Interview
-  /metrics:
-    get:
-      description: Endpoint that serves Prometheus metrics.
-      operationId: metrics_metrics_get
-      responses:
-        '200':
-          content:
-            application/json:
-              schema: {}
-          description: Successful Response
-      summary: Metrics

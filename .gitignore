@@ -36,3 +36,7 @@ app/logs/ai_results/*
 
 # wandb 폴더 무시
 wandb/
+
+# tox, egg-info ignore
+dv_ai.egg-info/
+.tox/

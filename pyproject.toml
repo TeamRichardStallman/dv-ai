@@ -1,2 +1,30 @@
 [tool.black]
 line-length = 120
+
+[tool.poetry]
+name = "dv-ai"
+version = "0.1.0"
+description = "ai server for devterview"
+authors = []
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+fastapi = {extras = ["standard"], version = "^0.115.5"}
+pytest = "^8.3.3"
+pytest-httpx = "^0.34.0"
+tox = "^4.23.2"
+uvicorn = "^0.32.0"
+prometheus-fastapi-instrumentator = "^7.0.0"
+weave = "^0.51.19"
+openai = "^1.54.4"
+boto3 = "^1.35.64"
+
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.3.3"
+httpx = "^0.27.2"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

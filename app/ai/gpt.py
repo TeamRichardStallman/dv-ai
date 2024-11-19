@@ -1,13 +1,14 @@
-from openai import OpenAI
 import json
-from app.config import Config
-from typing import Any, Literal
 from datetime import datetime
-import wandb
+from typing import Any, Literal, Union
+
 import weave
-from app.models.questions_response import QuestionsRequest
+from openai import OpenAI
+
+import wandb
+from app.config import Config
 from app.models.evaluation_response import EvaluationRequest
-from typing import Union
+from app.models.questions_response import QuestionsRequest
 
 client_gpt = OpenAI(api_key=Config.OPENAI_API_KEY)
 
@@ -22,10 +23,6 @@ class ContentGenerator(weave.Model):
 
     @weave.op(call_display_name=lambda call: f"{call.func_name}__{datetime.now()}")
     def invoke(self, prompt: str, input: str, type: Literal["question", "evaluation"]) -> Any:
-        print("prompt: ", prompt)
-        print("input: ", input)
-        print("type: ", type)
-
         response = client_gpt.chat.completions.create(
             model=Config.GPT_MODEL,
             messages=[

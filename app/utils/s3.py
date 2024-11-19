@@ -1,8 +1,8 @@
 import boto3
 from botocore.exceptions import NoCredentialsError, PartialCredentialsError
 from fastapi import HTTPException
-from app.config import Config
 
+from app.config import Config
 
 s3_client = boto3.client(
     "s3",

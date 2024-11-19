@@ -1,15 +1,17 @@
-from app.ai.gpt import ContentGenerator
-from app.models.questions_response import QuestionsRequest
-from app.models.evaluation_response import EvaluationRequest
-from app.prompts.question import generate_questions_prompt
-from app.prompts.evaluation import generate_evaluation_prompt
-from app.utils.generate import generate_file_objects, generate_file_data
-from app.utils.merge import merge_questions_and_answers
-from openai import OpenAI
-import os
-from dotenv import load_dotenv
-import weave
 import json
+import os
+
+import weave
+from dotenv import load_dotenv
+from openai import OpenAI
+
+from app.ai.gpt import ContentGenerator
+from app.models.evaluation_response import EvaluationRequest
+from app.models.questions_response import QuestionsRequest
+from app.prompts.evaluation import generate_evaluation_prompt
+from app.prompts.question import generate_questions_prompt
+from app.utils.generate import generate_file_data, generate_file_objects
+from app.utils.merge import merge_questions_and_answers
 
 load_dotenv()
 
@@ -43,7 +45,7 @@ def evaluate_interview(user_data: EvaluationRequest):
     merged_input_str = json.dumps(merged_input, ensure_ascii=False)
 
     prompt = generate_evaluation_prompt(user_data)
-    
+
     generator = ContentGenerator(user_data=user_data)
     data = generator.invoke(prompt, merged_input_str, "evaluation")
 

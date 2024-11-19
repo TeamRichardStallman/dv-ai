@@ -1,8 +1,11 @@
 from fastapi import APIRouter, HTTPException
-from app.models.questions_response import QuestionsResponse, QuestionsRequest
-from app.services.ai_model import generate_questions, evaluate_interview
-from app.models.evaluation_response import PersonalEvaluationResponse, TechnicalEvaluationResponse, EvaluationRequest
-from app.temp.test_data import questions_test_data, evaluation_test_data
+
+from app.models.evaluation_response import (EvaluationRequest,
+                                            PersonalEvaluationResponse,
+                                            TechnicalEvaluationResponse)
+from app.models.questions_response import QuestionsRequest, QuestionsResponse
+from app.services.ai_model import evaluate_interview, generate_questions
+from app.temp.test_data import evaluation_test_data, questions_test_data
 
 router = APIRouter(prefix="/interview", tags=["Interview"])
 
