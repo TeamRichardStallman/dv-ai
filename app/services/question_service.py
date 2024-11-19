@@ -1,6 +1,6 @@
 import weave
 
-from app.prompts.prompt import GENERAL_TECH, REAL_PERSONAL, REAL_TECH
+from app.prompts.question import GENERAL_TECH, REAL_PERSONAL, REAL_TECH
 from app.schemas.question import QuestionsRequest
 
 weave.init("ticani0610-no/prompt-test")
