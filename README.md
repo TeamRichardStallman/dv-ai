@@ -45,6 +45,9 @@ Git-flow
 
 ### Poetry
 
+poetry 전역 설치
+`curl -sSL https://install.python-poetry.org | python3 -`
+
 의존성 설치
 `poetry install`
 
@@ -63,7 +66,19 @@ dev 패키지 추가
 가상환경 내에서 명령어 실행
 `poetry run fastapi dev app/main.py # in root directory`
 
-# 폴더 구조 txt 파일 생성
+현재 활성화된 가상환경 정보 확인
+`poetry env info`
+
+가상환경 비활성화
+`deactivate`
+
+### Run linting and formatting
+
+```bash
+poetry run tox -e lint
+```
+
+### 폴더 구조 txt 파일 생성
 
 ```bash
 brew install tree # macOS
