@@ -3,21 +3,19 @@
 ├── README.md
 ├── app
 │   ├── __init__.py
-│   ├── ai
-│   │   ├── anthropic.py
-│   │   └── gpt.py
 │   ├── core
-│   │   └── config.py
+│   │   ├── config.py
+│   │   └── middleware.py
 │   ├── main.py
 │   ├── models
 │   │   ├── anthropic
+│   │   │   └── claude.py
 │   │   ├── google_aistudio
 │   │   └── openai
 │   │       └── gpt.py
 │   ├── prompts
 │   │   ├── __init__.py
 │   │   ├── evaluation.py
-│   │   ├── prompt.py
 │   │   └── question.py
 │   ├── routers
 │   │   └── interview.py
@@ -25,12 +23,14 @@
 │   │   ├── evaluation.py
 │   │   └── question.py
 │   ├── services
-│   │   └── ai_model.py
-│   ├── temp
-│   │   └── test_data.py
+│   │   ├── evaluation_service.py
+│   │   ├── interview_service.py
+│   │   └── question_service.py
+│   ├── tests
+│   │   └── data.py
 │   └── utils
 │       ├── generate.py
-│       ├── logger.py
+│       ├── init.py
 │       ├── merge.py
 │       └── s3.py
 ├── folder_structure.txt
@@ -41,4 +41,4 @@
 ├── setup.py
 └── tox.ini
 
-15 directories, 27 files
+14 directories, 28 files

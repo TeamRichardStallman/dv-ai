@@ -1,3 +1,5 @@
+from typing import Dict, List
+
 import boto3
 from botocore.exceptions import NoCredentialsError, PartialCredentialsError
 from fastapi import HTTPException
@@ -27,3 +29,16 @@ async def get_s3_object(object_key: str):
         raise HTTPException(status_code=403, detail="Incomplete AWS credentials")
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
+
+
+async def get_files_from_s3(file_objects: List[Dict[str, str]]):
+    s3_files = []
+
+    for file_object in file_objects:
+        path = file_object["path"]
+        file_data = await get_s3_object(path)
+        file_type = file_object["type"]
+
+        s3_files.append({"type": file_type, "data": file_data})
+
+    return s3_files

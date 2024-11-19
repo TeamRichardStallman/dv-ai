@@ -4,8 +4,6 @@ from typing import Dict, List
 import yaml
 from fastapi.openapi.utils import get_openapi
 
-from app.utils.s3 import get_s3_object
-
 
 def generate_openapi_yaml(app):
     openapi_schema = get_openapi(
@@ -42,19 +40,6 @@ def create_file_objects(file_paths: List[str]) -> List[Dict[str, str]]:
         file_objects.append({"type": file_type, "path": file_path})
 
     return file_objects
-
-
-async def get_files_from_s3(file_objects: List[Dict[str, str]]):
-    s3_files = []
-
-    for file_object in file_objects:
-        path = file_object["path"]
-        file_data = await get_s3_object(path)
-        file_type = file_object["type"]
-
-        s3_files.append({"type": file_type, "data": file_data})
-
-    return s3_files
 
 
 def get_cover_letters_data(file_data: List[Dict[str, str]]):
