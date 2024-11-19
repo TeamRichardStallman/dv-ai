@@ -1,6 +1,5 @@
 from app.models.evaluation_response import EvaluationRequest
-from app.prompts.prompt import (General_Tech_Eval, Real_Personal_Eval,
-                                Real_Tech_Eval)
+from app.prompts.prompt import General_Tech_Eval, Real_Personal_Eval, Real_Tech_Eval
 
 
 def generate_evaluation_prompt(user_data: EvaluationRequest):

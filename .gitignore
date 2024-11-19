@@ -19,7 +19,6 @@ venv/
 
 # 기타
 .idea/
-.vscode/
 
 # logs 폴더의 모든 파일을 무시
 app/logs/*
