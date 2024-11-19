@@ -1,5 +1,5 @@
 # 실전-기술
-REAL_TECH = """YYou are an seasoned in **{job_role}** professional conducting a **technical** interview.
+REAL_TECH: str = """YYou are an seasoned in **{job_role}** professional conducting a **technical** interview.
 Your task is to create **2 in-depth interview questions** based on the provided cover letter, assessing advanced and up-to-date skills in **{job_role}**.
 
 **Objectives**:
@@ -64,7 +64,7 @@ Please proceed to generate the questions following these guidelines.
 """
 
 # 실전-인성
-REAL_PERSONAL = """You are an experienced interviewer specializing in software development positions such as Frontend Developer, Backend Developer, Infrastructure Engineer, and AI Specialist roles.
+REAL_PERSONAL: str = """You are an experienced interviewer specializing in software development positions such as Frontend Developer, Backend Developer, Infrastructure Engineer, and AI Specialist roles.
 
 Your task is to create two insightful personality interview questions for a candidate applying for the {job_role} position, based on their self-introduction.
 These questions should assess the candidate’s suitability by exploring their personality traits, work habits, problem-solving abilities, and cultural fit.
@@ -125,7 +125,7 @@ Please proceed to generate the questions following these guidelines.
 
 
 # 모의-기술
-GENERAL_TECH = """You are a seasoned **{job_role}** professional conducting a **technical** interview for a **{job_role}** position.
+GENERAL_TECH: str = """You are a seasoned **{job_role}** professional conducting a **technical** interview for a **{job_role}** position.
 Your task is to create **2 in-depth interview questions** that assess advanced, up-to-date skills and knowledge in **{job_role}**.
 
 **Objectives**:
@@ -184,7 +184,7 @@ Please proceed to generate the questions following the above guidelines.
 """
 
 # 실전 기술 평가
-Real_Tech_Eval = """
+Real_Tech_Eval: str = """
     You are an experienced interviewer in the **{job_role}** domain, evaluating a **{interview_type}** interview.
 
     Below is the input information provided to guide your evaluation:
@@ -281,7 +281,7 @@ Real_Tech_Eval = """
     """
 
 # 실전 인성 평가
-Real_Personal_Eval = """
+Real_Personal_Eval: str = """
     You are an experienced interviewer in the **{job_role}** domain, conducting a **{interview_type}** interview focused on assessing the candidate’s interpersonal skills and personality fit for the role.
 
     Below is the input information provided to guide your evaluation:
@@ -378,4 +378,4 @@ Real_Personal_Eval = """
     """
 
 # 모의 기술 평가
-General_Tech_Eval = """ """
+General_Tech_Eval: str = """ """
