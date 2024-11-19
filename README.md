@@ -46,31 +46,58 @@ Git-flow
 ### Poetry
 
 poetry 전역 설치
-`curl -sSL https://install.python-poetry.org | python3 -`
+
+```bash
+curl -sSL https://install.python-poetry.org | python3 -
+```
 
 의존성 설치
-`poetry install`
+
+```bash
+poetry install
+```
 
 패키지 추가
-`poetry add python-dotenv`
+
+```bash
+poetry add python-dotenv
+```
 
 dev 패키지 추가
-`poetry add pytest -D`
+
+```bash
+poetry add pytest -D
+```
 
 설치된 패키지 확인
-`poetry show`
+
+```bash
+poetry show
+```
 
 가상환경 활성화
-`poetry shell`
+
+```bash
+poetry shell
+```
 
 가상환경 내에서 명령어 실행
-`poetry run fastapi dev app/main.py # in root directory`
+
+```bash
+poetry run fastapi dev app/main.py # in root directory
+```
+
+or
+
+```bash
+poetry run uvicorn app.main:app --host 127.0.0.1 --port 8000 # in root directory
+```
 
 현재 활성화된 가상환경 정보 확인
-`poetry env info`
 
-가상환경 비활성화
-`deactivate`
+```bash
+poetry env info
+```
 
 ### Run linting and formatting
 
