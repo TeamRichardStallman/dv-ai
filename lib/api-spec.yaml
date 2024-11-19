@@ -75,6 +75,23 @@ components:
       - answers
       title: EvaluationRequest
       type: object
+    Feedback:
+      properties:
+        improvement:
+          title: Improvement
+          type: string
+        strengths:
+          title: Strengths
+          type: string
+        suggestion:
+          title: Suggestion
+          type: string
+      required:
+      - strengths
+      - improvement
+      - suggestion
+      title: Feedback
+      type: object
     HTTPValidationError:
       properties:
         detail:
@@ -83,6 +100,85 @@ components:
           title: Detail
           type: array
       title: HTTPValidationError
+      type: object
+    OverallScore:
+      properties:
+        feedback:
+          title: Feedback
+          type: string
+        score:
+          title: Score
+          type: integer
+      required:
+      - score
+      - feedback
+      title: OverallScore
+      type: object
+    PersonalAnswerEvaluation:
+      properties:
+        feedback:
+          $ref: '#/components/schemas/Feedback'
+        question_id:
+          title: Question Id
+          type: integer
+        scores:
+          $ref: '#/components/schemas/PersonalScores'
+      required:
+      - question_id
+      - scores
+      - feedback
+      title: PersonalAnswerEvaluation
+      type: object
+    PersonalEvaluationResponse:
+      properties:
+        answer_evaluations:
+          items:
+            $ref: '#/components/schemas/PersonalAnswerEvaluation'
+          title: Answer Evaluations
+          type: array
+        overall_evaluation:
+          $ref: '#/components/schemas/PersonalOverallEvaluation'
+      required:
+      - answer_evaluations
+      - overall_evaluation
+      title: PersonalEvaluationResponse
+      type: object
+    PersonalOverallEvaluation:
+      properties:
+        adaptability:
+          $ref: '#/components/schemas/OverallScore'
+        company_fit:
+          $ref: '#/components/schemas/OverallScore'
+        growth_attitude:
+          $ref: '#/components/schemas/OverallScore'
+        interpersonal_skills:
+          $ref: '#/components/schemas/OverallScore'
+      required:
+      - company_fit
+      - adaptability
+      - interpersonal_skills
+      - growth_attitude
+      title: PersonalOverallEvaluation
+      type: object
+    PersonalScores:
+      properties:
+        accountability:
+          $ref: '#/components/schemas/ScoreDetail'
+        communication:
+          $ref: '#/components/schemas/ScoreDetail'
+        growth_mindset:
+          $ref: '#/components/schemas/ScoreDetail'
+        problem_solving:
+          $ref: '#/components/schemas/ScoreDetail'
+        teamwork:
+          $ref: '#/components/schemas/ScoreDetail'
+      required:
+      - teamwork
+      - communication
+      - problem_solving
+      - accountability
+      - growth_mindset
+      title: PersonalScores
       type: object
     Question:
       properties:
@@ -167,6 +263,85 @@ components:
       - questions
       title: QuestionsResponse
       type: object
+    ScoreDetail:
+      properties:
+        rationale:
+          title: Rationale
+          type: string
+        score:
+          title: Score
+          type: integer
+      required:
+      - score
+      - rationale
+      title: ScoreDetail
+      type: object
+    TechnicalAnswerEvaluation:
+      properties:
+        feedback:
+          $ref: '#/components/schemas/Feedback'
+        question_id:
+          title: Question Id
+          type: integer
+        scores:
+          $ref: '#/components/schemas/TechnicalScores'
+      required:
+      - question_id
+      - scores
+      - feedback
+      title: TechnicalAnswerEvaluation
+      type: object
+    TechnicalEvaluationResponse:
+      properties:
+        answer_evaluations:
+          items:
+            $ref: '#/components/schemas/TechnicalAnswerEvaluation'
+          title: Answer Evaluations
+          type: array
+        overall_evaluation:
+          $ref: '#/components/schemas/TechnicalOverallEvaluation'
+      required:
+      - answer_evaluations
+      - overall_evaluation
+      title: TechnicalEvaluationResponse
+      type: object
+    TechnicalOverallEvaluation:
+      properties:
+        growth_potential:
+          $ref: '#/components/schemas/OverallScore'
+        job_fit:
+          $ref: '#/components/schemas/OverallScore'
+        technical_depth:
+          $ref: '#/components/schemas/OverallScore'
+        work_attitude:
+          $ref: '#/components/schemas/OverallScore'
+      required:
+      - job_fit
+      - growth_potential
+      - work_attitude
+      - technical_depth
+      title: TechnicalOverallEvaluation
+      type: object
+    TechnicalScores:
+      properties:
+        appropriate_response:
+          $ref: '#/components/schemas/ScoreDetail'
+        consistency:
+          $ref: '#/components/schemas/ScoreDetail'
+        grammatical_errors:
+          $ref: '#/components/schemas/ScoreDetail'
+        key_terms:
+          $ref: '#/components/schemas/ScoreDetail'
+        logical_flow:
+          $ref: '#/components/schemas/ScoreDetail'
+      required:
+      - appropriate_response
+      - logical_flow
+      - key_terms
+      - consistency
+      - grammatical_errors
+      title: TechnicalScores
+      type: object
     ValidationError:
       properties:
         loc:
@@ -226,7 +401,7 @@ paths:
       - Common
   /interview/evaluation:
     post:
-      operationId: evaluate_interview_request_interview_evaluation_post
+      operationId: create_interview_evaluation_interview_evaluation_post
       requestBody:
         content:
           application/json:
@@ -237,7 +412,11 @@ paths:
         '200':
           content:
             application/json:
-              schema: {}
+              schema:
+                anyOf:
+                - $ref: '#/components/schemas/TechnicalEvaluationResponse'
+                - $ref: '#/components/schemas/PersonalEvaluationResponse'
+                title: Response Create Interview Evaluation Interview Evaluation Post
           description: Successful Response
         '422':
           content:
@@ -245,32 +424,25 @@ paths:
               schema:
                 $ref: '#/components/schemas/HTTPValidationError'
           description: Validation Error
-      summary: Evaluate Interview Request
+      summary: Create Interview Evaluation
       tags:
       - Interview
       - Interview
   /interview/evaluation-test:
     post:
-      operationId: evaluate_interview_request_test_interview_evaluation_test_post
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/EvaluationRequest'
-        required: true
+      operationId: create_interview_evaluation_test_interview_evaluation_test_post
       responses:
         '200':
           content:
             application/json:
-              schema: {}
-          description: Successful Response
-        '422':
-          content:
-            application/json:
               schema:
-                $ref: '#/components/schemas/HTTPValidationError'
-          description: Validation Error
-      summary: Evaluate Interview Request Test
+                anyOf:
+                - $ref: '#/components/schemas/TechnicalEvaluationResponse'
+                - $ref: '#/components/schemas/PersonalEvaluationResponse'
+                title: Response Create Interview Evaluation Test Interview Evaluation
+                  Test Post
+          description: Successful Response
+      summary: Create Interview Evaluation Test
       tags:
       - Interview
       - Interview
@@ -303,12 +475,6 @@ paths:
   /interview/questions-test:
     post:
       operationId: create_interview_questions_test_interview_questions_test_post
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/QuestionsRequest'
-        required: true
       responses:
         '200':
           content:
@@ -316,12 +482,6 @@ paths:
               schema:
                 $ref: '#/components/schemas/QuestionsResponse'
           description: Successful Response
-        '422':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/HTTPValidationError'
-          description: Validation Error
       summary: Create Interview Questions Test
       tags:
       - Interview
