@@ -6,9 +6,9 @@ import weave
 from openai import OpenAI
 
 import wandb
-from app.config import Config
-from app.models.evaluation_response import EvaluationRequest
-from app.models.questions_response import QuestionsRequest
+from app.core.config import Config
+from app.schemas.evaluation import EvaluationRequest
+from app.schemas.question import QuestionsRequest
 
 client_gpt = OpenAI(api_key=Config.OPENAI_API_KEY)
 

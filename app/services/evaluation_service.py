@@ -1,12 +1,8 @@
-import weave
-
-from app.models.questions_response import QuestionsRequest
-from app.prompts.prompt import GENERAL_TECH, REAL_PERSONAL, REAL_TECH
-
-weave.init("ticani0610-no/prompt-test")
+from app.prompts.prompt import General_Tech_Eval, Real_Personal_Eval, Real_Tech_Eval
+from app.schemas.evaluation import EvaluationRequest
 
 
-def generate_questions_prompt(user_data: QuestionsRequest):
+def generate_evaluation_prompt(user_data: EvaluationRequest):
     try:
         job_role = user_data.job_role
         interview_type = user_data.interview_type
@@ -14,21 +10,18 @@ def generate_questions_prompt(user_data: QuestionsRequest):
     except KeyError as e:
         raise KeyError(f"Missing required key in user_data: {e}")
 
-    # 프롬프트 변수를 직접 매핑하여 사용
     if interview_mode == "real":
         if interview_type == "technical":
-            generation_prompt = REAL_TECH
+            generation_prompt = Real_Tech_Eval
         elif interview_type == "personal":
-            generation_prompt = REAL_PERSONAL
+            generation_prompt = Real_Personal_Eval
     elif interview_mode == "general":
-        generation_prompt = GENERAL_TECH
+        generation_prompt = General_Tech_Eval
     else:
         raise ValueError(f"Unknown interview_mode: {interview_mode}")
 
-    weave.publish(obj=generation_prompt, name=f"prompt: {interview_mode}-{interview_type}")
-
     try:
-        prompt = generation_prompt.format(job_role=job_role)
+        prompt = generation_prompt.format(job_role=job_role, interview_type=interview_type)
     except KeyError as e:
         raise KeyError(f"Missing key during prompt formatting: {e}")
 

@@ -3,7 +3,7 @@ from typing import List, Literal, Optional
 from pydantic import BaseModel
 from typing_extensions import TypedDict
 
-from app.models.questions_response import QuestionsResponse
+from app.schemas.question import QuestionsResponse
 
 
 class ScoreDetail(BaseModel):

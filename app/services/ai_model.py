@@ -5,11 +5,11 @@ import weave
 from dotenv import load_dotenv
 from openai import OpenAI
 
-from app.ai.gpt import ContentGenerator
-from app.models.evaluation_response import EvaluationRequest
-from app.models.questions_response import QuestionsRequest
-from app.prompts.evaluation import generate_evaluation_prompt
-from app.prompts.question import generate_questions_prompt
+from app.models.openai.gpt import ContentGenerator
+from app.schemas.evaluation import EvaluationRequest
+from app.schemas.question import QuestionsRequest
+from app.services.evaluation_service import generate_evaluation_prompt
+from app.services.question_service import generate_questions_prompt
 from app.utils.generate import generate_file_data, generate_file_objects
 from app.utils.merge import merge_questions_and_answers
 

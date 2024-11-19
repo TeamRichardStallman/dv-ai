@@ -1,0 +1,44 @@
+.
+├── Dockerfile
+├── README.md
+├── app
+│   ├── __init__.py
+│   ├── ai
+│   │   ├── anthropic.py
+│   │   └── gpt.py
+│   ├── core
+│   │   └── config.py
+│   ├── main.py
+│   ├── models
+│   │   ├── anthropic
+│   │   ├── google_aistudio
+│   │   └── openai
+│   │       └── gpt.py
+│   ├── prompts
+│   │   ├── __init__.py
+│   │   ├── evaluation.py
+│   │   ├── prompt.py
+│   │   └── question.py
+│   ├── routers
+│   │   └── interview.py
+│   ├── schemas
+│   │   ├── evaluation.py
+│   │   └── question.py
+│   ├── services
+│   │   └── ai_model.py
+│   ├── temp
+│   │   └── test_data.py
+│   └── utils
+│       ├── generate.py
+│       ├── logger.py
+│       ├── merge.py
+│       └── s3.py
+├── folder_structure.txt
+├── lib
+│   └── api-spec.yaml
+├── poetry.lock
+├── pyproject.toml
+├── setup.py
+└── tox.ini
+
+15 directories, 27 files

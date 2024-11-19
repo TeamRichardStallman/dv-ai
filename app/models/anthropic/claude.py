@@ -1,8 +1,7 @@
-import anthropic
+import app.models.anthropic.claude as claude
+from app.core.config import Config
 
-from app.config import Config
-
-client = anthropic.Anthropic(api_key=Config.ANTHROPIC_API_KEY)
+client = claude.Anthropic(api_key=Config.ANTHROPIC_API_KEY)
 
 
 def generate_from_anthropic(system: str, input: str):
