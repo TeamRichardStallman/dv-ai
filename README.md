@@ -84,3 +84,52 @@ poetry run tox -e lint
 brew install tree # macOS
 tree -I 'wandb|**pycache**|\*.log|__pycache__|__init__|folder_structure' > folder_structure.txt
 ```
+
+### 폴더 구조
+
+```text
+.
+├── Dockerfile
+├── README.md
+├── app
+│   ├── **init**.py
+│   ├── core # 설정 관련 파일
+│   │   ├── config.py
+│   │   └── middleware.py
+│   ├── main.py
+│   ├── models # ai 모델
+│   │   ├── anthropic
+│   │   │   └── claude.py
+│   │   ├── google_aistudio
+│   │   └── openai
+│   │       └── gpt.py
+│   ├── prompts # prompt 모음
+│   │   ├── **init**.py
+│   │   ├── evaluation.py
+│   │   └── question.py
+│   ├── routers # MVC의 View
+│   │   └── interview.py
+│   ├── schemas # 응답 모델 모음
+│   │   ├── evaluation.py
+│   │   └── question.py
+│   ├── services # MVC의 Controller
+│   │   ├── evaluation_service.py
+│   │   ├── interview_service.py
+│   │   └── question_service.py
+│   ├── tests # test 관련 파일
+│   │   └── data.py
+│   └── utils
+│       ├── generate.py
+│       ├── init.py
+│       ├── merge.py
+│       └── s3.py
+├── folder_structure.txt
+├── lib
+│   └── api-spec.yaml
+├── poetry.lock # 의존성 버전 고정
+├── pyproject.toml # 파이썬 의존성(패키지) 관리 도구
+├── setup.py # 패키지 배포를 위한 설정 파일
+└── tox.ini
+
+14 directories, 28 files
+```
