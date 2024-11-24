@@ -14,7 +14,6 @@ def generate_questions_prompt(user_data: QuestionsRequest):
     except KeyError as e:
         raise KeyError(f"Missing required key in user_data: {e}")
 
-    # 프롬프트 변수를 직접 매핑하여 사용
     if interview_mode == "real":
         if interview_type == "technical":
             generation_prompt = REAL_TECH

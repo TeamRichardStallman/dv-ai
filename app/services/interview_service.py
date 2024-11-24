@@ -10,9 +10,9 @@ from app.schemas.evaluation import EvaluationRequest
 from app.schemas.question import QuestionsRequest
 from app.services.evaluation_service import generate_evaluation_prompt
 from app.services.question_service import generate_questions_prompt
+from app.services.s3_service import S3Service
 from app.utils.generate import create_file_objects, get_cover_letters_data
 from app.utils.merge import merge_questions_and_answers
-from app.utils.s3 import get_files_from_s3
 
 load_dotenv()
 
@@ -23,10 +23,11 @@ weave.init("ticani0610-no/prompt-test")
 
 
 async def generate_interview_questions(user_data: QuestionsRequest):
+    s3_service = S3Service()
     prompt = generate_questions_prompt(user_data)
 
     file_objects = create_file_objects(user_data.file_paths)
-    file_data = await get_files_from_s3(file_objects)
+    file_data = await s3_service.get_files_from_s3(file_objects)
     cover_letter = get_cover_letters_data(file_data)
     cover_letter = cover_letter or ""
 
