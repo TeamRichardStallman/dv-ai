@@ -17,6 +17,10 @@ prometheus-fastapi-instrumentator = "^7.0.0"
 weave = "^0.51.19"
 openai = "^1.54.4"
 boto3 = "^1.35.64"
+whisper = "^1.1.10"
+pydub = "^0.25.1"
+httpx = "^0.27.2"
+google-cloud-speech = "^2.28.1"
 
 
 [tool.poetry.group.dev.dependencies]

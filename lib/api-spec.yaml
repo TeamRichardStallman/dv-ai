@@ -13,6 +13,45 @@ components:
       - answer_text
       title: Answer
       type: object
+    AnswerModel:
+      properties:
+        answer_text:
+          default: "\uD14C\uC2A4\uD2B8\uC6A9 \uB2F5\uBCC0\uC785\uB2C8\uB2E4."
+          title: Answer Text
+          type: string
+        s3_audio_url:
+          default: test/questions/audio_1.mp3
+          title: S3 Audio Url
+          type: string
+        s3_video_url:
+          title: S3 Video Url
+          type: string
+      required:
+      - s3_video_url
+      title: AnswerModel
+      type: object
+    AnswerRequest:
+      properties:
+        answer:
+          $ref: '#/components/schemas/AnswerModel'
+        interview_method:
+          default: VOICE
+          enum:
+          - CHAT
+          - VOICE
+          - VIDEO
+          title: Interview Method
+          type: string
+        user_id:
+          anyOf:
+          - type: integer
+          - type: string
+          title: User Id
+      required:
+      - user_id
+      - answer
+      title: AnswerRequest
+      type: object
     AnswerResponse:
       properties:
         answers:
@@ -483,6 +522,51 @@ paths:
                 $ref: '#/components/schemas/QuestionsResponse'
           description: Successful Response
       summary: Create Interview Questions Test
+      tags:
+      - Interview
+      - Interview
+  /interview/{interview_id}/answer/{question_or_answer_id}:
+    post:
+      operationId: create_asnwer_text_from_answer_audio_interview__interview_id__answer__question_or_answer_id__post
+      parameters:
+      - in: path
+        name: interview_id
+        required: true
+        schema:
+          title: Interview Id
+          type: integer
+      - in: path
+        name: question_or_answer_id
+        required: true
+        schema:
+          title: Question Or Answer Id
+          type: integer
+      - in: query
+        name: model_name
+        required: false
+        schema:
+          default: whisper
+          title: Model Name
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AnswerRequest'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema: {}
+          description: Successful Response
+        '422':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+          description: Validation Error
+      summary: Create Asnwer Text From Answer Audio
       tags:
       - Interview
       - Interview

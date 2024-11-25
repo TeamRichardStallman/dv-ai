@@ -1,4 +1,3 @@
-# app/utils.py
 from contextlib import asynccontextmanager
 
 from app.utils.generate import generate_openapi_yaml
