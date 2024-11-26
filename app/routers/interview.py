@@ -2,7 +2,7 @@ from typing import Union
 
 from fastapi import APIRouter, Depends, HTTPException
 
-from app.schemas.answer import AnswerRequest
+from app.schemas.answer import AnswerRequest, AnswerResponse
 from app.schemas.evaluation import EvaluationRequest, PersonalEvaluationResponse, TechnicalEvaluationResponse
 from app.schemas.question import QuestionsRequest, QuestionsResponse
 from app.services.interview_service import generate_interview_evaluation, process_answer, process_questions
@@ -66,7 +66,7 @@ async def create_interview_evaluation_test():
         raise HTTPException(status_code=500, detail=f"Error generating evaluation: {str(e)}")
 
 
-@router.post("/{interview_id}/answer/{question_or_answer_id}", tags=["Interview"])
+@router.post("/{interview_id}/answer/{question_or_answer_id}", tags=["Interview"], response_model=AnswerResponse)
 async def create_asnwer_text_from_answer_audio(
     interview_id: int,
     question_or_answer_id: int,

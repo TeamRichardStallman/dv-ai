@@ -13,6 +13,31 @@ components:
       - answer_text
       title: Answer
       type: object
+    AnswerDetail:
+      properties:
+        answer_text:
+          title: Answer Text
+          type: string
+        feedback:
+          $ref: '#/components/schemas/Feedback'
+        s3_audio_url:
+          title: S3 Audio Url
+          type: string
+        s3_video_url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: S3 Video Url
+        scores:
+          $ref: '#/components/schemas/Scores'
+      required:
+      - answer_text
+      - s3_audio_url
+      - s3_video_url
+      - scores
+      - feedback
+      title: AnswerDetail
+      type: object
     AnswerModel:
       properties:
         answer_text:
@@ -35,11 +60,11 @@ components:
         answer:
           $ref: '#/components/schemas/AnswerModel'
         interview_method:
-          default: VOICE
+          default: voice
           enum:
-          - CHAT
-          - VOICE
-          - VIDEO
+          - chat
+          - voice
+          - video
           title: Interview Method
           type: string
         user_id:
@@ -52,7 +77,7 @@ components:
       - answer
       title: AnswerRequest
       type: object
-    AnswerResponse:
+    AnswerResponse-Input:
       properties:
         answers:
           items:
@@ -63,10 +88,34 @@ components:
       - answers
       title: AnswerResponse
       type: object
+    AnswerResponse-Output:
+      properties:
+        answer:
+          $ref: '#/components/schemas/AnswerDetail'
+        interview_id:
+          title: Interview Id
+          type: integer
+        interview_method:
+          title: Interview Method
+          type: string
+        question_id:
+          title: Question Id
+          type: integer
+        user_id:
+          title: User Id
+          type: integer
+      required:
+      - user_id
+      - interview_id
+      - question_id
+      - interview_method
+      - answer
+      title: AnswerResponse
+      type: object
     EvaluationRequest:
       properties:
         answers:
-          $ref: '#/components/schemas/AnswerResponse'
+          $ref: '#/components/schemas/AnswerResponse-Input'
         file_paths:
           anyOf:
           - items:
@@ -361,6 +410,32 @@ components:
       - rationale
       title: ScoreDetail
       type: object
+    ScoreDetails:
+      properties:
+        rationale:
+          title: Rationale
+          type: string
+        score:
+          title: Score
+          type: integer
+      required:
+      - score
+      - rationale
+      title: ScoreDetails
+      type: object
+    Scores:
+      properties:
+        text_scores:
+          $ref: '#/components/schemas/TextScores'
+        voice_scores:
+          anyOf:
+          - $ref: '#/components/schemas/VoiceScores'
+          - type: 'null'
+      required:
+      - text_scores
+      - voice_scores
+      title: Scores
+      type: object
     TechnicalAnswerEvaluation:
       properties:
         feedback:
@@ -427,6 +502,26 @@ components:
       - grammatical_errors
       title: TechnicalScores
       type: object
+    TextScores:
+      properties:
+        appropriate_response:
+          $ref: '#/components/schemas/ScoreDetails'
+        consistency:
+          $ref: '#/components/schemas/ScoreDetails'
+        grammatical_errors:
+          $ref: '#/components/schemas/ScoreDetails'
+        key_terms:
+          $ref: '#/components/schemas/ScoreDetails'
+        logical_flow:
+          $ref: '#/components/schemas/ScoreDetails'
+      required:
+      - appropriate_response
+      - logical_flow
+      - key_terms
+      - consistency
+      - grammatical_errors
+      title: TextScores
+      type: object
     ValidationError:
       properties:
         loc:
@@ -447,6 +542,20 @@ components:
       - msg
       - type
       title: ValidationError
+      type: object
+    VoiceScores:
+      properties:
+        pronunciation:
+          $ref: '#/components/schemas/ScoreDetails'
+        stutter:
+          $ref: '#/components/schemas/ScoreDetails'
+        wpm:
+          $ref: '#/components/schemas/ScoreDetails'
+      required:
+      - wpm
+      - stutter
+      - pronunciation
+      title: VoiceScores
       type: object
 info:
   description: "\n        Devterview AI API\uB294 \uAC1C\uBC1C\uC790 \uBA74\uC811\uC744\
@@ -517,7 +626,8 @@ paths:
         '200':
           content:
             application/json:
-              schema: {}
+              schema:
+                $ref: '#/components/schemas/AnswerResponse-Output'
           description: Successful Response
         '422':
           content:

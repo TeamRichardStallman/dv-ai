@@ -7,6 +7,16 @@ from dotenv import load_dotenv
 from openai import OpenAI
 
 from app.models.openai.gpt import ContentGenerator
+from app.schemas.answer import (
+    AnswerRequest,
+    AnswerResponse,
+    TextScores,
+    VoiceScores,
+    ScoreDetails,
+    Scores,
+    Feedback,
+    AnswerDetail,
+)
 from app.schemas.evaluation import EvaluationRequest, PersonalAnswerEvaluation, TechnicalAnswerEvaluation
 from app.schemas.question import QuestionsRequest, QuestionsResponse
 from app.services.evaluation_service import generate_evaluation_prompt
@@ -57,10 +67,10 @@ async def process_questions(
 async def process_answer(
     interview_id: int,
     question_or_answer_id: int,
-    request_data,
+    request_data: AnswerRequest,
     s3_service: S3Service,
     stt_service: STTService,
-):
+) -> AnswerResponse:
     if request_data.interview_method == "CHAT":
         return {
             "user_id": request_data.user_id,
@@ -76,11 +86,45 @@ async def process_answer(
     audio_file = await s3_service.get_s3_object(s3_audio_url)
     transcribed_text = await stt_service.transcribe_audio(audio_file)
 
+    default_text_scores = TextScores(
+        appropriate_response=ScoreDetails(score=0, rationale=""),
+        logical_flow=ScoreDetails(score=0, rationale=""),
+        key_terms=ScoreDetails(score=0, rationale=""),
+        consistency=ScoreDetails(score=0, rationale=""),
+        grammatical_errors=ScoreDetails(score=0, rationale=""),
+    )
+
+    default_voice_scores = VoiceScores(
+        wpm=ScoreDetails(score=0, rationale=""),
+        stutter=ScoreDetails(score=0, rationale=""),
+        pronunciation=ScoreDetails(score=0, rationale=""),
+    )
+
+    default_scores = Scores(
+        text_scores=default_text_scores,
+        voice_scores=default_voice_scores,
+    )
+
+    default_feedback = Feedback(
+        strengths="",
+        improvement="",
+        suggestion="",
+    )
+
+    answer = AnswerDetail(
+        answer_text=clean_text(transcribed_text),
+        s3_audio_url="",
+        s3_video_url=None,
+        scores=default_scores,
+        feedback=default_feedback,
+    )
+
     return {
         "user_id": request_data.user_id,
         "interview_id": interview_id,
-        "question_or_answer_id": question_or_answer_id,
-        "answer_text": clean_text(transcribed_text),
+        "question_id": question_or_answer_id,
+        "interview_method": request_data.interview_method,
+        "answer": answer,
     }
 
 
