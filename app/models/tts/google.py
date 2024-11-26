@@ -23,7 +23,6 @@ class GoogleTTSModel(BaseTTSModel):
             audio_stream.write(response.audio_content)
             audio_stream.seek(0)
 
-            # Return the byte data
             return audio_stream.read()
         except Exception as e:
             raise RuntimeError(f"Error synthesizing audio with Google TTS: {e}")

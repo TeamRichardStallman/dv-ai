@@ -50,7 +50,7 @@ class S3Service:
 
     async def upload_s3_object(self, object_key: str, file_bytes: bytes, content_type: str = "audio/mpeg") -> str:
         try:
-            file_stream = BytesIO(file_bytes)  # BytesIO로 변환
+            file_stream = BytesIO(file_bytes)
             self.s3_client.upload_fileobj(
                 file_stream,
                 Config.S3_BUCKET_NAME,
