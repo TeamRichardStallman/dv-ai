@@ -9,7 +9,7 @@ from app.main import app
 async def test_create_interview_questions(interview_method):
     async with AsyncClient(transport=ASGITransport(app=app), base_url="http://test") as ac:
         response = await ac.post(
-            "/interview/abc/questions",
+            "/interview/1/questions",
             json={
                 "user_id": 1,
                 "interview_mode": "real",
@@ -28,7 +28,7 @@ async def test_create_interview_questions(interview_method):
 async def test_create_interview_evaluation():
     async with AsyncClient(transport=ASGITransport(app=app), base_url="http://test") as ac:
         response = await ac.post(
-            "/interview/abc/evaluation",
+            "/interview/1/evaluation",
             json={
                 "user_id": 123456,
                 "interview_mode": "real",

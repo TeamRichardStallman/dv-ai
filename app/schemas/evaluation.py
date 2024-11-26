@@ -1,4 +1,4 @@
-from typing import List, Optional, Union
+from typing import List, Optional
 
 from pydantic import BaseModel
 
@@ -30,18 +30,18 @@ class SimplifiedAnswerResponse(BaseModel):
 class EvaluationRequest(BaseRequest):
     questions: QuestionsResponse
     answers: List[SimplifiedAnswerResponse]
-    file_paths: Optional[List[str]] = ["cover-letters/SK_AI.txt"]
+    file_paths: Optional[List[str]] = ["cover-letters/SK_AI_01.txt"]
 
 
 # 새로 추가된 overall evaluation 스키마
-class TextTechnicalOverallEvaluation(BaseModel):
+class TechnicalTextOverallEvaluation(BaseModel):
     job_fit: ScoreDetail
     growth_potential: ScoreDetail
     work_attitude: ScoreDetail
     technical_depth: ScoreDetail
 
 
-class TextPersonalOverallEvaluation(BaseModel):
+class PersonalTextOverallEvaluation(BaseModel):
     company_fit: ScoreDetail
     adaptability: ScoreDetail
     interpersonal_skills: ScoreDetail
@@ -54,12 +54,23 @@ class VoiceOverallEvaluation(BaseModel):
     word_repetition: ScoreDetail
 
 
-class OverallEvaluation(BaseModel):
-    text_overall: Union[TextTechnicalOverallEvaluation, TextPersonalOverallEvaluation]
+class TechnicalOverallEvaluation(BaseModel):
+    text_overall: TechnicalTextOverallEvaluation
     voice_overall: VoiceOverallEvaluation
 
 
-class EvaluationResponse(BaseModel):
+class PersonalOverallEvaluation(BaseModel):
+    text_overall: PersonalTextOverallEvaluation
+    voice_overall: VoiceOverallEvaluation
+
+
+class TechnicalEvaluationResponse(BaseModel):
     user_id: int
     interview_id: int
-    overall_evaluation: OverallEvaluation
+    overall_evaluation: TechnicalOverallEvaluation
+
+
+class PersonalEvaluationResponse(BaseModel):
+    user_id: int
+    interview_id: int
+    overall_evaluation: PersonalOverallEvaluation

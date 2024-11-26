@@ -17,7 +17,7 @@ from app.schemas.answer import (
     TextScores,
     VoiceScores,
 )
-from app.schemas.evaluation import EvaluationRequest, EvaluationResponse
+from app.schemas.evaluation import EvaluationRequest
 from app.schemas.question import QuestionsRequest, QuestionsResponse
 from app.services.evaluation_service import generate_evaluation_prompt
 from app.services.question_service import generate_questions_prompt
@@ -67,7 +67,7 @@ async def process_questions(
 def process_evaluation(
     interview_id: int,
     user_data: EvaluationRequest,
-) -> EvaluationResponse:
+):
     prompt = generate_evaluation_prompt(interview_id, user_data)
 
     merged_input = merge_questions_and_answers(user_data.questions, user_data.answers)

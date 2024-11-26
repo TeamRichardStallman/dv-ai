@@ -104,7 +104,7 @@ components:
             type: array
           - type: 'null'
           default:
-          - cover-letters/SK_AI.txt
+          - cover-letters/SK_AI_01.txt
           title: File Paths
         interview_method:
           default: voice
@@ -150,22 +150,6 @@ components:
       - answers
       title: EvaluationRequest
       type: object
-    EvaluationResponse:
-      properties:
-        interview_id:
-          title: Interview Id
-          type: integer
-        overall_evaluation:
-          $ref: '#/components/schemas/OverallEvaluation'
-        user_id:
-          title: User Id
-          type: integer
-      required:
-      - user_id
-      - interview_id
-      - overall_evaluation
-      title: EvaluationResponse
-      type: object
     Feedback:
       properties:
         improvement:
@@ -192,19 +176,49 @@ components:
           type: array
       title: HTTPValidationError
       type: object
-    OverallEvaluation:
+    PersonalEvaluationResponse:
+      properties:
+        interview_id:
+          title: Interview Id
+          type: integer
+        overall_evaluation:
+          $ref: '#/components/schemas/PersonalOverallEvaluation'
+        user_id:
+          title: User Id
+          type: integer
+      required:
+      - user_id
+      - interview_id
+      - overall_evaluation
+      title: PersonalEvaluationResponse
+      type: object
+    PersonalOverallEvaluation:
       properties:
         text_overall:
-          anyOf:
-          - $ref: '#/components/schemas/TextTechnicalOverallEvaluation'
-          - $ref: '#/components/schemas/TextPersonalOverallEvaluation'
-          title: Text Overall
+          $ref: '#/components/schemas/PersonalTextOverallEvaluation'
         voice_overall:
           $ref: '#/components/schemas/VoiceOverallEvaluation'
       required:
       - text_overall
       - voice_overall
-      title: OverallEvaluation
+      title: PersonalOverallEvaluation
+      type: object
+    PersonalTextOverallEvaluation:
+      properties:
+        adaptability:
+          $ref: '#/components/schemas/ScoreDetail'
+        company_fit:
+          $ref: '#/components/schemas/ScoreDetail'
+        growth_attitude:
+          $ref: '#/components/schemas/ScoreDetail'
+        interpersonal_skills:
+          $ref: '#/components/schemas/ScoreDetail'
+      required:
+      - company_fit
+      - adaptability
+      - interpersonal_skills
+      - growth_attitude
+      title: PersonalTextOverallEvaluation
       type: object
     Question:
       properties:
@@ -407,22 +421,49 @@ components:
       - answer
       title: SimplifiedAnswerResponse
       type: object
-    TextPersonalOverallEvaluation:
+    TechnicalEvaluationResponse:
       properties:
-        adaptability:
+        interview_id:
+          title: Interview Id
+          type: integer
+        overall_evaluation:
+          $ref: '#/components/schemas/TechnicalOverallEvaluation'
+        user_id:
+          title: User Id
+          type: integer
+      required:
+      - user_id
+      - interview_id
+      - overall_evaluation
+      title: TechnicalEvaluationResponse
+      type: object
+    TechnicalOverallEvaluation:
+      properties:
+        text_overall:
+          $ref: '#/components/schemas/TechnicalTextOverallEvaluation'
+        voice_overall:
+          $ref: '#/components/schemas/VoiceOverallEvaluation'
+      required:
+      - text_overall
+      - voice_overall
+      title: TechnicalOverallEvaluation
+      type: object
+    TechnicalTextOverallEvaluation:
+      properties:
+        growth_potential:
           $ref: '#/components/schemas/ScoreDetail'
-        company_fit:
+        job_fit:
           $ref: '#/components/schemas/ScoreDetail'
-        growth_attitude:
+        technical_depth:
           $ref: '#/components/schemas/ScoreDetail'
-        interpersonal_skills:
+        work_attitude:
           $ref: '#/components/schemas/ScoreDetail'
       required:
-      - company_fit
-      - adaptability
-      - interpersonal_skills
-      - growth_attitude
-      title: TextPersonalOverallEvaluation
+      - job_fit
+      - growth_potential
+      - work_attitude
+      - technical_depth
+      title: TechnicalTextOverallEvaluation
       type: object
     TextScores:
       properties:
@@ -443,23 +484,6 @@ components:
       - consistency
       - grammatical_errors
       title: TextScores
-      type: object
-    TextTechnicalOverallEvaluation:
-      properties:
-        growth_potential:
-          $ref: '#/components/schemas/ScoreDetail'
-        job_fit:
-          $ref: '#/components/schemas/ScoreDetail'
-        technical_depth:
-          $ref: '#/components/schemas/ScoreDetail'
-        work_attitude:
-          $ref: '#/components/schemas/ScoreDetail'
-      required:
-      - job_fit
-      - growth_potential
-      - work_attitude
-      - technical_depth
-      title: TextTechnicalOverallEvaluation
       type: object
     ValidationError:
       properties:
@@ -615,7 +639,11 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/EvaluationResponse'
+                anyOf:
+                - $ref: '#/components/schemas/TechnicalEvaluationResponse'
+                - $ref: '#/components/schemas/PersonalEvaluationResponse'
+                title: Response Create Interview Evaluation Interview  Interview Id  Evaluation
+                  Post
           description: Successful Response
         '422':
           content:
@@ -635,7 +663,11 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/EvaluationResponse'
+                anyOf:
+                - $ref: '#/components/schemas/TechnicalEvaluationResponse'
+                - $ref: '#/components/schemas/PersonalEvaluationResponse'
+                title: Response Create Interview Evaluation Test Interview  Interview
+                  Id  Evaluation Test Post
           description: Successful Response
       summary: Create Interview Evaluation Test
       tags:
