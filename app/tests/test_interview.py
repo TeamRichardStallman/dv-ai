@@ -31,7 +31,7 @@ async def test_create_answer_text_from_answer_audio(interview_method):
         response = await ac.post(
             "/interview/1/answer/1",
             json={
-                "interview_method": "chat",
+                "interview_method": interview_method,
                 "user_id": 0,
                 "answer": {
                     "answer_text": "answer test",

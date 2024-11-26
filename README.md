@@ -81,7 +81,7 @@ poetry run tox -e lint
 ### 테스트 실행
 
 ```bash
-poetry run pytest app/tests
+poetry run pytest app/tests -v
 ```
 
 ### 폴더 구조 생성
