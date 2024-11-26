@@ -778,6 +778,26 @@ proto-plus = [
 protobuf = ">=3.20.2,<4.21.0 || >4.21.0,<4.21.1 || >4.21.1,<4.21.2 || >4.21.2,<4.21.3 || >4.21.3,<4.21.4 || >4.21.4,<4.21.5 || >4.21.5,<6.0.0dev"
 
 [[package]]
+name = "google-cloud-texttospeech"
+version = "2.21.1"
+description = "Google Cloud Texttospeech API client library"
+optional = false
+python-versions = ">=3.7"
+files = [
+    {file = "google_cloud_texttospeech-2.21.1-py2.py3-none-any.whl", hash = "sha256:90b655abbd795959e82e0bbbdb0ad843d2ff3bc94e183c5e0b173b0bc9d774c5"},
+    {file = "google_cloud_texttospeech-2.21.1.tar.gz", hash = "sha256:9df0e2cb005f95e0e91d9f00bf61a122e4b4c72c8d886f0f27b6b7fd9115c7ec"},
+]
+
+[package.dependencies]
+google-api-core = {version = ">=1.34.1,<2.0.dev0 || >=2.11.dev0,<3.0.0dev", extras = ["grpc"]}
+google-auth = ">=2.14.1,<2.24.0 || >2.24.0,<2.25.0 || >2.25.0,<3.0.0dev"
+proto-plus = [
+    {version = ">=1.25.0,<2.0.0dev", markers = "python_version >= \"3.13\""},
+    {version = ">=1.22.3,<2.0.0dev", markers = "python_version < \"3.13\""},
+]
+protobuf = ">=3.20.2,<4.21.0 || >4.21.0,<4.21.1 || >4.21.1,<4.21.2 || >4.21.2,<4.21.3 || >4.21.3,<4.21.4 || >4.21.4,<4.21.5 || >4.21.5,<6.0.0dev"
+
+[[package]]
 name = "googleapis-common-protos"
 version = "1.66.0"
 description = "Common protobufs used in Google APIs"
@@ -3038,4 +3058,4 @@ propcache = ">=0.2.0"
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.10"
-content-hash = "ea13be487162a7cf57d8ca277d4145f60221cbef47c649aadf617c6ac98da7af"
+content-hash = "a9904f5977726279b44ad5c4cabf230bb0e8eacb886ae5183adf28d527baab96"

@@ -48,4 +48,4 @@ def get_cover_letters_data(file_data: List[Dict[str, str]]):
     if not cover_letters_items:
         return None
 
-    return cover_letters_items[0]["data"]["data"]
+    return cover_letters_items[0]["data"]

@@ -1,13 +1,14 @@
 import json
 import os
+from typing import Union
 
 import weave
 from dotenv import load_dotenv
 from openai import OpenAI
 
 from app.models.openai.gpt import ContentGenerator
-from app.schemas.evaluation import EvaluationRequest
-from app.schemas.question import QuestionsRequest
+from app.schemas.evaluation import EvaluationRequest, PersonalAnswerEvaluation, TechnicalAnswerEvaluation
+from app.schemas.question import QuestionsRequest, QuestionsResponse
 from app.services.evaluation_service import generate_evaluation_prompt
 from app.services.question_service import generate_questions_prompt
 from app.services.s3_service import S3Service
@@ -22,7 +23,7 @@ client_gpt = OpenAI(api_key=OPENAI_API_KEY)
 weave.init("ticani0610-no/prompt-test")
 
 
-async def generate_interview_questions(user_data: QuestionsRequest):
+async def generate_interview_questions(user_data: QuestionsRequest) -> QuestionsResponse:
     s3_service = S3Service()
     prompt = generate_questions_prompt(user_data)
 
@@ -36,7 +37,9 @@ async def generate_interview_questions(user_data: QuestionsRequest):
     return data
 
 
-def generate_interview_evaluation(user_data: EvaluationRequest):
+def generate_interview_evaluation(
+    user_data: EvaluationRequest,
+) -> Union[TechnicalAnswerEvaluation, PersonalAnswerEvaluation]:
     prompt = generate_evaluation_prompt(user_data)
 
     merged_input = merge_questions_and_answers(user_data.questions, user_data.answers)

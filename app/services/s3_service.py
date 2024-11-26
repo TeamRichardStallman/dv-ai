@@ -1,8 +1,9 @@
+from io import BytesIO
 from typing import Dict, List, Union
 
 import boto3
 from botocore.exceptions import NoCredentialsError, PartialCredentialsError
-from fastapi import HTTPException, UploadFile
+from fastapi import HTTPException
 
 from app.core.config import Config
 
@@ -19,23 +20,12 @@ class S3Service:
     async def get_s3_object(self, object_key: str) -> Union[bytes, str]:
         try:
             response = self.s3_client.get_object(Bucket=Config.S3_BUCKET_NAME, Key=object_key)
-            content_type = response.get("ContentType", "")
 
-            if content_type not in [
-                "audio/flac",
-                "audio/m4a",
-                "audio/mp3",
-                "audio/wav",
-                "audio/ogg",
-                "audio/webm",
-                "audio/mpeg",
-            ]:
-                raise HTTPException(status_code=400, detail=f"Unsupported audio format: {content_type}")
-
-            if "text" in content_type or "json" in content_type:
-                return response["Body"].read().decode("utf-8")
-            else:
-                return response["Body"].read()
+            body = response["Body"].read()
+            try:
+                return body.decode("utf-8")
+            except UnicodeDecodeError:
+                return body
 
         except self.s3_client.exceptions.NoSuchKey:
             raise HTTPException(status_code=404, detail="Object not found")
@@ -58,13 +48,14 @@ class S3Service:
 
         return s3_files
 
-    async def upload_s3_object(self, object_key: str, file: UploadFile) -> str:
+    async def upload_s3_object(self, object_key: str, file_bytes: bytes, content_type: str = "audio/mpeg") -> str:
         try:
+            file_stream = BytesIO(file_bytes)  # BytesIO로 변환
             self.s3_client.upload_fileobj(
-                file.file,
+                file_stream,
                 Config.S3_BUCKET_NAME,
                 object_key,
-                ExtraArgs={"ContentType": file.content_type},
+                ExtraArgs={"ContentType": content_type},
             )
             return object_key
 

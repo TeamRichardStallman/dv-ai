@@ -108,8 +108,14 @@ components:
           title: Job Role
           type: string
         questions:
-          $ref: '#/components/schemas/QuestionsResponse'
+          $ref: '#/components/schemas/QuestionsResponse-Input'
+        user_id:
+          anyOf:
+          - type: integer
+          - type: string
+          title: User Id
       required:
+      - user_id
       - questions
       - answers
       title: EvaluationRequest
@@ -226,6 +232,8 @@ components:
             type: string
           title: Key Terms
           type: array
+        question:
+          $ref: '#/components/schemas/QuestionDeatil'
         question_excerpt:
           anyOf:
           - type: string
@@ -237,15 +245,31 @@ components:
         question_intent:
           title: Question Intent
           type: string
-        question_text:
-          title: Question Text
-          type: string
       required:
       - question_id
-      - question_text
+      - question
       - question_intent
       - key_terms
       title: Question
+      type: object
+    QuestionDeatil:
+      properties:
+        question_text:
+          title: Question Text
+          type: string
+        s3_audio_url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: S3 Audio Url
+        s3_video_url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: S3 Video Url
+      required:
+      - question_text
+      title: QuestionDeatil
       type: object
     QuestionsRequest:
       properties:
@@ -281,7 +305,7 @@ components:
           title: Interview Type
           type: string
         job_role:
-          default: infra
+          default: ai
           enum:
           - frontend
           - backend
@@ -289,9 +313,31 @@ components:
           - ai
           title: Job Role
           type: string
+        question_count:
+          default: 3
+          title: Question Count
+          type: integer
+        user_id:
+          anyOf:
+          - type: integer
+          - type: string
+          title: User Id
+      required:
+      - user_id
       title: QuestionsRequest
       type: object
-    QuestionsResponse:
+    QuestionsResponse-Input:
+      properties:
+        questions:
+          items:
+            $ref: '#/components/schemas/Question'
+          title: Questions
+          type: array
+      required:
+      - questions
+      title: QuestionsResponse
+      type: object
+    QuestionsResponse-Output:
       properties:
         questions:
           items:
@@ -438,93 +484,6 @@ paths:
       summary: Ping
       tags:
       - Common
-  /interview/evaluation:
-    post:
-      operationId: create_interview_evaluation_interview_evaluation_post
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/EvaluationRequest'
-        required: true
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                anyOf:
-                - $ref: '#/components/schemas/TechnicalEvaluationResponse'
-                - $ref: '#/components/schemas/PersonalEvaluationResponse'
-                title: Response Create Interview Evaluation Interview Evaluation Post
-          description: Successful Response
-        '422':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/HTTPValidationError'
-          description: Validation Error
-      summary: Create Interview Evaluation
-      tags:
-      - Interview
-      - Interview
-  /interview/evaluation-test:
-    post:
-      operationId: create_interview_evaluation_test_interview_evaluation_test_post
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                anyOf:
-                - $ref: '#/components/schemas/TechnicalEvaluationResponse'
-                - $ref: '#/components/schemas/PersonalEvaluationResponse'
-                title: Response Create Interview Evaluation Test Interview Evaluation
-                  Test Post
-          description: Successful Response
-      summary: Create Interview Evaluation Test
-      tags:
-      - Interview
-      - Interview
-  /interview/questions:
-    post:
-      operationId: create_interview_questions_interview_questions_post
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/QuestionsRequest'
-        required: true
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/QuestionsResponse'
-          description: Successful Response
-        '422':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/HTTPValidationError'
-          description: Validation Error
-      summary: Create Interview Questions
-      tags:
-      - Interview
-      - Interview
-  /interview/questions-test:
-    post:
-      operationId: create_interview_questions_test_interview_questions_test_post
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/QuestionsResponse'
-          description: Successful Response
-      summary: Create Interview Questions Test
-      tags:
-      - Interview
-      - Interview
   /interview/{interview_id}/answer/{question_or_answer_id}:
     post:
       operationId: create_asnwer_text_from_answer_audio_interview__interview_id__answer__question_or_answer_id__post
@@ -567,6 +526,119 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
           description: Validation Error
       summary: Create Asnwer Text From Answer Audio
+      tags:
+      - Interview
+      - Interview
+  /interview/{interview_id}/evaluation:
+    post:
+      operationId: create_interview_evaluation_interview__interview_id__evaluation_post
+      parameters:
+      - in: path
+        name: interview_id
+        required: true
+        schema:
+          anyOf:
+          - type: integer
+          - type: string
+          title: Interview Id
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EvaluationRequest'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                anyOf:
+                - $ref: '#/components/schemas/TechnicalEvaluationResponse'
+                - $ref: '#/components/schemas/PersonalEvaluationResponse'
+                title: Response Create Interview Evaluation Interview  Interview Id  Evaluation
+                  Post
+          description: Successful Response
+        '422':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+          description: Validation Error
+      summary: Create Interview Evaluation
+      tags:
+      - Interview
+      - Interview
+  /interview/{interview_id}/evaluation-test:
+    post:
+      operationId: create_interview_evaluation_test_interview__interview_id__evaluation_test_post
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                anyOf:
+                - $ref: '#/components/schemas/TechnicalEvaluationResponse'
+                - $ref: '#/components/schemas/PersonalEvaluationResponse'
+                title: Response Create Interview Evaluation Test Interview  Interview
+                  Id  Evaluation Test Post
+          description: Successful Response
+      summary: Create Interview Evaluation Test
+      tags:
+      - Interview
+      - Interview
+  /interview/{interview_id}/questions:
+    post:
+      operationId: create_interview_questions_interview__interview_id__questions_post
+      parameters:
+      - in: path
+        name: interview_id
+        required: true
+        schema:
+          anyOf:
+          - type: integer
+          - type: string
+          title: Interview Id
+      - in: query
+        name: model_name
+        required: false
+        schema:
+          default: openai
+          title: Model Name
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/QuestionsRequest'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/QuestionsResponse-Output'
+          description: Successful Response
+        '422':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+          description: Validation Error
+      summary: Create Interview Questions
+      tags:
+      - Interview
+      - Interview
+  /interview/{interview_id}/questions-test:
+    post:
+      operationId: create_interview_questions_test_interview__interview_id__questions_test_post
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/QuestionsResponse-Output'
+          description: Successful Response
+      summary: Create Interview Questions Test
       tags:
       - Interview
       - Interview

@@ -1,12 +1,20 @@
-from typing import List, Literal, Optional
+from typing import List, Optional
 
 from pydantic import BaseModel
+
+from app.schemas.base import BaseRequest
+
+
+class QuestionDeatil(BaseModel):
+    question_text: str
+    s3_audio_url: Optional[str] = None
+    s3_video_url: Optional[str] = None
 
 
 class Question(BaseModel):
     question_id: int
+    question: QuestionDeatil
     question_excerpt: Optional[str] = None
-    question_text: str
     question_intent: str
     key_terms: List[str]
 
@@ -15,9 +23,6 @@ class QuestionsResponse(BaseModel):
     questions: List[Question]
 
 
-class QuestionsRequest(BaseModel):
-    interview_mode: Literal["real", "general"] = "real"
-    interview_type: Literal["technical", "personal"] = "technical"
-    interview_method: Literal["chat", "voice", "video"] = "chat"
-    job_role: Literal["frontend", "backend", "infra", "ai"] = "infra"
+class QuestionsRequest(BaseRequest):
+    question_count: int = 3
     file_paths: Optional[List[str]] = ["cover-letters/cover_letter_01.txt"]
