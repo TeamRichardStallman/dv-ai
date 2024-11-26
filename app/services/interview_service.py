@@ -115,21 +115,23 @@ async def process_answer(
             "answer": answer,
         }
 
-    s3_audio_url = request_data.answer.s3_audio_url
-    if not s3_audio_url:
-        raise ValueError("s3_audio_url is required")
+    if request_data.interview_method != "chat":
+        s3_audio_url = request_data.answer.s3_audio_url
+        if not s3_audio_url:
+            raise ValueError("s3_audio_url is required")
 
-    audio_file = await s3_service.get_s3_object(s3_audio_url)
-    transcribed_text = await stt_service.transcribe_audio(audio_file)
+        audio_file = await s3_service.get_s3_object(s3_audio_url)
+        transcribed_text = await stt_service.transcribe_audio(audio_file)
 
-    answer.answer_text = clean_text(transcribed_text)
-    return {
-        "user_id": request_data.user_id,
-        "interview_id": interview_id,
-        "question_id": question_or_answer_id,
-        "interview_method": request_data.interview_method,
-        "answer": answer,
-    }
+        answer.answer_text = clean_text(transcribed_text)
+        answer.s3_audio_url = request_data.answer.s3_audio_url
+        return {
+            "user_id": request_data.user_id,
+            "interview_id": interview_id,
+            "question_id": question_or_answer_id,
+            "interview_method": request_data.interview_method,
+            "answer": answer,
+        }
 
 
 async def generate_interview_questions(user_data: QuestionsRequest) -> QuestionsResponse:
