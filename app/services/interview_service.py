@@ -8,14 +8,14 @@ from openai import OpenAI
 
 from app.models.openai.gpt import ContentGenerator
 from app.schemas.answer import (
+    AnswerDetail,
     AnswerRequest,
     AnswerResponse,
-    TextScores,
-    VoiceScores,
+    Feedback,
     ScoreDetails,
     Scores,
-    Feedback,
-    AnswerDetail,
+    TextScores,
+    VoiceScores,
 )
 from app.schemas.evaluation import EvaluationRequest, PersonalAnswerEvaluation, TechnicalAnswerEvaluation
 from app.schemas.question import QuestionsRequest, QuestionsResponse

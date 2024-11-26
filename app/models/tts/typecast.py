@@ -37,24 +37,16 @@ class TypecastTTSModel(BaseTTSModel):
                 "Authorization": f"Bearer {self.auth_token}",
             }
 
-            print("API URL:", self.api_url)
-            print("Headers:", headers)
-            print("Payload:", payload)
-
             response = requests.post(self.api_url, headers=headers, data=payload)
             response.raise_for_status()
-            print("Response JSON:", response.json())
 
             speak_v2_url = response.json().get("result", {}).get("speak_v2_url")
             if not speak_v2_url:
                 raise RuntimeError("Typecast API response is missing the 'speak_v2_url' field.")
-            print("Speak V2 URL:", speak_v2_url)
 
             audio_download_url = self._get_audio_download_url(speak_v2_url, headers)
-            print("Audio Download URL:", audio_download_url)
 
             audio_content = self._download_audio(audio_download_url)
-            print("Audio Content Length:", len(audio_content))
 
             return audio_content
 
