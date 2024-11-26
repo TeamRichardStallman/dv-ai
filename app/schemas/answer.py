@@ -35,7 +35,7 @@ class Feedback(BaseModel):
 
 class AnswerDetail(BaseModel):
     answer_text: str
-    s3_audio_url: str
+    s3_audio_url: Optional[str]
     s3_video_url: Optional[str]
     scores: Scores
     feedback: Feedback

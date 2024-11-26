@@ -71,21 +71,6 @@ async def process_answer(
     s3_service: S3Service,
     stt_service: STTService,
 ) -> AnswerResponse:
-    if request_data.interview_method == "CHAT":
-        return {
-            "user_id": request_data.user_id,
-            "interview_id": interview_id,
-            "question_or_answer_id": question_or_answer_id,
-            "answer_text": request_data.answer.answer_text,
-        }
-
-    s3_audio_url = request_data.answer.s3_audio_url
-    if not s3_audio_url:
-        raise ValueError("s3_audio_url is required")
-
-    audio_file = await s3_service.get_s3_object(s3_audio_url)
-    transcribed_text = await stt_service.transcribe_audio(audio_file)
-
     default_text_scores = TextScores(
         appropriate_response=ScoreDetails(score=0, rationale=""),
         logical_flow=ScoreDetails(score=0, rationale=""),
@@ -112,13 +97,32 @@ async def process_answer(
     )
 
     answer = AnswerDetail(
-        answer_text=clean_text(transcribed_text),
-        s3_audio_url="",
+        answer_text="",
+        s3_audio_url=None,
         s3_video_url=None,
         scores=default_scores,
         feedback=default_feedback,
     )
 
+    if request_data.interview_method == "chat":
+        answer.answer_text = request_data.answer.answer_text
+
+        return {
+            "user_id": request_data.user_id,
+            "interview_id": interview_id,
+            "question_id": question_or_answer_id,
+            "interview_method": request_data.interview_method,
+            "answer": answer,
+        }
+
+    s3_audio_url = request_data.answer.s3_audio_url
+    if not s3_audio_url:
+        raise ValueError("s3_audio_url is required")
+
+    audio_file = await s3_service.get_s3_object(s3_audio_url)
+    transcribed_text = await stt_service.transcribe_audio(audio_file)
+
+    answer.answer_text = clean_text(transcribed_text)
     return {
         "user_id": request_data.user_id,
         "interview_id": interview_id,

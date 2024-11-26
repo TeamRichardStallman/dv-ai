@@ -21,8 +21,10 @@ components:
         feedback:
           $ref: '#/components/schemas/Feedback'
         s3_audio_url:
+          anyOf:
+          - type: string
+          - type: 'null'
           title: S3 Audio Url
-          type: string
         s3_video_url:
           anyOf:
           - type: string
