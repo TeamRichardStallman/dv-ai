@@ -3,10 +3,10 @@ name: Lint and Format Check
 on:
   push:
     branches:
-      - "*" # 모든 브랜치에 대해 푸시될 때 트리거
+      - "*"
   pull_request:
     branches:
-      - "*" # 모든 브랜치에 대해 PR 생성될 때 트리거
+      - "*"
 
 jobs:
   lint:

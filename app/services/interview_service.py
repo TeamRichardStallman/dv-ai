@@ -1,16 +1,30 @@
 import json
 import os
+from typing import Union
 
 import weave
 from dotenv import load_dotenv
 from openai import OpenAI
 
 from app.models.openai.gpt import ContentGenerator
-from app.schemas.evaluation import EvaluationRequest
-from app.schemas.question import QuestionsRequest
+from app.schemas.answer import (
+    AnswerDetail,
+    AnswerRequest,
+    AnswerResponse,
+    Feedback,
+    ScoreDetails,
+    Scores,
+    TextScores,
+    VoiceScores,
+)
+from app.schemas.evaluation import EvaluationRequest, PersonalAnswerEvaluation, TechnicalAnswerEvaluation
+from app.schemas.question import QuestionsRequest, QuestionsResponse
 from app.services.evaluation_service import generate_evaluation_prompt
 from app.services.question_service import generate_questions_prompt
 from app.services.s3_service import S3Service
+from app.services.stt_service import STTService
+from app.services.tts_service import TTSService
+from app.utils.format import clean_text
 from app.utils.generate import create_file_objects, get_cover_letters_data
 from app.utils.merge import merge_questions_and_answers
 
@@ -22,7 +36,99 @@ client_gpt = OpenAI(api_key=OPENAI_API_KEY)
 weave.init("ticani0610-no/prompt-test")
 
 
-async def generate_interview_questions(user_data: QuestionsRequest):
+async def process_questions(
+    interview_id: Union[int, str],
+    request_data: QuestionsRequest,
+    s3_service: S3Service,
+    tts_service: TTSService,
+) -> QuestionsResponse:
+    questions = await generate_interview_questions(request_data)
+
+    if request_data.interview_method != "chat":
+        for question in questions.questions:
+            question_text = question.question.question_text
+
+            audio_bytes = await tts_service.generate_speech(question_text)
+
+            object_key = (
+                f"test/users/{request_data.user_id}/interviews/{interview_id}/"
+                f"questions/question-{question.question_id}.mp3"
+            )
+            await s3_service.upload_s3_object(object_key, audio_bytes)
+
+            question.question.s3_audio_url = object_key
+    else:
+        for question in questions.questions:
+            question.question.s3_audio_url = None
+
+    return questions
+
+
+async def process_answer(
+    interview_id: int,
+    question_or_answer_id: int,
+    request_data: AnswerRequest,
+    s3_service: S3Service,
+    stt_service: STTService,
+) -> AnswerResponse:
+    if request_data.interview_method == "CHAT":
+        return {
+            "user_id": request_data.user_id,
+            "interview_id": interview_id,
+            "question_or_answer_id": question_or_answer_id,
+            "answer_text": request_data.answer.answer_text,
+        }
+
+    s3_audio_url = request_data.answer.s3_audio_url
+    if not s3_audio_url:
+        raise ValueError("s3_audio_url is required")
+
+    audio_file = await s3_service.get_s3_object(s3_audio_url)
+    transcribed_text = await stt_service.transcribe_audio(audio_file)
+
+    default_text_scores = TextScores(
+        appropriate_response=ScoreDetails(score=0, rationale=""),
+        logical_flow=ScoreDetails(score=0, rationale=""),
+        key_terms=ScoreDetails(score=0, rationale=""),
+        consistency=ScoreDetails(score=0, rationale=""),
+        grammatical_errors=ScoreDetails(score=0, rationale=""),
+    )
+
+    default_voice_scores = VoiceScores(
+        wpm=ScoreDetails(score=0, rationale=""),
+        stutter=ScoreDetails(score=0, rationale=""),
+        pronunciation=ScoreDetails(score=0, rationale=""),
+    )
+
+    default_scores = Scores(
+        text_scores=default_text_scores,
+        voice_scores=default_voice_scores,
+    )
+
+    default_feedback = Feedback(
+        strengths="",
+        improvement="",
+        suggestion="",
+    )
+
+    answer = AnswerDetail(
+        answer_text=clean_text(transcribed_text),
+        s3_audio_url="",
+        s3_video_url=None,
+        scores=default_scores,
+        feedback=default_feedback,
+    )
+
+    return {
+        "user_id": request_data.user_id,
+        "interview_id": interview_id,
+        "question_id": question_or_answer_id,
+        "interview_method": request_data.interview_method,
+        "answer": answer,
+    }
+
+
+async def generate_interview_questions(user_data: QuestionsRequest) -> QuestionsResponse:
     s3_service = S3Service()
     prompt = generate_questions_prompt(user_data)
 
@@ -36,7 +142,9 @@ async def generate_interview_questions(user_data: QuestionsRequest):
     return data
 
 
-def generate_interview_evaluation(user_data: EvaluationRequest):
+def generate_interview_evaluation(
+    user_data: EvaluationRequest,
+) -> Union[TechnicalAnswerEvaluation, PersonalAnswerEvaluation]:
     prompt = generate_evaluation_prompt(user_data)
 
     merged_input = merge_questions_and_answers(user_data.questions, user_data.answers)

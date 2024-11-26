@@ -1,6 +1,44 @@
-from typing import Literal, Union
+from typing import Literal, Optional, Union
 
 from pydantic import BaseModel
+
+
+class ScoreDetails(BaseModel):
+    score: int
+    rationale: str
+
+
+class TextScores(BaseModel):
+    appropriate_response: ScoreDetails
+    logical_flow: ScoreDetails
+    key_terms: ScoreDetails
+    consistency: ScoreDetails
+    grammatical_errors: ScoreDetails
+
+
+class VoiceScores(BaseModel):
+    wpm: ScoreDetails
+    stutter: ScoreDetails
+    pronunciation: ScoreDetails
+
+
+class Scores(BaseModel):
+    text_scores: TextScores
+    voice_scores: Optional[VoiceScores]
+
+
+class Feedback(BaseModel):
+    strengths: str
+    improvement: str
+    suggestion: str
+
+
+class AnswerDetail(BaseModel):
+    answer_text: str
+    s3_audio_url: str
+    s3_video_url: Optional[str]
+    scores: Scores
+    feedback: Feedback
 
 
 class AnswerModel(BaseModel):
@@ -10,6 +48,14 @@ class AnswerModel(BaseModel):
 
 
 class AnswerRequest(BaseModel):
-    interview_method: Literal["CHAT", "VOICE", "VIDEO"] = "VOICE"
+    interview_method: Literal["chat", "voice", "video"] = "voice"
     user_id: Union[int, str]
     answer: AnswerModel
+
+
+class AnswerResponse(BaseModel):
+    user_id: int
+    interview_id: int
+    question_id: int
+    interview_method: str
+    answer: AnswerDetail

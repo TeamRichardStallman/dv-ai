@@ -1,6 +1,6 @@
 # 실전-기술
 REAL_TECH: str = """YYou are an seasoned in **{job_role}** professional conducting a **technical** interview.
-Your task is to create **2 in-depth interview questions** based on the provided cover letter, assessing advanced and up-to-date skills in **{job_role}**.
+Your task is to create **{question_count} in-depth interview questions** based on the provided cover letter, assessing advanced and up-to-date skills in **{job_role}**.
 
 **Objectives**:
 
@@ -8,7 +8,7 @@ Your task is to create **2 in-depth interview questions** based on the provided 
 - **Assess**: Generate questions that delve deep into the candidate's expertise, focusing on their practical experiences and understanding of current industry practices up to October 2023.
 - **Explore**: Craft questions that encourage the candidate to elaborate on their thought processes, problem-solving abilities, and how they've applied their skills in real-world scenarios.
 
-If the cover letter does not provide enough content to generate 2 questions, fill in the missing questions with general computer science knowledge relevant to **{job_role}**.
+If the cover letter does not provide enough content to generate {question_count} questions, fill in the missing questions with general computer science knowledge relevant to **{job_role}**.
 
 **Guidelines**:
 
@@ -38,8 +38,12 @@ If the cover letter does not provide enough content to generate 2 questions, fil
   "questions": [
     {{
       "question_id": ...,
+      "question": {{
+        "question_text": ...,
+        "s3_audio_url": null,
+        "s3_video_url": null,
+      }},
       "question_excerpt": ...,
-      "question_text": ...,
       "question_intent": ...,
       "key_terms": ["competency1", "competency2", "competency3"]
     }},
@@ -52,8 +56,12 @@ If the cover letter does not provide enough content to generate 2 questions, fil
   "questions": [
     {{
       "question_id": 1,
+      "question": {{
+        "question_text": "React로 대규모 웹 애플리케이션을 리팩토링하신 경험에 대해 자세히 말씀해 주시겠어요?",
+        "s3_audio_url": null,
+        "s3_video_url": null,
+      }},
       "question_excerpt": "저는 최근에 React로 개발된 대규모 웹 애플리케이션을 성공적으로 리팩토링했습니다.",
-      "question_text": "React로 대규모 웹 애플리케이션을 리팩토링하신 경험에 대해 자세히 말씀해 주시겠어요?",
       "question_intent": "React와 리팩토링에 대한 실무 경험과 문제 해결 능력을 평가하기 위함입니다.",
       "key_terms": ["React", "리팩토링", "웹 애플리케이션", "문제 해결", "성능 최적화"]
     }},
@@ -87,8 +95,12 @@ Instructions:
       "questions": [
         {{
           "question_id": ...,
+          "question": {{
+            "question_text": ...,
+            "s3_audio_url": null,
+            "s3_video_url": null,
+          }},
           "question_excerpt": ...,
-          "question_text": ...,
           "question_intent": ...,
           "key_terms": ["competency1", "competency2", "competency3"]
         }},
@@ -112,8 +124,12 @@ Example:
   "questions": [
     {{
       "question_id": 1,
+      "question": {{
+        "question_text": 팀 프로젝트에서 다른 개발자들과 협업하여 웹 애플리케이션을 출시하셨다고 말씀하셨는데, 그 경험에 대해 자세히 말씀해 주시겠어요?,
+        "s3_audio_url": null,
+        "s3_video_url": null,
+      }},
       "question_excerpt": "저는 팀 프로젝트에서 다른 개발자들과 협업하여 성공적인 웹 애플리케이션을 출시한 경험이 있습니다.",
-      "question_text": "팀 프로젝트에서 다른 개발자들과 협업하여 웹 애플리케이션을 출시하셨다고 말씀하셨는데, 그 경험에 대해 자세히 말씀해 주시겠어요?",
       "question_intent": "협업 능력과 팀워크에 대한 경험을 평가하기 위함입니다.",
       "key_terms": ["팀워크", "협업", "커뮤니케이션", "프로젝트 관리"]
     }},
@@ -126,7 +142,7 @@ Please proceed to generate the questions following these guidelines.
 
 # 모의-기술
 GENERAL_TECH: str = """You are a seasoned **{job_role}** professional conducting a **technical** interview for a **{job_role}** position.
-Your task is to create **2 in-depth interview questions** that assess advanced, up-to-date skills and knowledge in **{job_role}**.
+Your task is to create **{question_count} in-depth interview questions** that assess advanced, up-to-date skills and knowledge in **{job_role}**.
 
 **Objectives**:
 
@@ -160,7 +176,11 @@ Your task is to create **2 in-depth interview questions** that assess advanced, 
   "questions": [
     {{
       "question_id": ...,
-      "question_text": "...",
+      "question": {{
+        "question_text": ...,
+        "s3_audio_url": null,
+        "s3_video_url": null,
+      }},
       "question_intent": "...",
       "key_terms": ["...", "...", "..."]
     }},
@@ -173,7 +193,11 @@ Your task is to create **2 in-depth interview questions** that assess advanced, 
   "questions": [
     {{
       "question_id": 1,
-      "question_text": "최근에 사용된 {job_role} 분야의 프레임워크 중 하나를 선택하여 그 특징과 장점을 설명해 주시겠어요?",
+      "question": {{
+        "question_text": 최근에 사용된 {job_role} 분야의 프레임워크 중 하나를 선택하여 그 특징과 장점을 설명해 주시겠어요?,
+        "s3_audio_url": null,
+        "s3_video_url": null,
+      }},
       "question_intent": "{job_role} 분야에서 최신 기술과 프레임워크에 대한 지식을 평가하기 위함.",
       "key_terms": ["최신 프레임워크 이름", "특징", "장점", "실제 적용 경험"]
     }},

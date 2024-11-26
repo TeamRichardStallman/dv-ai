@@ -23,3 +23,5 @@ class Config:
     TOP_P = 0.8  # 적당히 다양한 단어를 포함, 가능성 높은 후보군을 중심으로 선택
 
     BACK_API_URL = os.getenv("BACK_API_URL", "http://localhost:8080")
+
+    TYPECAST_API_TOKEN = os.getenv("TYPECAST_API_TOKEN")

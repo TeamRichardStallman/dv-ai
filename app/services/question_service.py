@@ -11,6 +11,7 @@ def generate_questions_prompt(user_data: QuestionsRequest):
         job_role = user_data.job_role
         interview_type = user_data.interview_type
         interview_mode = user_data.interview_mode
+        question_count = user_data.question_count
     except KeyError as e:
         raise KeyError(f"Missing required key in user_data: {e}")
 
@@ -27,7 +28,7 @@ def generate_questions_prompt(user_data: QuestionsRequest):
     weave.publish(obj=generation_prompt, name=f"prompt: {interview_mode}-{interview_type}")
 
     try:
-        prompt = generation_prompt.format(job_role=job_role)
+        prompt = generation_prompt.format(job_role=job_role, question_count=question_count)
     except KeyError as e:
         raise KeyError(f"Missing key during prompt formatting: {e}")
 

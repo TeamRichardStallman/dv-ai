@@ -1,8 +1,9 @@
-from typing import List, Literal, Optional
+from typing import List, Optional
 
 from pydantic import BaseModel
 from typing_extensions import TypedDict
 
+from app.schemas.base import BaseRequest
 from app.schemas.question import QuestionsResponse
 
 
@@ -83,11 +84,7 @@ class AnswerResponse(BaseModel):
     answers: List[Answer]
 
 
-class EvaluationRequest(BaseModel):
-    interview_mode: Literal["real", "general"] = "real"
-    interview_type: Literal["technical", "personal"] = "technical"
-    interview_method: Literal["chat", "voice", "video"] = "chat"
-    job_role: Literal["frontend", "backend", "infra", "ai"] = "ai"
+class EvaluationRequest(BaseRequest):
     questions: QuestionsResponse
     answers: AnswerResponse
     file_paths: Optional[List[str]] = ["cover-letters/SK_AI.txt"]
