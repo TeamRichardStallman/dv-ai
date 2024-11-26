@@ -1,15 +1,10 @@
-from typing import List, Optional
+from typing import List, Optional, Union
 
 from pydantic import BaseModel
-from typing_extensions import TypedDict
 
+from app.schemas.answer import ScoreDetail, Scores
 from app.schemas.base import BaseRequest
 from app.schemas.question import QuestionsResponse
-
-
-class ScoreDetail(BaseModel):
-    score: int
-    rationale: str
 
 
 class Feedback(BaseModel):
@@ -18,73 +13,53 @@ class Feedback(BaseModel):
     suggestion: str
 
 
-class PersonalScores(TypedDict):
-    teamwork: ScoreDetail
-    communication: ScoreDetail
-    problem_solving: ScoreDetail
-    accountability: ScoreDetail
-    growth_mindset: ScoreDetail
-
-
-class TechnicalScores(TypedDict):
-    appropriate_response: ScoreDetail
-    logical_flow: ScoreDetail
-    key_terms: ScoreDetail
-    consistency: ScoreDetail
-    grammatical_errors: ScoreDetail
-
-
-class PersonalAnswerEvaluation(BaseModel):
-    question_id: int
-    scores: PersonalScores
-    feedback: Feedback
-
-
-class TechnicalAnswerEvaluation(BaseModel):
-    question_id: int
-    scores: TechnicalScores
-    feedback: Feedback
-
-
-class OverallScore(BaseModel):
-    score: int
-    feedback: str
-
-
-class PersonalOverallEvaluation(BaseModel):
-    company_fit: OverallScore
-    adaptability: OverallScore
-    interpersonal_skills: OverallScore
-    growth_attitude: OverallScore
-
-
-class TechnicalOverallEvaluation(BaseModel):
-    job_fit: OverallScore
-    growth_potential: OverallScore
-    work_attitude: OverallScore
-    technical_depth: OverallScore
-
-
-class PersonalEvaluationResponse(BaseModel):
-    answer_evaluations: List[PersonalAnswerEvaluation]
-    overall_evaluation: PersonalOverallEvaluation
-
-
-class TechnicalEvaluationResponse(BaseModel):
-    answer_evaluations: List[TechnicalAnswerEvaluation]
-    overall_evaluation: TechnicalOverallEvaluation
-
-
-class Answer(BaseModel):
-    question_id: int
+# EvaluationRequest에서만 쓸 AnswerResponse
+class SimplifiedAnswerDetail(BaseModel):
     answer_text: str
+    s3_audio_url: Optional[str]
+    s3_video_url: Optional[str]
+    scores: Scores
+    feedback: Feedback
 
 
-class AnswerResponse(BaseModel):
-    answers: List[Answer]
+class SimplifiedAnswerResponse(BaseModel):
+    question_id: int
+    answer: SimplifiedAnswerDetail
 
 
 class EvaluationRequest(BaseRequest):
     questions: QuestionsResponse
-    answers: AnswerResponse
+    answers: List[SimplifiedAnswerResponse]
     file_paths: Optional[List[str]] = ["cover-letters/SK_AI.txt"]
+
+
+# 새로 추가된 overall evaluation 스키마
+class TextTechnicalOverallEvaluation(BaseModel):
+    job_fit: ScoreDetail
+    growth_potential: ScoreDetail
+    work_attitude: ScoreDetail
+    technical_depth: ScoreDetail
+
+
+class TextPersonalOverallEvaluation(BaseModel):
+    company_fit: ScoreDetail
+    adaptability: ScoreDetail
+    interpersonal_skills: ScoreDetail
+    growth_attitude: ScoreDetail
+
+
+class VoiceOverallEvaluation(BaseModel):
+    fluency: ScoreDetail
+    clarity: ScoreDetail
+    word_repetition: ScoreDetail
+
+
+class OverallEvaluation(BaseModel):
+    text_overall: Union[TextTechnicalOverallEvaluation, TextPersonalOverallEvaluation]
+    voice_overall: VoiceOverallEvaluation
+
+
+class EvaluationResponse(BaseModel):
+    user_id: int
+    interview_id: int
+    overall_evaluation: OverallEvaluation

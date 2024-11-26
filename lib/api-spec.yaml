@@ -1,18 +1,5 @@
 components:
   schemas:
-    Answer:
-      properties:
-        answer_text:
-          title: Answer Text
-          type: string
-        question_id:
-          title: Question Id
-          type: integer
-      required:
-      - question_id
-      - answer_text
-      title: Answer
-      type: object
     AnswerDetail:
       properties:
         answer_text:
@@ -31,7 +18,7 @@ components:
           - type: 'null'
           title: S3 Video Url
         scores:
-          $ref: '#/components/schemas/Scores'
+          $ref: '#/components/schemas/Scores-Output'
       required:
       - answer_text
       - s3_audio_url
@@ -79,18 +66,7 @@ components:
       - answer
       title: AnswerRequest
       type: object
-    AnswerResponse-Input:
-      properties:
-        answers:
-          items:
-            $ref: '#/components/schemas/Answer'
-          title: Answers
-          type: array
-      required:
-      - answers
-      title: AnswerResponse
-      type: object
-    AnswerResponse-Output:
+    AnswerResponse:
       properties:
         answer:
           $ref: '#/components/schemas/AnswerDetail'
@@ -117,7 +93,10 @@ components:
     EvaluationRequest:
       properties:
         answers:
-          $ref: '#/components/schemas/AnswerResponse-Input'
+          items:
+            $ref: '#/components/schemas/SimplifiedAnswerResponse'
+          title: Answers
+          type: array
         file_paths:
           anyOf:
           - items:
@@ -171,6 +150,22 @@ components:
       - answers
       title: EvaluationRequest
       type: object
+    EvaluationResponse:
+      properties:
+        interview_id:
+          title: Interview Id
+          type: integer
+        overall_evaluation:
+          $ref: '#/components/schemas/OverallEvaluation'
+        user_id:
+          title: User Id
+          type: integer
+      required:
+      - user_id
+      - interview_id
+      - overall_evaluation
+      title: EvaluationResponse
+      type: object
     Feedback:
       properties:
         improvement:
@@ -197,84 +192,19 @@ components:
           type: array
       title: HTTPValidationError
       type: object
-    OverallScore:
+    OverallEvaluation:
       properties:
-        feedback:
-          title: Feedback
-          type: string
-        score:
-          title: Score
-          type: integer
+        text_overall:
+          anyOf:
+          - $ref: '#/components/schemas/TextTechnicalOverallEvaluation'
+          - $ref: '#/components/schemas/TextPersonalOverallEvaluation'
+          title: Text Overall
+        voice_overall:
+          $ref: '#/components/schemas/VoiceOverallEvaluation'
       required:
-      - score
-      - feedback
-      title: OverallScore
-      type: object
-    PersonalAnswerEvaluation:
-      properties:
-        feedback:
-          $ref: '#/components/schemas/Feedback'
-        question_id:
-          title: Question Id
-          type: integer
-        scores:
-          $ref: '#/components/schemas/PersonalScores'
-      required:
-      - question_id
-      - scores
-      - feedback
-      title: PersonalAnswerEvaluation
-      type: object
-    PersonalEvaluationResponse:
-      properties:
-        answer_evaluations:
-          items:
-            $ref: '#/components/schemas/PersonalAnswerEvaluation'
-          title: Answer Evaluations
-          type: array
-        overall_evaluation:
-          $ref: '#/components/schemas/PersonalOverallEvaluation'
-      required:
-      - answer_evaluations
-      - overall_evaluation
-      title: PersonalEvaluationResponse
-      type: object
-    PersonalOverallEvaluation:
-      properties:
-        adaptability:
-          $ref: '#/components/schemas/OverallScore'
-        company_fit:
-          $ref: '#/components/schemas/OverallScore'
-        growth_attitude:
-          $ref: '#/components/schemas/OverallScore'
-        interpersonal_skills:
-          $ref: '#/components/schemas/OverallScore'
-      required:
-      - company_fit
-      - adaptability
-      - interpersonal_skills
-      - growth_attitude
-      title: PersonalOverallEvaluation
-      type: object
-    PersonalScores:
-      properties:
-        accountability:
-          $ref: '#/components/schemas/ScoreDetail'
-        communication:
-          $ref: '#/components/schemas/ScoreDetail'
-        growth_mindset:
-          $ref: '#/components/schemas/ScoreDetail'
-        problem_solving:
-          $ref: '#/components/schemas/ScoreDetail'
-        teamwork:
-          $ref: '#/components/schemas/ScoreDetail'
-      required:
-      - teamwork
-      - communication
-      - problem_solving
-      - accountability
-      - growth_mindset
-      title: PersonalScores
+      - text_overall
+      - voice_overall
+      title: OverallEvaluation
       type: object
     Question:
       properties:
@@ -412,20 +342,7 @@ components:
       - rationale
       title: ScoreDetail
       type: object
-    ScoreDetails:
-      properties:
-        rationale:
-          title: Rationale
-          type: string
-        score:
-          title: Score
-          type: integer
-      required:
-      - score
-      - rationale
-      title: ScoreDetails
-      type: object
-    Scores:
+    Scores-Input:
       properties:
         text_scores:
           $ref: '#/components/schemas/TextScores'
@@ -438,84 +355,87 @@ components:
       - voice_scores
       title: Scores
       type: object
-    TechnicalAnswerEvaluation:
+    Scores-Output:
       properties:
+        text_scores:
+          $ref: '#/components/schemas/TextScores'
+        voice_scores:
+          anyOf:
+          - $ref: '#/components/schemas/VoiceScores'
+          - type: 'null'
+      required:
+      - text_scores
+      - voice_scores
+      title: Scores
+      type: object
+    SimplifiedAnswerDetail:
+      properties:
+        answer_text:
+          title: Answer Text
+          type: string
         feedback:
           $ref: '#/components/schemas/Feedback'
+        s3_audio_url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: S3 Audio Url
+        s3_video_url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: S3 Video Url
+        scores:
+          $ref: '#/components/schemas/Scores-Input'
+      required:
+      - answer_text
+      - s3_audio_url
+      - s3_video_url
+      - scores
+      - feedback
+      title: SimplifiedAnswerDetail
+      type: object
+    SimplifiedAnswerResponse:
+      properties:
+        answer:
+          $ref: '#/components/schemas/SimplifiedAnswerDetail'
         question_id:
           title: Question Id
           type: integer
-        scores:
-          $ref: '#/components/schemas/TechnicalScores'
       required:
       - question_id
-      - scores
-      - feedback
-      title: TechnicalAnswerEvaluation
+      - answer
+      title: SimplifiedAnswerResponse
       type: object
-    TechnicalEvaluationResponse:
+    TextPersonalOverallEvaluation:
       properties:
-        answer_evaluations:
-          items:
-            $ref: '#/components/schemas/TechnicalAnswerEvaluation'
-          title: Answer Evaluations
-          type: array
-        overall_evaluation:
-          $ref: '#/components/schemas/TechnicalOverallEvaluation'
-      required:
-      - answer_evaluations
-      - overall_evaluation
-      title: TechnicalEvaluationResponse
-      type: object
-    TechnicalOverallEvaluation:
-      properties:
-        growth_potential:
-          $ref: '#/components/schemas/OverallScore'
-        job_fit:
-          $ref: '#/components/schemas/OverallScore'
-        technical_depth:
-          $ref: '#/components/schemas/OverallScore'
-        work_attitude:
-          $ref: '#/components/schemas/OverallScore'
-      required:
-      - job_fit
-      - growth_potential
-      - work_attitude
-      - technical_depth
-      title: TechnicalOverallEvaluation
-      type: object
-    TechnicalScores:
-      properties:
-        appropriate_response:
+        adaptability:
           $ref: '#/components/schemas/ScoreDetail'
-        consistency:
+        company_fit:
           $ref: '#/components/schemas/ScoreDetail'
-        grammatical_errors:
+        growth_attitude:
           $ref: '#/components/schemas/ScoreDetail'
-        key_terms:
-          $ref: '#/components/schemas/ScoreDetail'
-        logical_flow:
+        interpersonal_skills:
           $ref: '#/components/schemas/ScoreDetail'
       required:
-      - appropriate_response
-      - logical_flow
-      - key_terms
-      - consistency
-      - grammatical_errors
-      title: TechnicalScores
+      - company_fit
+      - adaptability
+      - interpersonal_skills
+      - growth_attitude
+      title: TextPersonalOverallEvaluation
       type: object
     TextScores:
       properties:
         appropriate_response:
-          $ref: '#/components/schemas/ScoreDetails'
+          $ref: '#/components/schemas/ScoreDetail'
         consistency:
-          $ref: '#/components/schemas/ScoreDetails'
+          $ref: '#/components/schemas/ScoreDetail'
         grammatical_errors:
-          $ref: '#/components/schemas/ScoreDetails'
+          $ref: '#/components/schemas/ScoreDetail'
         key_terms:
-          $ref: '#/components/schemas/ScoreDetails'
+          $ref: '#/components/schemas/ScoreDetail'
         logical_flow:
-          $ref: '#/components/schemas/ScoreDetails'
+          $ref: '#/components/schemas/ScoreDetail'
       required:
       - appropriate_response
       - logical_flow
@@ -523,6 +443,23 @@ components:
       - consistency
       - grammatical_errors
       title: TextScores
+      type: object
+    TextTechnicalOverallEvaluation:
+      properties:
+        growth_potential:
+          $ref: '#/components/schemas/ScoreDetail'
+        job_fit:
+          $ref: '#/components/schemas/ScoreDetail'
+        technical_depth:
+          $ref: '#/components/schemas/ScoreDetail'
+        work_attitude:
+          $ref: '#/components/schemas/ScoreDetail'
+      required:
+      - job_fit
+      - growth_potential
+      - work_attitude
+      - technical_depth
+      title: TextTechnicalOverallEvaluation
       type: object
     ValidationError:
       properties:
@@ -545,14 +482,28 @@ components:
       - type
       title: ValidationError
       type: object
+    VoiceOverallEvaluation:
+      properties:
+        clarity:
+          $ref: '#/components/schemas/ScoreDetail'
+        fluency:
+          $ref: '#/components/schemas/ScoreDetail'
+        word_repetition:
+          $ref: '#/components/schemas/ScoreDetail'
+      required:
+      - fluency
+      - clarity
+      - word_repetition
+      title: VoiceOverallEvaluation
+      type: object
     VoiceScores:
       properties:
         pronunciation:
-          $ref: '#/components/schemas/ScoreDetails'
+          $ref: '#/components/schemas/ScoreDetail'
         stutter:
-          $ref: '#/components/schemas/ScoreDetails'
+          $ref: '#/components/schemas/ScoreDetail'
         wpm:
-          $ref: '#/components/schemas/ScoreDetails'
+          $ref: '#/components/schemas/ScoreDetail'
       required:
       - wpm
       - stutter
@@ -629,7 +580,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/AnswerResponse-Output'
+                $ref: '#/components/schemas/AnswerResponse'
           description: Successful Response
         '422':
           content:
@@ -664,11 +615,7 @@ paths:
           content:
             application/json:
               schema:
-                anyOf:
-                - $ref: '#/components/schemas/TechnicalEvaluationResponse'
-                - $ref: '#/components/schemas/PersonalEvaluationResponse'
-                title: Response Create Interview Evaluation Interview  Interview Id  Evaluation
-                  Post
+                $ref: '#/components/schemas/EvaluationResponse'
           description: Successful Response
         '422':
           content:
@@ -688,11 +635,7 @@ paths:
           content:
             application/json:
               schema:
-                anyOf:
-                - $ref: '#/components/schemas/TechnicalEvaluationResponse'
-                - $ref: '#/components/schemas/PersonalEvaluationResponse'
-                title: Response Create Interview Evaluation Test Interview  Interview
-                  Id  Evaluation Test Post
+                $ref: '#/components/schemas/EvaluationResponse'
           description: Successful Response
       summary: Create Interview Evaluation Test
       tags:

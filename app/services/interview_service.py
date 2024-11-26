@@ -12,12 +12,12 @@ from app.schemas.answer import (
     AnswerRequest,
     AnswerResponse,
     Feedback,
-    ScoreDetails,
+    ScoreDetail,
     Scores,
     TextScores,
     VoiceScores,
 )
-from app.schemas.evaluation import EvaluationRequest, PersonalAnswerEvaluation, TechnicalAnswerEvaluation
+from app.schemas.evaluation import EvaluationRequest, EvaluationResponse
 from app.schemas.question import QuestionsRequest, QuestionsResponse
 from app.services.evaluation_service import generate_evaluation_prompt
 from app.services.question_service import generate_questions_prompt
@@ -64,6 +64,20 @@ async def process_questions(
     return questions
 
 
+def process_evaluation(
+    interview_id: int,
+    user_data: EvaluationRequest,
+) -> EvaluationResponse:
+    prompt = generate_evaluation_prompt(interview_id, user_data)
+
+    merged_input = merge_questions_and_answers(user_data.questions, user_data.answers)
+    merged_input_str = json.dumps(merged_input, ensure_ascii=False)
+
+    generator = ContentGenerator(user_data=user_data)
+    data = generator.invoke(prompt, merged_input_str, "evaluation")
+    return data
+
+
 async def process_answer(
     interview_id: int,
     question_or_answer_id: int,
@@ -72,17 +86,17 @@ async def process_answer(
     stt_service: STTService,
 ) -> AnswerResponse:
     default_text_scores = TextScores(
-        appropriate_response=ScoreDetails(score=0, rationale=""),
-        logical_flow=ScoreDetails(score=0, rationale=""),
-        key_terms=ScoreDetails(score=0, rationale=""),
-        consistency=ScoreDetails(score=0, rationale=""),
-        grammatical_errors=ScoreDetails(score=0, rationale=""),
+        appropriate_response=ScoreDetail(score=0, rationale=""),
+        logical_flow=ScoreDetail(score=0, rationale=""),
+        key_terms=ScoreDetail(score=0, rationale=""),
+        consistency=ScoreDetail(score=0, rationale=""),
+        grammatical_errors=ScoreDetail(score=0, rationale=""),
     )
 
     default_voice_scores = VoiceScores(
-        wpm=ScoreDetails(score=0, rationale=""),
-        stutter=ScoreDetails(score=0, rationale=""),
-        pronunciation=ScoreDetails(score=0, rationale=""),
+        wpm=ScoreDetail(score=0, rationale=""),
+        stutter=ScoreDetail(score=0, rationale=""),
+        pronunciation=ScoreDetail(score=0, rationale=""),
     )
 
     default_scores = Scores(
@@ -145,17 +159,4 @@ async def generate_interview_questions(user_data: QuestionsRequest) -> Questions
 
     generator = ContentGenerator(user_data=user_data)
     data = generator.invoke(prompt, cover_letter, "question")
-    return data
-
-
-def generate_interview_evaluation(
-    user_data: EvaluationRequest,
-) -> Union[TechnicalAnswerEvaluation, PersonalAnswerEvaluation]:
-    prompt = generate_evaluation_prompt(user_data)
-
-    merged_input = merge_questions_and_answers(user_data.questions, user_data.answers)
-    merged_input_str = json.dumps(merged_input, ensure_ascii=False)
-
-    generator = ContentGenerator(user_data=user_data)
-    data = generator.invoke(prompt, merged_input_str, "evaluation")
     return data

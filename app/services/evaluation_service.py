@@ -2,8 +2,9 @@ from app.prompts.evaluation import GENERAL_TECH_EVAL, REAL_PERSONAL_EVAL, REAL_T
 from app.schemas.evaluation import EvaluationRequest
 
 
-def generate_evaluation_prompt(user_data: EvaluationRequest):
+def generate_evaluation_prompt(interview_id: int, user_data: EvaluationRequest):
     try:
+        user_id = user_data.user_id
         job_role = user_data.job_role
         interview_type = user_data.interview_type
         interview_mode = user_data.interview_mode
@@ -21,7 +22,9 @@ def generate_evaluation_prompt(user_data: EvaluationRequest):
         raise ValueError(f"Unknown interview_mode: {interview_mode}")
 
     try:
-        prompt = generation_prompt.format(job_role=job_role, interview_type=interview_type)
+        prompt = generation_prompt.format(
+            job_role=job_role, interview_type=interview_type, user_id=user_id, interview_id=interview_id
+        )
     except KeyError as e:
         raise KeyError(f"Missing key during prompt formatting: {e}")
 
