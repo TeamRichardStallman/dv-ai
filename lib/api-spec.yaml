@@ -77,7 +77,7 @@ components:
           - cover-letters/SK_AI.txt
           title: File Paths
         interview_method:
-          default: chat
+          default: voice
           enum:
           - chat
           - voice
@@ -283,7 +283,7 @@ components:
           - cover-letters/cover_letter_01.txt
           title: File Paths
         interview_method:
-          default: chat
+          default: voice
           enum:
           - chat
           - voice
