@@ -250,10 +250,10 @@ GENERAL_TECH_EVAL: str = """
 
     Next, give an overall evaluation in each of the following four categories, assigning a score (0-10) and providing at least five sentences of detailed feedback.
     Each evaluation should address the candidate’s strengths, relevant examples, areas for improvement, alignment with the role, and conclude with a statement on their potential.
-    1. **job_fit**: Assess how well the candidate’s responses to technical questions demonstrate their ability to fulfill the role requirements. Evaluate whether their answers reflect an understanding of the technical challenges and tasks associated with the position, and if they show readiness to apply relevant skills in practical scenarios.
-    2. **growth_potential**: Evaluate the candidate’s adaptability and learning potential as demonstrated in their technical answers. Assess their ability to approach unfamiliar problems, openness to new technologies or methods, and willingness to improve their skills based on feedback and evolving technical demands.
-    3. **work_attitude**: Analyze the candidate’s reliability and professionalism as reflected in their approach to technical questions. Consider whether their answers demonstrate a thoughtful, logical, and consistent effort to address the problem, and if they show accountability, teamwork, or a positive attitude toward technical challenges.
-    4. **technical_depth**: Evaluate the depth of the candidate’s technical expertise as demonstrated in their responses. Look for their ability to handle complex technical problems, apply advanced concepts effectively, and propose innovative or efficient solutions tailored to the question.
+    1. **job_fit**: Evaluate how well the answers align with the role’s requirements. Check if the candidate understands the technical challenges and is ready to apply relevant skills in practical scenarios.
+    2. **growth_potential**: Assess the candidate’s ability to learn and adapt. Look for their approach to solving new problems, openness to new technologies, and willingness to grow through feedback.
+    3. **work_attitude**: Analyze the candidate’s reliability and logical approach to technical questions. Ensure they show consistent effort, responsibility, and a collaborative attitude toward challenges.
+    4. **technical_depth**: Evaluate the candidate’s expertise and problem-solving ability. Check if they can handle complex problems, use advanced concepts, and propose efficient solutions.
 
     Write all rationale and feedback sections in **Korean**, using formal language with sentence endings like **"~입니다" and "~것입니다"** to maintain a consistent, professional tone.
     Avoid starting with terms like "candidate" or other similar titles.
