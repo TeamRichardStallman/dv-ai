@@ -1,4 +1,4 @@
-from app.prompts.evaluation import GNERAL_TECH_EVAL, REAL_PERSONAL_EVAL, REAL_TECH_EVAL
+from app.prompts.evaluation import GENERAL_TECH_EVAL, REAL_PERSONAL_EVAL, REAL_TECH_EVAL
 from app.schemas.evaluation import EvaluationRequest
 
 
@@ -16,7 +16,7 @@ def generate_evaluation_prompt(user_data: EvaluationRequest):
         elif interview_type == "personal":
             generation_prompt = REAL_PERSONAL_EVAL
     elif interview_mode == "general":
-        generation_prompt = GNERAL_TECH_EVAL
+        generation_prompt = GENERAL_TECH_EVAL
     else:
         raise ValueError(f"Unknown interview_mode: {interview_mode}")
 
