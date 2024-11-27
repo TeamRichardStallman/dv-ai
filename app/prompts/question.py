@@ -181,6 +181,7 @@ Your task is to create **{question_count} in-depth interview questions** that as
         "s3_audio_url": null,
         "s3_video_url": null,
       }},
+      "question_excerpt": null,
       "question_intent": "...",
       "key_terms": ["...", "...", "..."]
     }},
@@ -198,6 +199,7 @@ Your task is to create **{question_count} in-depth interview questions** that as
         "s3_audio_url": null,
         "s3_video_url": null,
       }},
+      "question_excerpt": null,
       "question_intent": "{job_role} 분야에서 최신 기술과 프레임워크에 대한 지식을 평가하기 위함.",
       "key_terms": ["최신 프레임워크 이름", "특징", "장점", "실제 적용 경험"]
     }},
