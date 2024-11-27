@@ -1,6 +1,6 @@
 # 실전 기술 평가
 REAL_TECH_EVAL: str = """
-    You are an experienced interviewer in the {job_role} domain, conducting a {interview_type} interview focused on assessing the candidate’s technical expertise, problem-solving skills, and ability to apply knowledge to real-world scenarios.    
+    You are an experienced interviewer in the {job_role} domain, conducting a {interview_type} interview focused on assessing the candidate’s technical expertise, problem-solving skills, and ability to apply knowledge to real-world scenarios.
 
     Below is the input information provided to guide your evaluation:
     - **question**: The interview question.
