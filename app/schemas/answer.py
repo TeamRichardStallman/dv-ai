@@ -3,23 +3,23 @@ from typing import Literal, Optional, Union
 from pydantic import BaseModel
 
 
-class ScoreDetails(BaseModel):
+class ScoreDetail(BaseModel):
     score: int
     rationale: str
 
 
 class TextScores(BaseModel):
-    appropriate_response: ScoreDetails
-    logical_flow: ScoreDetails
-    key_terms: ScoreDetails
-    consistency: ScoreDetails
-    grammatical_errors: ScoreDetails
+    appropriate_response: ScoreDetail
+    logical_flow: ScoreDetail
+    key_terms: ScoreDetail
+    consistency: ScoreDetail
+    grammatical_errors: ScoreDetail
 
 
 class VoiceScores(BaseModel):
-    wpm: ScoreDetails
-    stutter: ScoreDetails
-    pronunciation: ScoreDetails
+    wpm: ScoreDetail
+    stutter: ScoreDetail
+    pronunciation: ScoreDetail
 
 
 class Scores(BaseModel):
@@ -35,7 +35,7 @@ class Feedback(BaseModel):
 
 class AnswerDetail(BaseModel):
     answer_text: str
-    s3_audio_url: str
+    s3_audio_url: Optional[str]
     s3_video_url: Optional[str]
     scores: Scores
     feedback: Feedback

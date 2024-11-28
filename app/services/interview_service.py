@@ -12,12 +12,12 @@ from app.schemas.answer import (
     AnswerRequest,
     AnswerResponse,
     Feedback,
-    ScoreDetails,
+    ScoreDetail,
     Scores,
     TextScores,
     VoiceScores,
 )
-from app.schemas.evaluation import EvaluationRequest, PersonalAnswerEvaluation, TechnicalAnswerEvaluation
+from app.schemas.evaluation import EvaluationRequest
 from app.schemas.question import QuestionsRequest, QuestionsResponse
 from app.services.evaluation_service import generate_evaluation_prompt
 from app.services.question_service import generate_questions_prompt
@@ -64,6 +64,20 @@ async def process_questions(
     return questions
 
 
+def process_evaluation(
+    interview_id: int,
+    user_data: EvaluationRequest,
+):
+    prompt = generate_evaluation_prompt(interview_id, user_data)
+
+    merged_input = merge_questions_and_answers(user_data.questions, user_data.answers)
+    merged_input_str = json.dumps(merged_input, ensure_ascii=False)
+
+    generator = ContentGenerator(user_data=user_data)
+    data = generator.invoke(prompt, merged_input_str, "evaluation")
+    return data
+
+
 async def process_answer(
     interview_id: int,
     question_or_answer_id: int,
@@ -71,33 +85,18 @@ async def process_answer(
     s3_service: S3Service,
     stt_service: STTService,
 ) -> AnswerResponse:
-    if request_data.interview_method == "CHAT":
-        return {
-            "user_id": request_data.user_id,
-            "interview_id": interview_id,
-            "question_or_answer_id": question_or_answer_id,
-            "answer_text": request_data.answer.answer_text,
-        }
-
-    s3_audio_url = request_data.answer.s3_audio_url
-    if not s3_audio_url:
-        raise ValueError("s3_audio_url is required")
-
-    audio_file = await s3_service.get_s3_object(s3_audio_url)
-    transcribed_text = await stt_service.transcribe_audio(audio_file)
-
     default_text_scores = TextScores(
-        appropriate_response=ScoreDetails(score=0, rationale=""),
-        logical_flow=ScoreDetails(score=0, rationale=""),
-        key_terms=ScoreDetails(score=0, rationale=""),
-        consistency=ScoreDetails(score=0, rationale=""),
-        grammatical_errors=ScoreDetails(score=0, rationale=""),
+        appropriate_response=ScoreDetail(score=0, rationale=""),
+        logical_flow=ScoreDetail(score=0, rationale=""),
+        key_terms=ScoreDetail(score=0, rationale=""),
+        consistency=ScoreDetail(score=0, rationale=""),
+        grammatical_errors=ScoreDetail(score=0, rationale=""),
     )
 
     default_voice_scores = VoiceScores(
-        wpm=ScoreDetails(score=0, rationale=""),
-        stutter=ScoreDetails(score=0, rationale=""),
-        pronunciation=ScoreDetails(score=0, rationale=""),
+        wpm=ScoreDetail(score=0, rationale=""),
+        stutter=ScoreDetail(score=0, rationale=""),
+        pronunciation=ScoreDetail(score=0, rationale=""),
     )
 
     default_scores = Scores(
@@ -112,20 +111,41 @@ async def process_answer(
     )
 
     answer = AnswerDetail(
-        answer_text=clean_text(transcribed_text),
-        s3_audio_url="",
+        answer_text="",
+        s3_audio_url=None,
         s3_video_url=None,
         scores=default_scores,
         feedback=default_feedback,
     )
 
-    return {
-        "user_id": request_data.user_id,
-        "interview_id": interview_id,
-        "question_id": question_or_answer_id,
-        "interview_method": request_data.interview_method,
-        "answer": answer,
-    }
+    if request_data.interview_method == "chat":
+        answer.answer_text = request_data.answer.answer_text
+
+        return {
+            "user_id": request_data.user_id,
+            "interview_id": interview_id,
+            "question_id": question_or_answer_id,
+            "interview_method": request_data.interview_method,
+            "answer": answer,
+        }
+
+    if request_data.interview_method != "chat":
+        s3_audio_url = request_data.answer.s3_audio_url
+        if not s3_audio_url:
+            raise ValueError("s3_audio_url is required")
+
+        audio_file = await s3_service.get_s3_object(s3_audio_url)
+        transcribed_text = await stt_service.transcribe_audio(audio_file)
+
+        answer.answer_text = clean_text(transcribed_text)
+        answer.s3_audio_url = request_data.answer.s3_audio_url
+        return {
+            "user_id": request_data.user_id,
+            "interview_id": interview_id,
+            "question_id": question_or_answer_id,
+            "interview_method": request_data.interview_method,
+            "answer": answer,
+        }
 
 
 async def generate_interview_questions(user_data: QuestionsRequest) -> QuestionsResponse:
@@ -139,17 +159,4 @@ async def generate_interview_questions(user_data: QuestionsRequest) -> Questions
 
     generator = ContentGenerator(user_data=user_data)
     data = generator.invoke(prompt, cover_letter, "question")
-    return data
-
-
-def generate_interview_evaluation(
-    user_data: EvaluationRequest,
-) -> Union[TechnicalAnswerEvaluation, PersonalAnswerEvaluation]:
-    prompt = generate_evaluation_prompt(user_data)
-
-    merged_input = merge_questions_and_answers(user_data.questions, user_data.answers)
-    merged_input_str = json.dumps(merged_input, ensure_ascii=False)
-
-    generator = ContentGenerator(user_data=user_data)
-    data = generator.invoke(prompt, merged_input_str, "evaluation")
     return data

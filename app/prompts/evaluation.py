@@ -68,29 +68,20 @@ REAL_TECH_EVAL: str = """
     When writing feedback, limit comma use to keep sentences clear and concise.
     Refer to the JSON structure below as a format guide:
     {{
-        "answer_evaluations": [
-            {{
-                "question_id": 1,
-                "scores": {{
-                    "appropriate_response": {{ "score": integer, "rationale": "Detailed rationale for score" }},
-                    "logical_flow": {{ "score": integer, "rationale": "Detailed rationale for score" }},
-                    "key_terms": {{ "score": integer, "rationale": "Detailed rationale for score" }},
-                    "consistency": {{ "score": integer, "rationale": "Detailed rationale for score" }},
-                    "grammatical_errors": {{ "score": integer, "rationale": "Detailed rationale for score" }}
-                }},
-                "feedback": {{
-                    "strengths": "Detailed feedback on strengths",
-                    "improvement": "Detailed feedback on areas for improvement",
-                    "suggestion": "Detailed feedback on suggestions"
-                }}
-            }},
-            ...
-        ],
+        "user_id": {user_id},
+        "interview_id": {interview_id},
         "overall_evaluation": {{
-            "job_fit": {{ "score": integer, "feedback": "Detailed feedback on job_fit" }},
-            "growth_potential": {{ "score": integer, "feedback": "Detailed feedback on growth_potential" }},
-            "work_attitude": {{ "score": integer, "feedback": "Detailed feedback on work_attitude" }},
-            "technical_depth": {{ "score": integer, "feedback": "Detailed feedback on technical_depth" }}
+            "text_overall": {{
+                "job_fit": {{ "score": integer, "rationale": "Detailed feedback on job_fit" }},
+                "growth_potential": {{ "score": integer, "rationale": "Detailed feedback on growth_potential" }},
+                "work_attitude": {{ "score": integer, "rationale": "Detailed feedback on work_attitude" }},
+                "technical_depth": {{ "score": integer, "rationale": "Detailed feedback on technical_depth" }}
+            }},
+            "voice_overall": {{
+                "fluency": {{ "score": integer, "rationale": "Detailed feedback on fluency" }},
+                "clarity": {{ "score": integer, "rationale": "Detailed feedback on clarity" }},
+                "word_repetition": {{ "score": integer, "rationale": "Detailed feedback on word_repetition" }}
+            }}
         }}
     }}
     """
@@ -165,29 +156,20 @@ REAL_PERSONAL_EVAL: str = """
     When writing feedback, limit comma use to keep sentences clear and concise.
     Refer to the JSON structure below as a format guide:
     {{
-        "answer_evaluations": [
-            {{
-                "question_id": 1,
-                "scores": {{
-                    "teamwork": {{ "score": integer, "rationale": "Detailed rationale for score" }},
-                    "communication": {{ "score": integer, "rationale": "Detailed rationale for score" }},
-                    "problem_solving": {{ "score": integer, "rationale": "Detailed rationale for score" }},
-                    "accountability": {{ "score": integer, "rationale": "Detailed rationale for score" }},
-                    "growth_mindset": {{ "score": integer, "rationale": "Detailed rationale for score" }}
-                }},
-                "feedback": {{
-                    "strengths": "Detailed feedback on strengths",
-                    "improvement": "Detailed feedback on areas for improvement",
-                    "suggestion": "Detailed feedback on suggestions"
-                }}
-            }},
-            ...
-        ],
+        "user_id": {user_id},
+        "interview_id": {interview_id},
         "overall_evaluation": {{
-            "company_fit": {{ "score": integer, "feedback": "Detailed feedback on company_fit" }},
-            "adaptability": {{ "score": integer, "feedback": "Detailed feedback on adaptability" }},
-            "interpersonal_skills": {{ "score": integer, "feedback": "Detailed feedback on interpersonal_skills" }},
-            "growth_attitude": {{ "score": integer, "feedback": "Detailed feedback on growth_attitude" }}
+            "text_overall": {{
+                "company_fit": {{ "score": integer, "rationale": "Detailed feedback on company_fit" }},
+                "adaptability": {{ "score": integer, "rationale": "Detailed feedback on adaptability" }},
+                "interpersonal_skills": {{ "score": integer, "rationale": "Detailed feedback on interpersonal_skills" }},
+                "growth_attitude": {{ "score": integer, "rationale": "Detailed feedback on growth_attitude" }}
+            }},
+            "voice_overall": {{
+                "fluency": {{ "score": integer, "rationale": "Detailed feedback on fluency" }},
+                "clarity": {{ "score": integer, "rationale": "Detailed feedback on clarity" }},
+                "word_repetition": {{ "score": integer, "rationale": "Detailed feedback on word_repetition" }}
+            }}
         }}
     }}
     """

@@ -5,7 +5,7 @@ from fastapi import APIRouter, Depends, HTTPException
 from app.schemas.answer import AnswerRequest, AnswerResponse
 from app.schemas.evaluation import EvaluationRequest, PersonalEvaluationResponse, TechnicalEvaluationResponse
 from app.schemas.question import QuestionsRequest, QuestionsResponse
-from app.services.interview_service import generate_interview_evaluation, process_answer, process_questions
+from app.services.interview_service import process_answer, process_evaluation, process_questions
 from app.services.s3_service import S3Service, get_s3_service
 from app.services.stt_service import STTService, get_stt_service
 from app.services.tts_service import TTSService, get_tts_service
@@ -22,7 +22,8 @@ async def create_interview_questions(
     tts_service: TTSService = Depends(get_tts_service),
 ):
     try:
-        return await process_questions(interview_id, request_data, s3_service, tts_service)
+        result = await process_questions(interview_id, request_data, s3_service, tts_service)
+        return result
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error generating questions: {str(e)}")
 
@@ -30,15 +31,12 @@ async def create_interview_questions(
 @router.post(
     "/{interview_id}/evaluation",
     tags=["Interview"],
-    response_model=Union[
-        TechnicalEvaluationResponse,
-        PersonalEvaluationResponse,
-    ],
+    response_model=Union[TechnicalEvaluationResponse, PersonalEvaluationResponse],
 )
 async def create_interview_evaluation(interview_id: Union[int, str], request_data: EvaluationRequest):
     try:
-        evaluation = generate_interview_evaluation(request_data)
-        return evaluation
+        result = process_evaluation(interview_id, request_data)
+        return result
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error generating evaluation: {str(e)}")
 
@@ -54,10 +52,7 @@ async def create_interview_questions_test():
 @router.post(
     "/{interview_id}/evaluation-test",
     tags=["Interview"],
-    response_model=Union[
-        TechnicalEvaluationResponse,
-        PersonalEvaluationResponse,
-    ],
+    response_model=Union[TechnicalEvaluationResponse, PersonalEvaluationResponse],
 )
 async def create_interview_evaluation_test():
     try:
