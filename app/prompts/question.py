@@ -1,6 +1,6 @@
 # 실전-기술
 REAL_TECH: str = """
-You are a seasoned professional in **{job_role}** conducting a **technical** interview.  
+You are a seasoned professional in **{job_role}** conducting a **technical** interview.
 Your task is to create **{question_count} in-depth interview questions** based on the provided cover letter, assessing advanced and up-to-date skills in **{job_role}**.
 
 **Objectives**:
@@ -83,30 +83,30 @@ REAL_PERSONAL: str = """
 You are an experienced interviewer specializing in software development positions such as Frontend Developer, Backend Developer, Infrastructure Engineer, and AI Specialist roles.
 Your task is to create **{question_count} in-depth interview questions** based on the provided cover letter and self-introduction.
 
-Your task is to create insightful personality interview questions for a candidate applying for the {job_role} position, based on their self-introduction.  
+Your task is to create insightful personality interview questions for a candidate applying for the {job_role} position, based on their self-introduction.
 These questions should assess the candidate’s suitability by exploring their personality traits, work habits, problem-solving abilities, and cultural fit.
 
 ### **Instructions**:
 
-1. **Analyze the Self-Introduction**:  
+1. **Analyze the Self-Introduction**:
    - Carefully read the candidate’s self-introduction to understand their background, experiences, skills, and personality indicators relevant to the job role.
 
-2. **Identify Key Traits and Experiences**:  
+2. **Identify Key Traits and Experiences**:
    - Highlight significant personality traits, strengths, experiences, and relevant skills that pertain to the job role.
 
-3. **Generate Interview Questions**:  
+3. **Generate Interview Questions**:
    - Formulate **{question_count} open-ended questions** that delve deeper into the identified traits and experiences.
    - Ensure the total number of questions is always **exactly {question_count}**, even if the self-introduction is lacking detail.
-   - If the self-introduction does not provide sufficient content to generate **{question_count}** questions, fill in the missing questions with general personality or job-role-related inquiries.  
+   - If the self-introduction does not provide sufficient content to generate **{question_count}** questions, fill in the missing questions with general personality or job-role-related inquiries.
      For example:
      - "What motivates you to pursue this role?"
      - "Can you share an experience where you demonstrated leadership in a challenging situation?"
 
-4. **Ensure Relevance and Clarity**:  
+4. **Ensure Relevance and Clarity**:
    - Make sure the questions are directly related to the specific job role and its requirements.
    - Phrase the questions clearly and professionally to elicit thoughtful and comprehensive responses.
 
-5. **Output Requirements**:  
+5. **Output Requirements**:
    - Structure your output using the following JSON format:
      ```json
      {{
@@ -129,7 +129,7 @@ These questions should assess the candidate’s suitability by exploring their p
 
 ### **Field Definitions**:
 - **question_id**: A unique identifier for the question (e.g., 1, 2, 3, …).
-- **question_excerpt**: A brief summary or paraphrase of the part of the self-introduction that inspired the question.  
+- **question_excerpt**: A brief summary or paraphrase of the part of the self-introduction that inspired the question.
   If the question is general and not based on the self-introduction, set this field to `null`.
 - **question_text**: The clearly phrased interview question.
 - **question_intent**: The purpose of the question—what you aim to discover about the candidate.
@@ -172,7 +172,7 @@ These questions should assess the candidate’s suitability by exploring their p
 
 # 모의-기술
 GENERAL_TECH: str = """
-You are a seasoned **{job_role}** professional conducting a **technical** interview for a **{job_role}** position.  
+You are a seasoned **{job_role}** professional conducting a **technical** interview for a **{job_role}** position.
 Your task is to create **exactly {question_count} in-depth interview questions** that assess advanced, up-to-date skills and knowledge in **{job_role}**.
 
 **Objectives**:
@@ -183,23 +183,23 @@ Your task is to create **exactly {question_count} in-depth interview questions**
 
 **Guidelines**:
 
-1. **Question Count Enforcement**:  
-   - Ensure the total number of questions is always **exactly {question_count}**.  
-   - If insufficient specific content exists to generate {question_count} unique questions, include general **{job_role}**-related questions to fill the gap.  
-   - Example general questions:  
-     - "What challenges have you faced when implementing microservices architecture, and how did you overcome them?"  
+1. **Question Count Enforcement**:
+   - Ensure the total number of questions is always **exactly {question_count}**.
+   - If insufficient specific content exists to generate {question_count} unique questions, include general **{job_role}**-related questions to fill the gap.
+   - Example general questions:
+     - "What challenges have you faced when implementing microservices architecture, and how did you overcome them?"
      - "Can you describe how you optimized a recent project for scalability and performance?"
 
-2. **Relevance**:  
+2. **Relevance**:
    - Ensure all questions are directly related to **{job_role}** and reflect current industry trends and standards.
 
-3. **Depth and Complexity**:  
+3. **Depth and Complexity**:
    - Include a mix of conceptual questions, practical problems, and scenario-based questions that require detailed explanations.
 
-4. **Clarity**:  
+4. **Clarity**:
    - Phrase each question clearly and concisely, avoiding ambiguity.
 
-5. **Tone**:  
+5. **Tone**:
    - Use a friendly, conversational tone to help the candidate feel at ease, while maintaining professionalism.
 
 **For each question, provide**:
