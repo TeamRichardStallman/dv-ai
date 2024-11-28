@@ -97,3 +97,9 @@ tree -I 'wandb|**pycache**|\*.log|__pycache__|__init__|folder_structure' > folde
 - 가상환경은 항상 `poetry shell`로 활성화
 - 의존성은 `pyproject.toml`에서 관리
 - 코드 품질을 위해 린팅과 테스트를 주기적으로 실행
+
+### 로컬에서 Celery 워커 실행
+
+```bash
+celery -A app.worker worker --loglevel=info
+```

@@ -2,7 +2,7 @@ from fastapi import FastAPI
 from prometheus_fastapi_instrumentator import Instrumentator
 
 from app.core.middleware import add_cors_middleware
-from app.routers import interview
+from app.routers import interview, task
 from app.utils.init import lifespan
 
 description = """
@@ -38,4 +38,5 @@ async def ping():
     return {"message": "Welcome to the Devterview AI Server!"}
 
 
+app.include_router(task.router)
 app.include_router(interview.router)

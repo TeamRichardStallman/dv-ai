@@ -11,8 +11,17 @@
 │   │   ├── anthropic
 │   │   │   └── claude.py
 │   │   ├── google_aistudio
-│   │   └── openai
-│   │       └── gpt.py
+│   │   ├── openai
+│   │   │   └── gpt.py
+│   │   ├── stt
+│   │   │   ├── base.py
+│   │   │   ├── google.py
+│   │   │   └── whisper.py
+│   │   └── tts
+│   │       ├── base.py
+│   │       ├── google.py
+│   │       ├── openai.py
+│   │       └── typecast.py
 │   ├── prompts
 │   │   ├── __init__.py
 │   │   ├── evaluation.py
@@ -20,25 +29,34 @@
 │   ├── routers
 │   │   └── interview.py
 │   ├── schemas
+│   │   ├── answer.py
+│   │   ├── base.py
 │   │   ├── evaluation.py
 │   │   └── question.py
 │   ├── services
 │   │   ├── evaluation_service.py
 │   │   ├── interview_service.py
-│   │   └── question_service.py
+│   │   ├── question_service.py
+│   │   ├── s3_service.py
+│   │   ├── stt_factory.py
+│   │   ├── stt_service.py
+│   │   ├── tts_factory.py
+│   │   └── tts_service.py
 │   ├── tests
-│   │   └── data.py
+│   │   ├── data.py
+│   │   └── test_interview.py
 │   └── utils
+│       ├── format.py
 │       ├── generate.py
 │       ├── init.py
-│       ├── merge.py
-│       └── s3.py
+│       └── merge.py
 ├── folder_structure.txt
 ├── lib
 │   └── api-spec.yaml
 ├── poetry.lock
 ├── pyproject.toml
 ├── setup.py
+├── temp.wav
 └── tox.ini
 
-14 directories, 28 files
+16 directories, 44 files
