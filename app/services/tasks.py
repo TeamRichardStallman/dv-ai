@@ -45,7 +45,6 @@ def async_process_questions(self, interview_id: int, request_data: dict) -> str:
         raise RuntimeError(f"Error processing questions: {e}")
 
 
-# 비동기 작업: 평가 처리
 @celery_app.task(bind=True)
 def async_process_evaluation(self, interview_id: int, request_data: dict) -> str:
     self.update_state(
@@ -75,7 +74,6 @@ def async_process_evaluation(self, interview_id: int, request_data: dict) -> str
         raise RuntimeError(f"Error processing evaluation: {e}")
 
 
-# 비동기 작업: 음성에서 텍스트 변환
 @celery_app.task(bind=True)
 def async_process_answer(self, interview_id: int, question_id: int, request_data: dict) -> str:
     self.update_state(

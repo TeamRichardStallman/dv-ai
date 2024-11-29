@@ -4,7 +4,6 @@ from httpx import ASGITransport, AsyncClient
 from app.main import app
 
 
-# 실전 면접 질문 생성 테스트
 @pytest.mark.asyncio
 @pytest.mark.parametrize("question_count", [1])
 @pytest.mark.parametrize("interview_method", ["chat", "voice"])
@@ -31,7 +30,6 @@ async def test_create_interview_questions_with_real(interview_mode, interview_ty
     assert len(questions) == question_count, f"Expected {question_count} questions, but got {len(questions)}"
 
 
-# 모의 면접 질문 생성 테스트
 @pytest.mark.asyncio
 @pytest.mark.parametrize("question_count", [1])
 @pytest.mark.parametrize("interview_method", ["chat"])
