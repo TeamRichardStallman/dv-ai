@@ -28,3 +28,5 @@ class Config:
 
     CELERY_BROKER_URL = os.getenv("REDIS_HOST")
     CELERY_RESULT_BACKEND = os.getenv("REDIS_HOST")
+    RTZR_API_CLIENT_ID = os.getenv("RTZR_API_CLIENT_ID")
+    RTZR_API_CLIENT_SECRET = os.getenv("RTZR_API_CLIENT_SECRET")
