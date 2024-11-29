@@ -25,3 +25,7 @@ class Config:
     BACK_API_URL = os.getenv("BACK_API_URL", "http://localhost:8080")
 
     TYPECAST_API_TOKEN = os.getenv("TYPECAST_API_TOKEN")
+
+    RTZR_API_CLIENT_ID = os.getenv("RTZR_API_CLIENT_ID")
+    RTZR_API_CLIENT_SECRET = os.getenv("RTZR_API_CLIENT_SECRET")
+    
