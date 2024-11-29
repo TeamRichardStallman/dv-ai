@@ -4,6 +4,9 @@
 ├── app
 │   ├── __init__.py
 │   ├── core
+│   │   ├── __init__.py
+│   │   ├── celery_app.py
+│   │   ├── celery_config.py
 │   │   ├── config.py
 │   │   └── middleware.py
 │   ├── main.py
@@ -27,29 +30,34 @@
 │   │   ├── evaluation.py
 │   │   └── question.py
 │   ├── routers
-│   │   └── interview.py
+│   │   ├── interview.py
+│   │   └── task.py
 │   ├── schemas
 │   │   ├── answer.py
 │   │   ├── base.py
 │   │   ├── evaluation.py
-│   │   └── question.py
+│   │   ├── question.py
+│   │   └── task.py
 │   ├── services
+│   │   ├── __init__.py
 │   │   ├── evaluation_service.py
 │   │   ├── interview_service.py
 │   │   ├── question_service.py
 │   │   ├── s3_service.py
 │   │   ├── stt_factory.py
 │   │   ├── stt_service.py
+│   │   ├── tasks.py
 │   │   ├── tts_factory.py
 │   │   └── tts_service.py
 │   ├── tests
 │   │   ├── data.py
 │   │   └── test_interview.py
-│   └── utils
-│       ├── format.py
-│       ├── generate.py
-│       ├── init.py
-│       └── merge.py
+│   ├── utils
+│   │   ├── format.py
+│   │   ├── generate.py
+│   │   ├── init.py
+│   │   └── merge.py
+│   └── worker.py
 ├── folder_structure.txt
 ├── lib
 │   └── api-spec.yaml
@@ -59,4 +67,4 @@
 ├── temp.wav
 └── tox.ini
 
-16 directories, 44 files
+16 directories, 52 files

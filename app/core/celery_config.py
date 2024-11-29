@@ -1,11 +1,13 @@
-from celery import Celery
+import app.services.tasks
+from app.core.celery_app import celery_app
 
-celery_app = Celery(
-    "interview_app",
-    broker="redis://ktb-8-dev-redis.cngspe.0001.apn2.cache.amazonaws.com:6379/0",
-    backend="redis://ktb-8-dev-redis.cngspe.0001.apn2.cache.amazonaws.com:6379/0",
+celery_app.conf.update(
+    task_routes={
+        "app.services.tasks.*": {"queue": "default"},
+    },
+    task_serializer="json",
+    accept_content=["json"],
+    result_serializer="json",
 )
 
-celery_app.conf.task_routes = {
-    "app.services.tasks.*": {"queue": "default"},
-}
+_ = app.services.tasks

@@ -89,7 +89,7 @@ poetry run pytest app/tests -v
 ```bash
 # macOS
 brew install tree
-tree -I 'wandb|**pycache**|\*.log|__pycache__|__init__|folder_structure' > folder_structure.txt
+tree -I 'wandb|**pycache**|\*.log|__pycache__|folder_structure' > folder_structure.txt
 ```
 
 ## 주의사항
@@ -101,5 +101,20 @@ tree -I 'wandb|**pycache**|\*.log|__pycache__|__init__|folder_structure' > folde
 ### 로컬에서 Celery 워커 실행
 
 ```bash
-celery -A app.worker worker --loglevel=info
+poetry run celery -A app.worker worker --loglevel=info
+```
+
+### 로컬에서 redis 실행
+
+```bash
+redis-server
+```
+
+```bash
+docker run -p 6379:6379 --name some-redis -d redis
+```
+
+```
+docker exec -it some-redis redis-cli
+keys *
 ```
