@@ -11,6 +11,7 @@ help:
 	@echo "  make redis-cli  - Redis CLI 접속"
 	@echo "  make lint       - 코드 린트 실행"
 	@echo "  make test       - Docker 환경에서 테스트 실행"
+	@echo "  make tree       - 폴더 구조를 tree 명령어로 파일로 저장"
 
 # Docker Compose 캐시 없이 빌드
 build:
@@ -42,3 +43,9 @@ lint:
 # Docker Compose 환경에서 테스트 실행
 test:
 	docker compose up --build --abort-on-container-exit
+
+# 폴더 구조를 tree 명령어로 파일로 저장
+# - 'wandb', '__pycache__', '*.log', 'folder_structure'와 같은 폴더 및 파일 제외
+# - 결과는 folder_structure.txt 파일로 저장
+tree:
+	tree -I 'wandb|**pycache**|\*.log|__pycache__|folder_structure' > folder_structure.txt

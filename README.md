@@ -114,7 +114,7 @@ redis-server
 docker run -p 6379:6379 --name some-redis -d redis
 ```
 
-```
+```bash
 docker exec -it some-redis redis-cli
 keys *
 ```
