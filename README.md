@@ -99,3 +99,15 @@ GitHub Actions를 사용하여 테스트를 자동화합니다. 모든 PR은 CI 
 ## Makefile 사용 팁
 
 Makefile을 통해 프로젝트 관리를 더욱 효율적으로 할 수 있습니다. 자세한 사용법은 `make help` 명령어로 확인하세요.
+
+### 로컬에서 실행:
+
+```bash
+make up ENV_FILE=.env.local
+```
+
+### 개발 환경에서 실행:
+
+```bash
+make up ENV_FILE=.env.dev
+```

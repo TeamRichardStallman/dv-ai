@@ -17,9 +17,11 @@ help:
 build:
 	docker compose build --no-cache
 
+ENV_FILE ?= .env.local
+
 # Docker Compose 컨테이너 실행
 up:
-	COMPOSE_FILE=docker-compose.yml docker compose up --build --force-recreate
+	ENV_FILE=$(ENV_FILE) docker compose --env-file $(ENV_FILE) up --build --force-recreate
 
 # Docker Compose 컨테이너 중지 및 삭제
 down:
@@ -40,9 +42,9 @@ redis-cli:
 lint:
 	poetry run tox -e lint
 
-# Docker Compose 환경에서 테스트 실행
+# Docker Compose 테스트 실행
 test:
-	docker compose up --build --abort-on-container-exit
+	docker compose -f docker-compose.yml -f docker-compose.test.yml up --build --abort-on-container-exit
 
 # 폴더 구조를 tree 명령어로 파일로 저장
 # - 'wandb', '__pycache__', '*.log', 'folder_structure'와 같은 폴더 및 파일 제외

@@ -1,6 +1,14 @@
+version: "3.8"
+
 services:
-  fastapi:
+  redis:
     environment:
-      - ENV=test
-      - PYTHONPATH=/app
-    command: poetry run pytest --maxfail=1 --disable-warnings
+      - ENV=local
+
+  celery:
+    env_file:
+      - .env.local
+
+  fastapi:
+    env_file:
+      - .env.local

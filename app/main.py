@@ -16,12 +16,9 @@ app = FastAPI(
     version="1.0.0",
     description=description,
     openapi_tags=[
-        {
-            "name": "Common",
-        },
-        {
-            "name": "Interview",
-        },
+        {"name": "Common"},
+        {"name": "Task"},
+        {"name": "Interview"},
     ],
     lifespan=lifespan,
 )
