@@ -25,7 +25,7 @@ up:
 
 # Docker Compose 컨테이너 중지 및 삭제
 down:
-	docker compose down
+	docker compose down --timeout 10 --volumes || docker ps -q | xargs -r docker rm -f
 
 # Docker Compose 컨테이너 재시작
 restart: down build up
