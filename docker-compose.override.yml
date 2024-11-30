@@ -1,0 +1,6 @@
+services:
+  fastapi:
+    environment:
+      - ENV=test
+      - PYTHONPATH=/app
+    command: poetry run pytest --maxfail=1 --disable-warnings

@@ -7,7 +7,8 @@ from app.schemas.evaluation import EvaluationRequest, PersonalEvaluationResponse
 from app.schemas.question import QuestionsRequest, QuestionsResponse
 from app.schemas.task import MessageQueueResponse
 from app.services.tasks import async_process_answer, async_process_evaluation, async_process_questions
-from app.tests.data import evaluation_test_data, questions_test_data
+from app.tests.data.evaluation import EVALUATION_RESPONSE_DATA
+from app.tests.data.question import QUESTIONS_RESPONSE_DATA
 
 router = APIRouter(prefix="/interview", tags=["Interview"])
 
@@ -48,7 +49,7 @@ async def create_interview_evaluation(interview_id: Union[int, str], request_dat
 @router.post("/{interview_id}/questions-test", tags=["Interview"], response_model=QuestionsResponse)
 async def create_interview_questions_test():
     try:
-        return questions_test_data
+        return QUESTIONS_RESPONSE_DATA
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error generating questions: {str(e)}")
 
@@ -60,7 +61,7 @@ async def create_interview_questions_test():
 )
 async def create_interview_evaluation_test():
     try:
-        return evaluation_test_data
+        return EVALUATION_RESPONSE_DATA
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error generating evaluation: {str(e)}")
 

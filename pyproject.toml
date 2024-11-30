@@ -29,6 +29,7 @@ asyncio = "^3.4.3"
 gevent = "^24.11.1"
 nest-asyncio = "^1.6.0"
 asgiref = "^3.8.1"
+pytest-docker = "^3.1.1"
 
 
 [tool.poetry.group.dev.dependencies]
@@ -51,3 +52,5 @@ line_length = 120
 [tool.pytest.ini_options]
 asyncio_default_fixture_loop_scope = "function"
 log_cli = true
+pythonpath = "app"
+addopts = "--tb=short -p no:warnings"
