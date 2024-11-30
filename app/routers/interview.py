@@ -3,12 +3,10 @@ from typing import Union
 from fastapi import APIRouter, HTTPException
 
 from app.schemas.answer import AnswerRequest
-from app.schemas.evaluation import EvaluationRequest, PersonalEvaluationResponse, TechnicalEvaluationResponse
-from app.schemas.question import QuestionsRequest, QuestionsResponse
+from app.schemas.evaluation import EvaluationRequest
+from app.schemas.question import QuestionsRequest
 from app.schemas.task import MessageQueueResponse
 from app.services.tasks import async_process_answer, async_process_evaluation, async_process_questions
-from app.tests.data.evaluation import EVALUATION_RESPONSE_DATA
-from app.tests.data.question import QUESTIONS_RESPONSE_DATA
 
 router = APIRouter(prefix="/interview", tags=["Interview"])
 
@@ -42,26 +40,6 @@ async def create_interview_evaluation(interview_id: Union[int, str], request_dat
             "task_id": task.id,
             "status": "processing",
         }
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Error generating evaluation: {str(e)}")
-
-
-@router.post("/{interview_id}/questions-test", tags=["Interview"], response_model=QuestionsResponse)
-async def create_interview_questions_test():
-    try:
-        return QUESTIONS_RESPONSE_DATA
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Error generating questions: {str(e)}")
-
-
-@router.post(
-    "/{interview_id}/evaluation-test",
-    tags=["Interview"],
-    response_model=Union[TechnicalEvaluationResponse, PersonalEvaluationResponse],
-)
-async def create_interview_evaluation_test():
-    try:
-        return EVALUATION_RESPONSE_DATA
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error generating evaluation: {str(e)}")
 
