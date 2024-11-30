@@ -44,7 +44,7 @@ lint:
 
 # Docker Compose 테스트 실행
 test:
-	docker compose -f docker-compose.yml -f docker-compose.test.yml up --build --abort-on-container-exit
+	docker compose -f docker-compose.test.yml up --build --abort-on-container-exit
 
 # 폴더 구조를 tree 명령어로 파일로 저장
 # - 'wandb', '__pycache__', '*.log', 'folder_structure'와 같은 폴더 및 파일 제외

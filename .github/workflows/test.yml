@@ -34,8 +34,9 @@ jobs:
           ENV: test
           PYTHONPATH: /app
         run: |
-          docker compose -f docker-compose.yml -f docker-compose.test.yml up --build --abort-on-container-exit
+          docker compose -f docker-compose.test.yml up --build --abort-on-container-exit
 
       - name: Cleanup
         if: always()
-        run: docker compose down
+        run: |
+          docker compose -f docker-compose.yml -f docker-compose.test.yml down

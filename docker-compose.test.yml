@@ -30,9 +30,9 @@ services:
     command: poetry run pytest --maxfail=1 --disable-warnings
     depends_on:
       - redis
+    ports:
+      - "8000:8000"
     environment:
-      - ENV=test
-      - PYTHONPATH=/app
       - CELERY_BROKER_URL=redis://redis-test:6379/0
       - CELERY_RESULT_BACKEND=redis://redis-test:6379/0
       - OPENAI_API_KEY=${OPENAI_API_KEY}
@@ -41,3 +41,5 @@ services:
       - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
       - AWS_REGION=${AWS_REGION}
       - S3_BUCKET_NAME=${S3_BUCKET_NAME}
+      - ENV=test
+      - PYTHONPATH=/app
