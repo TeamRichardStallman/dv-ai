@@ -1,120 +1,101 @@
-# DV-AI Interview King Dev Kim AI Repository
+# DV-AI Interview King Dev Repository
+
+## 소개
+
+DV-AI Interview King은 인터뷰 준비 및 평가를 위한 AI 기반 도구입니다. FastAPI, Celery, Redis, Docker를 활용하여 효율적이고 확장 가능한 인터뷰 솔루션을 제공합니다.
 
 ## 프로젝트 시작하기
 
 ### 사전 준비
 
-1. Poetry 설치
+#### 1. Poetry 설치
+
+프로젝트 의존성 관리를 위해 Poetry를 사용합니다.
 
 ```bash
 curl -sSL https://install.python-poetry.org | python3 -
 ```
 
-2. 프로젝트 의존성 설치
+#### 2. 프로젝트 의존성 설치
 
 ```bash
-poetry shell   # 가상환경 활성화
+poetry shell # 가상환경 활성화
 poetry install # 의존성 설치
 ```
 
-### 서버 실행
+#### 3. 환경 변수 설정
 
-```bash
-poetry run fastapi dev app/main.py
-# 또는
-poetry run uvicorn app.main:app --host 127.0.0.1 --port 8000
+`.env` 파일을 생성하고 다음과 같은 형식으로 환경 변수를 설정하세요:
+
+```env
+OPENAI_API_KEY=your_openai_api_key
+WANDB_API_KEY=your_wandb_api_key
+AWS_ACCESS_KEY_ID=your_aws_access_key
+AWS_SECRET_ACCESS_KEY=your_aws_secret_key
+AWS_REGION=your_aws_region
+S3_BUCKET_NAME=your_s3_bucket_name
 ```
 
 ## 개발 가이드
 
-### 브랜치 전략 (Git-flow)
+### Makefile 사용
 
-- `main`: 배포 가능한 안정화된 코드
-- `develop`: 개발 중인 통합 브랜치
-- `feature/`: 새로운 기능 개발 브랜치
-- `release/`: 릴리즈 준비 브랜치
-- `hotfix/`: 긴급 버그 수정 브랜치
-
-### 커밋 컨벤션
-
-커밋 메시지 형식: `[Jira 티켓] 타입: 간단한 설명`
-
-#### 커밋 타입
-
-- `feat`: 새로운 기능 추가
-- `fix`: 버그 수정
-- `refactor`: 코드 리팩토링
-- `docs`: 문서 수정
-- `style`: 코드 스타일/포맷 변경
-- `test`: 테스트 코드 추가/수정
-- `chore`: 기타 설정 변경
-- `perf`: 성능 개선
-- `ci`: CI/CD 설정 변경
-- `build`: 빌드 관련 작업
-
-## Poetry 명령어
-
-### 패키지 관리
+프로젝트의 주요 명령어는 Makefile을 통해 간소화되었습니다. 다음 명령어들을 사용할 수 있습니다:
 
 ```bash
-# 패키지 추가 (일반)
-poetry add python-dotenv
+# 사용 가능한 명령어 목록 확인
+make help
 
-# 개발 의존성 추가
-poetry add pytest -D
+# Docker Compose 빌드
+make build
 
-# 설치된 패키지 확인
-poetry show
+# 컨테이너 실행
+make up
 
-# 가상환경 정보 확인
-poetry env info
+# 컨테이너 중지 및 삭제
+make down
+
+# 컨테이너 재시작
+make restart
+
+# 컨테이너 로그 확인
+make logs
+
+# Redis CLI 접속
+make redis-cli
+
+# 코드 린트 실행
+make lint
+
+# 테스트 실행
+make test
+
+# 프로젝트 폴더 구조 생성
+make tree
 ```
 
-## 개발 도구
+## CI/CD
 
-### 린팅 및 포매팅
+GitHub Actions를 사용하여 테스트를 자동화합니다. 모든 PR은 CI 파이프라인을 통과해야만 병합됩니다.
 
-```bash
-poetry run tox -e lint
-```
+## 주요 기능
 
-### 테스트 실행
-
-```bash
-poetry run pytest app/tests -v
-```
-
-### 폴더 구조 생성
-
-```bash
-# macOS
-brew install tree
-tree -I 'wandb|**pycache**|\*.log|__pycache__|folder_structure' > folder_structure.txt
-```
+- **AI 기반 질문 생성**: OpenAI API를 활용하여 인터뷰 질문 생성.
+- **실시간 평가**: 음성 및 텍스트 답변 평가.
+- **결과 분석**: 데이터 기반 피드백 제공.
 
 ## 주의사항
 
-- 가상환경은 항상 `poetry shell`로 활성화
-- 의존성은 `pyproject.toml`에서 관리
-- 코드 품질을 위해 린팅과 테스트를 주기적으로 실행
+- **환경 변수 관리**: `.env` 파일을 적절히 설정하세요.
+- **가상환경 활성화**: 모든 작업은 `poetry shell`로 가상환경 활성화 후 실행하세요.
+- **코드 품질 유지**: Makefile의 `make lint`를 주기적으로 실행하세요.
 
-### 로컬에서 Celery 워커 실행
+## 기여 가이드
 
-```bash
-poetry run celery -A app.worker worker --loglevel=info
-```
+1. 이슈를 생성하거나 기존 이슈를 확인합니다.
+2. `develop` 브랜치에서 새로운 기능 또는 버그 수정을 위한 브랜치를 생성합니다.
+3. 작업 후, PR을 생성하고 리뷰를 요청합니다.
 
-### 로컬에서 redis 실행
+## Makefile 사용 팁
 
-```bash
-redis-server
-```
-
-```bash
-docker run -p 6379:6379 --name some-redis -d redis
-```
-
-```bash
-docker exec -it some-redis redis-cli
-keys *
-```
+Makefile을 통해 프로젝트 관리를 더욱 효율적으로 할 수 있습니다. 자세한 사용법은 `make help` 명령어로 확인하세요.
