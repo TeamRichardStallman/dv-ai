@@ -21,22 +21,20 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y docker-compose
 
-      - name: Create .env.test file
-        run: |
-          echo "CELERY_BROKER_URL=redis://redis-test:6379/0" >> .env.test
-          echo "CELERY_RESULT_BACKEND=redis://redis-test:6379/0" >> .env.test
-          echo "OPENAI_API_KEY=${{ secrets.OPENAI_API_KEY }}" >> .env.test
-          echo "WANDB_API_KEY=${{ secrets.WANDB_API_KEY }}" >> .env.test
-          echo "AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }}" >> .env.test
-          echo "AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }}" >> .env.test
-          echo "AWS_REGION=${{ secrets.AWS_REGION }}" >> .env.test
-          echo "S3_BUCKET_NAME=${{ secrets.S3_BUCKET_NAME }}" >> .env.test
-          echo "ENV=test" >> .env.test
-          echo "PYTHONPATH=/app" >> .env.test
-
       - name: Build and run tests with Docker Compose
+        env:
+          CELERY_BROKER_URL: redis://redis-test:6379/0
+          CELERY_RESULT_BACKEND: redis://redis-test:6379/0
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          WANDB_API_KEY: ${{ secrets.WANDB_API_KEY }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_REGION: ${{ secrets.AWS_REGION }}
+          S3_BUCKET_NAME: ${{ secrets.S3_BUCKET_NAME }}
+          ENV: test
+          PYTHONPATH: /app
         run: |
-          docker compose -f docker-compose.yml -f docker-compose.test.yml --env-file .env.test up --build --abort-on-container-exit
+          docker compose -f docker-compose.yml -f docker-compose.test.yml up --build --abort-on-container-exit
 
       - name: Remove containers
         if: always()
