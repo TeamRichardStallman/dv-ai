@@ -43,7 +43,6 @@ lint:
 # Docker Compose 테스트 실행
 test:
 	docker compose -f docker-compose.test.yml up --build --abort-on-container-exit
-	docker compose -f docker-compose.test.yml down --volumes
 
 # 폴더 구조를 tree 명령어로 파일로 저장
 tree:

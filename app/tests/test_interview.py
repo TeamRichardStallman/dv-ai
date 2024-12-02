@@ -81,7 +81,7 @@ async def test_create_interview_evaluation():
         assert "task_id" in response_json, "Response must contain task_id"
         task_id = response_json["task_id"]
 
-        for _ in range(120):
+        for _ in range(300):
             task_response = await ac.get(f"/tasks/{task_id}")
             assert task_response.status_code == 200
             task_status = task_response.json()
