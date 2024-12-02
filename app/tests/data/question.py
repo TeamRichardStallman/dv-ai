@@ -1,6 +1,7 @@
-from app.schemas.question import QuestionsResponse
+from typing import List
+from app.schemas.question import Question
 
-QUESTIONS_RESPONSE_DATA: QuestionsResponse = {
+QUESTIONS_RESPONSE_DATA: List[Question] = {
     "questions": [
         {
             "question_id": 1,
