@@ -4,7 +4,7 @@ from pydantic import BaseModel
 
 from app.schemas.answer import ScoreDetail, Scores
 from app.schemas.base import BaseRequest
-from app.schemas.question import QuestionsResponse
+from app.schemas.question import Question
 
 
 class Feedback(BaseModel):
@@ -21,14 +21,14 @@ class SimplifiedAnswerDetail(BaseModel):
     feedback: Feedback
 
 
-class SimplifiedAnswerResponse(BaseModel):
+class AnswerPartialResponse(BaseModel):
     question_id: int
     answer: SimplifiedAnswerDetail
 
 
 class EvaluationRequest(BaseRequest):
-    questions: QuestionsResponse
-    answers: List[SimplifiedAnswerResponse]
+    questions: List[Question]
+    answers: List[AnswerPartialResponse]
     file_paths: Optional[List[str]] = ["cover-letters/SK_AI_01.txt"]
 
 

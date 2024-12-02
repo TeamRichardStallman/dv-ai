@@ -11,16 +11,20 @@ BASE_URL = "http://test"
 
 @pytest.mark.asyncio
 @pytest.mark.parametrize(
-    "interview_mode, interview_type, interview_method, question_count, file_paths",
+    "interview_id, interview_mode, interview_type, interview_method, question_count, file_paths",
     [
-        ("real", "technical", "chat", 1, ["cover-letters/SK_AI_01.txt"]),
-        ("general", "technical", "chat", 1, []),
+        (1, "real", "technical", "chat", 1, ["cover-letters/SK_AI_01.txt"]),
+        (2, "real", "personal", "chat", 1, ["cover-letters/SK_AI_01.txt"]),
+        (3, "real", "technical", "voice", 1, ["cover-letters/cover_letter_01.txt"]),
+        (4, "general", "technical", "chat", 1, []),
     ],
 )
-async def test_create_interview_questions(interview_mode, interview_type, interview_method, question_count, file_paths):
+async def test_create_interview_questions(
+    interview_id, interview_mode, interview_type, interview_method, question_count, file_paths
+):
     async with AsyncClient(transport=ASGITransport(app=app), base_url=BASE_URL) as ac:
         response = await ac.post(
-            "/interview/1/questions",
+            f"/interview/{interview_id}/questions",
             json={
                 "user_id": 1,
                 "interview_mode": interview_mode,
@@ -77,7 +81,7 @@ async def test_create_interview_evaluation():
         assert "task_id" in response_json, "Response must contain task_id"
         task_id = response_json["task_id"]
 
-        for _ in range(300):
+        for _ in range(120):
             task_response = await ac.get(f"/tasks/{task_id}")
             assert task_response.status_code == 200
             task_status = task_response.json()

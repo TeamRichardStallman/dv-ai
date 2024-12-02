@@ -6,21 +6,19 @@ EVALUATION_REQUEST_DATA: EvaluationRequest = {
     "interview_type": "technical",
     "interview_method": "voice",
     "job_role": "ai",
-    "questions": {
-        "questions": [
-            {
-                "question_id": 1,
-                "question": {
-                    "question_text": "AI 대회에 출전하면서 교수님과 선배님들의 도움을 받았던 구체적인 경험과 그 과정에서 어떤 AI 알고리즘을 연구했는지에 대해 자세히 설명해 주시겠어요?",
-                    "s3_audio_url": "test/users/1/interviews/1/questions/question-1.mp3",
-                    "s3_video_url": None,
-                },
-                "question_excerpt": "AI 알고리즘 코드를 짜본 경험이 없었기 때문에 대회 진행에 어려움을 겪었습니다. 그리하여 AI 개발에 능숙하신 교수님과 선배님들에게 이메일을 보내 적극적으로 도움을 요청하였습니다.",
-                "question_intent": "AI 대회에서의 경험과 멘토링 과정에서의 학습 능력을 평가하기 위함입니다.",
-                "key_terms": ["AI 알고리즘", "멘토링", "대회 경험", "학습 과정", "문제 해결"],
-            }
-        ]
-    },
+    "questions": [
+        {
+            "question_id": 1,
+            "question": {
+                "question_text": "AI 대회에 출전하면서 교수님과 선배님들의 도움을 받았던 구체적인 경험과 그 과정에서 어떤 AI 알고리즘을 연구했는지에 대해 자세히 설명해 주시겠어요?",
+                "s3_audio_url": "test/users/1/interviews/1/questions/question-1.mp3",
+                "s3_video_url": None,
+            },
+            "question_excerpt": "AI 알고리즘 코드를 짜본 경험이 없었기 때문에 대회 진행에 어려움을 겪었습니다. 그리하여 AI 개발에 능숙하신 교수님과 선배님들에게 이메일을 보내 적극적으로 도움을 요청하였습니다.",
+            "question_intent": "AI 대회에서의 경험과 멘토링 과정에서의 학습 능력을 평가하기 위함입니다.",
+            "key_terms": ["AI 알고리즘", "멘토링", "대회 경험", "학습 과정", "문제 해결"],
+        }
+    ],
     "answers": [
         {
             "question_id": 1,
