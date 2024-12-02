@@ -31,6 +31,8 @@ Your task is to create **{question_count} in-depth interview questions** based o
 **Response Format**:
 ```json
 {{
+  "user_id": {user_id},
+  "interview_id": {interview_id},
   "questions": [
     {{
       "question_id": ...,
@@ -50,6 +52,8 @@ Your task is to create **{question_count} in-depth interview questions** based o
 **Example:**
 ```json
 {{
+  "user_id": {user_id},
+  "interview_id": {interview_id},
   "questions": [
     {{
       "question_id": 1,
@@ -110,6 +114,8 @@ These questions should assess the candidate’s suitability by exploring their p
    - Structure your output using the following JSON format:
      ```json
      {{
+       "user_id": {user_id},
+       "interview_id": {interview_id},
        "questions": [
          {{
            "question_id": ...,
@@ -142,6 +148,8 @@ These questions should assess the candidate’s suitability by exploring their p
 ### **Example Output**:
 ```json
 {{
+  "user_id": {user_id},
+  "interview_id": {interview_id},
   "questions": [
     {{
       "question_id": 1,
@@ -217,6 +225,8 @@ Your task is to create **exactly {question_count} in-depth interview questions**
 **Response Format**:
 ```json
 {{
+  "user_id": {user_id},
+  "interview_id": {interview_id},
   "questions": [
     {{
       "question_id": ...,
@@ -236,6 +246,8 @@ Your task is to create **exactly {question_count} in-depth interview questions**
 **Example:**
 ```json
 {{
+  "user_id": {user_id},
+  "interview_id": {interview_id},
   "questions": [
     {{
       "question_id": 1,

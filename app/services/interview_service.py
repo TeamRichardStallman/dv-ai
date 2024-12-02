@@ -46,7 +46,7 @@ async def process_questions(
     tts_service: TTSService,
 ) -> QuestionsResponse:
     try:
-        questions = await generate_interview_questions(request_data)
+        questions = await generate_interview_questions(interview_id, request_data)
 
         if request_data.interview_method != "chat":
             for question in questions.questions:
@@ -149,9 +149,9 @@ async def process_answer(
     }
 
 
-async def generate_interview_questions(user_data: QuestionsRequest) -> QuestionsResponse:
+async def generate_interview_questions(interview_id: int, user_data: QuestionsRequest) -> QuestionsResponse:
     s3_service = S3Service()
-    prompt = generate_questions_prompt(user_data)
+    prompt = generate_questions_prompt(interview_id, user_data)
 
     file_objects = create_file_objects(user_data.file_paths)
     file_data = await s3_service.get_files_from_s3(file_objects)

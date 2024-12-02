@@ -20,6 +20,8 @@ class Question(BaseModel):
 
 
 class QuestionsResponse(BaseModel):
+    user_id: int
+    interview_id: int
     questions: List[Question]
 
 

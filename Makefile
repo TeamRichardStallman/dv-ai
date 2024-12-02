@@ -21,6 +21,9 @@ build:
 up:
 	docker compose up --build
 
+up-dev:
+	docker compose -f docker-compose.yml up --build
+
 # Docker Compose 컨테이너 중지 및 삭제
 down:
 	docker compose down --timeout 10 --volumes || docker ps -q | xargs -r docker rm -f
