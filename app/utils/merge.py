@@ -1,13 +1,13 @@
 from typing import List
 
-from app.schemas.evaluation import SimplifiedAnswerResponse
-from app.schemas.question import QuestionsResponse
+from app.schemas.evaluation import AnswerPartialResponse
+from app.schemas.question import Question
 
 
-def merge_questions_and_answers(questions: QuestionsResponse, answers: List[SimplifiedAnswerResponse]):
+def merge_questions_and_answers(questions: List[Question], answers: List[AnswerPartialResponse]):
     merged_data = []
 
-    for q in questions.questions:
+    for q in questions:
         answer = next(
             (a for a in answers if a.question_id == q.question_id),
             None,

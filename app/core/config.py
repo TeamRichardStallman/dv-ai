@@ -25,3 +25,6 @@ class Config:
     BACK_API_URL = os.getenv("BACK_API_URL", "http://localhost:8080")
 
     TYPECAST_API_TOKEN = os.getenv("TYPECAST_API_TOKEN")
+
+    CELERY_BROKER_URL = os.getenv("REDIS_HOST")
+    CELERY_RESULT_BACKEND = os.getenv("REDIS_HOST")

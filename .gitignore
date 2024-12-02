@@ -10,6 +10,8 @@ __pycache__/
 # 가상 환경
 venv/
 .env/
+.env.*
+!.env.sample
 
 # DS_store
 .DS_Store
@@ -26,3 +28,6 @@ wandb/
 # tox, egg-info ignore
 dv_ai.egg-info/
 .tox/
+
+# github actions 로컬 테스트를 위한 환경변수 파일
+.secrets

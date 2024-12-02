@@ -20,9 +20,11 @@ class Question(BaseModel):
 
 
 class QuestionsResponse(BaseModel):
+    user_id: int
+    interview_id: int
     questions: List[Question]
 
 
 class QuestionsRequest(BaseRequest):
-    question_count: int = 3
+    question_count: int = 1
     file_paths: Optional[List[str]] = ["cover-letters/cover_letter_01.txt"]

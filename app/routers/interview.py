@@ -1,29 +1,28 @@
 from typing import Union
 
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, HTTPException
 
-from app.schemas.answer import AnswerRequest, AnswerResponse
-from app.schemas.evaluation import EvaluationRequest, PersonalEvaluationResponse, TechnicalEvaluationResponse
-from app.schemas.question import QuestionsRequest, QuestionsResponse
-from app.services.interview_service import process_answer, process_evaluation, process_questions
-from app.services.s3_service import S3Service, get_s3_service
-from app.services.stt_service import STTService, get_stt_service
-from app.services.tts_service import TTSService, get_tts_service
-from app.tests.data import evaluation_test_data, questions_test_data
+from app.schemas.answer import AnswerRequest
+from app.schemas.evaluation import EvaluationRequest
+from app.schemas.question import QuestionsRequest
+from app.schemas.task import MessageQueueResponse
+from app.services.tasks import async_process_answer, async_process_evaluation, async_process_questions
 
 router = APIRouter(prefix="/interview", tags=["Interview"])
 
 
-@router.post("/{interview_id}/questions", tags=["Interview"], response_model=QuestionsResponse)
+@router.post("/{interview_id}/questions", tags=["Interview"], response_model=MessageQueueResponse)
 async def create_interview_questions(
     interview_id: Union[int, str],
     request_data: QuestionsRequest,
-    s3_service: S3Service = Depends(get_s3_service),
-    tts_service: TTSService = Depends(get_tts_service),
 ):
     try:
-        result = await process_questions(interview_id, request_data, s3_service, tts_service)
-        return result
+        task = async_process_questions.delay(interview_id, request_data.dict())
+        return {
+            "message": "Question processing started!",
+            "task_id": task.id,
+            "status": "processing",
+        }
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error generating questions: {str(e)}")
 
@@ -31,46 +30,33 @@ async def create_interview_questions(
 @router.post(
     "/{interview_id}/evaluation",
     tags=["Interview"],
-    response_model=Union[TechnicalEvaluationResponse, PersonalEvaluationResponse],
+    response_model=MessageQueueResponse,
 )
 async def create_interview_evaluation(interview_id: Union[int, str], request_data: EvaluationRequest):
     try:
-        result = process_evaluation(interview_id, request_data)
-        return result
+        task = async_process_evaluation.delay(interview_id, request_data.dict())
+        return {
+            "message": "Evaluation processing started!",
+            "task_id": task.id,
+            "status": "processing",
+        }
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error generating evaluation: {str(e)}")
 
 
-@router.post("/{interview_id}/questions-test", tags=["Interview"], response_model=QuestionsResponse)
-async def create_interview_questions_test():
-    try:
-        return questions_test_data
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Error generating questions: {str(e)}")
-
-
-@router.post(
-    "/{interview_id}/evaluation-test",
-    tags=["Interview"],
-    response_model=Union[TechnicalEvaluationResponse, PersonalEvaluationResponse],
-)
-async def create_interview_evaluation_test():
-    try:
-        return evaluation_test_data
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Error generating evaluation: {str(e)}")
-
-
-@router.post("/{interview_id}/answer/{question_or_answer_id}", tags=["Interview"], response_model=AnswerResponse)
+@router.post("/{interview_id}/answer/{question_or_answer_id}", tags=["Interview"], response_model=MessageQueueResponse)
 async def create_asnwer_text_from_answer_audio(
     interview_id: int,
     question_or_answer_id: int,
     request_data: AnswerRequest,
-    s3_service: S3Service = Depends(get_s3_service),
-    stt_service: STTService = Depends(get_stt_service),
 ):
     try:
-        return await process_answer(interview_id, question_or_answer_id, request_data, s3_service, stt_service)
+        task = async_process_answer.delay(interview_id, question_or_answer_id, request_data.dict())
+        return {
+            "message": "Answer processing started!",
+            "task_id": task.id,
+            "status": "processing",
+        }
     except ValueError as e:
         raise HTTPException(status_code=400, detail=str(e))
     except Exception as e:

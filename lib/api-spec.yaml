@@ -266,6 +266,23 @@ components:
       - question_text
       title: QuestionDeatil
       type: object
+    QuestionsAsyncResponse:
+      properties:
+        message:
+          title: Message
+          type: string
+        status:
+          title: Status
+          type: string
+        task_id:
+          title: Task Id
+          type: string
+      required:
+      - message
+      - task_id
+      - status
+      title: QuestionsAsyncResponse
+      type: object
     QuestionsRequest:
       properties:
         file_paths:
@@ -309,7 +326,7 @@ components:
           title: Job Role
           type: string
         question_count:
-          default: 3
+          default: 1
           title: Question Count
           type: integer
         user_id:
@@ -685,13 +702,6 @@ paths:
           - type: integer
           - type: string
           title: Interview Id
-      - in: query
-        name: model_name
-        required: false
-        schema:
-          default: openai
-          title: Model Name
-          type: string
       requestBody:
         content:
           application/json:
@@ -703,7 +713,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/QuestionsResponse-Output'
+                $ref: '#/components/schemas/QuestionsAsyncResponse'
           description: Successful Response
         '422':
           content:
@@ -729,3 +739,29 @@ paths:
       tags:
       - Interview
       - Interview
+  /tasks/{task_id}:
+    get:
+      operationId: get_task_status_tasks__task_id__get
+      parameters:
+      - in: path
+        name: task_id
+        required: true
+        schema:
+          title: Task Id
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema: {}
+          description: Successful Response
+        '422':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+          description: Validation Error
+      summary: Get Task Status
+      tags:
+      - Task
+      - Task
