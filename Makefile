@@ -17,18 +17,13 @@ help:
 build:
 	docker compose build --no-cache
 
-ENV_FILE ?= .env.local
-
 # Docker Compose 컨테이너 실행
 up:
-	ENV_FILE=$(ENV_FILE) docker compose --env-file $(ENV_FILE) up --build --force-recreate
+	docker compose up --build
 
 # Docker Compose 컨테이너 중지 및 삭제
 down:
 	docker compose down --timeout 10 --volumes || docker ps -q | xargs -r docker rm -f
-
-# Docker Compose 컨테이너 재시작
-restart: down build up
 
 # 실행 중인 컨테이너의 로그 확인
 logs:
@@ -45,9 +40,8 @@ lint:
 # Docker Compose 테스트 실행
 test:
 	docker compose -f docker-compose.test.yml up --build --abort-on-container-exit
+	docker compose -f docker-compose.test.yml down --volumes
 
 # 폴더 구조를 tree 명령어로 파일로 저장
-# - 'wandb', '__pycache__', '*.log', 'folder_structure'와 같은 폴더 및 파일 제외
-# - 결과는 folder_structure.txt 파일로 저장
 tree:
 	tree -I 'wandb|**pycache**|\*.log|__pycache__|folder_structure' > folder_structure.txt

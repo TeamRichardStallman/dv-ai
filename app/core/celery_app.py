@@ -1,7 +1,9 @@
 from celery import Celery
 
+from app.core.config import Config
+
 celery_app = Celery(
     "interview_app",
-    broker="redis://redis:6379/0",
-    backend="redis://redis:6379/0",
+    broker=Config.CELERY_BROKER_URL,
+    backend=Config.CELERY_RESULT_BACKEND,
 )
