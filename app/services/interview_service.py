@@ -7,7 +7,8 @@ import weave
 from dotenv import load_dotenv
 from openai import OpenAI
 
-from app.models.openai.gpt import ContentGenerator
+# from app.models.openai.gpt import ContentGenerator
+from app.models.LangChain.langchain import ContentGenerator
 from app.schemas.answer import (
     AnswerDetail,
     AnswerRequest,
