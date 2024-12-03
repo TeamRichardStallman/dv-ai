@@ -68,7 +68,7 @@ async def process_interview_questions(
                 question.question.s3_audio_url = object_key
         else:
             for question in questions.questions:
-                question.question.s3_audio_url = None
+                question.question.s3_audio_url = None   
 
         return questions
     except Exception as e:
