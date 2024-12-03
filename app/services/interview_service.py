@@ -153,10 +153,12 @@ async def generate_interview_questions(interview_id: int, user_data: QuestionsRe
     s3_service = S3Service()
     prompt = generate_questions_prompt(interview_id, user_data)
 
-    file_objects = create_file_objects(user_data.file_paths)
-    file_data = await s3_service.get_files_from_s3(file_objects)
-    cover_letter = get_cover_letters_data(file_data)
-    cover_letter = cover_letter or ""
+    cover_letter = ""
+    if user_data.interview_mode == "real":
+        file_objects = create_file_objects(user_data.file_paths)
+        file_data = await s3_service.get_files_from_s3(file_objects)
+        cover_letter = get_cover_letters_data(file_data)
+        cover_letter = cover_letter
 
     generator = ContentGenerator(user_data=user_data)
     data = generator.invoke(prompt, cover_letter, "question")

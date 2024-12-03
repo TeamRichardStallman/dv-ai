@@ -1,4 +1,5 @@
 from typing import List
+
 from app.schemas.question import Question
 
 QUESTIONS_RESPONSE_DATA: List[Question] = {
