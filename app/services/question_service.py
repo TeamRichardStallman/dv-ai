@@ -6,8 +6,9 @@ from app.schemas.question import QuestionsRequest
 weave.init("ticani0610-no/prompt-test")
 
 
-def generate_questions_prompt(user_data: QuestionsRequest):
+def generate_questions_prompt(interview_id: int, user_data: QuestionsRequest):
     try:
+        user_id = user_data.user_id
         job_role = user_data.job_role
         interview_type = user_data.interview_type
         interview_mode = user_data.interview_mode
@@ -28,7 +29,9 @@ def generate_questions_prompt(user_data: QuestionsRequest):
     weave.publish(obj=generation_prompt, name=f"prompt: {interview_mode}-{interview_type}")
 
     try:
-        prompt = generation_prompt.format(job_role=job_role, question_count=question_count)
+        prompt = generation_prompt.format(
+            job_role=job_role, question_count=question_count, user_id=user_id, interview_id=interview_id
+        )
     except KeyError as e:
         raise KeyError(f"Missing key during prompt formatting: {e}")
 
