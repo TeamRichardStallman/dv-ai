@@ -1,10 +1,12 @@
 import json
 from typing import Literal, Union
+from langsmith import traceable
 from langchain_core.messages import HumanMessage, SystemMessage
 from langchain_openai import ChatOpenAI
 from app.core.config import Config
 from app.schemas.evaluation import EvaluationRequest, PersonalEvaluationResponse, TechnicalEvaluationResponse
 from app.schemas.question import QuestionsRequest, QuestionsResponse
+
 
 class ContentGenerator:
     def __init__(self, user_data: Union[QuestionsRequest, EvaluationRequest]):
@@ -15,17 +17,19 @@ class ContentGenerator:
             temperature=Config.TEMPERATURE,
             top_p=Config.TOP_P
         )
-
+    
+    @traceable
     def invoke(self, prompt: str, input: str, choice: Literal["question", "evaluation"])\
         -> Union[QuestionsResponse, TechnicalEvaluationResponse, PersonalEvaluationResponse]:
         messages = [
                     SystemMessage(content=prompt),
                     HumanMessage(content=input)
-        ]
+                ]
 
         # Generate response using the LLM
         response = self.llm.invoke(messages)
         response_content = response.content
+        print(response_content)
 
         # Remove response using the LLM
         if response_content.startswith("```json"):

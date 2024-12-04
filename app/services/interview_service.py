@@ -8,11 +8,24 @@ from dotenv import load_dotenv
 from openai import OpenAI
 
 from app.models.openai.gpt import ContentGenerator
+<<<<<<< HEAD
 from app.schemas.answer import AnswerRequestModel, AnswerResponseModel
 from app.schemas.evaluation import (
     EvaluationRequestModel,
     PersonalEvaluationResponseModel,
     TechnicalEvaluationResponseModel,
+=======
+# from app.models.LangChain.langchain import ContentGenerator
+from app.schemas.answer import (
+    AnswerDetail,
+    AnswerRequest,
+    AnswerResponse,
+    Feedback,
+    ScoreDetail,
+    Scores,
+    TextScores,
+    VoiceScores,
+>>>>>>> 66dae0d (DV-188 feat: LangSmith 추가)
 )
 from app.schemas.question import QuestionsRequestModel, QuestionsResponseModel
 from app.services.answer_service import generate_answer_evaluation_new_request_data, generate_answer_evaluation_prompt
