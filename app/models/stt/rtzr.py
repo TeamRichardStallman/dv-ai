@@ -1,10 +1,11 @@
-import json
-from typing import Any
 import asyncio
+import json
+
 import httpx
 
-from .base import BaseSTTModel
 from app.core.config import Config
+
+from .base import BaseSTTModel
 
 
 class RtzrSTTModel(BaseSTTModel):
@@ -61,11 +62,11 @@ class RtzrSTTModel(BaseSTTModel):
 
                 if status == "completed":
                     result = resp_json.get("results", {}).get("utterances", [])
-                    messages = [utterance.get('msg', '') for utterance in result]
-                    text = ' '.join(messages)
+                    messages = [utterance.get("msg", "") for utterance in result]
+                    text = " ".join(messages)
                     return text
                 elif status == "failed":
-                    error_message = resp_json.get('message', 'Unknown error')
+                    error_message = resp_json.get("message", "Unknown error")
                     raise Exception(f"Transcription failed: {error_message}")
                 else:
                     await asyncio.sleep(1)

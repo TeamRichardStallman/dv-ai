@@ -1,6 +1,6 @@
 from app.models.stt.google import GoogleSTTModel
-from app.models.stt.whisper import WhisperSTTModel
 from app.models.stt.rtzr import RtzrSTTModel
+from app.models.stt.whisper import WhisperSTTModel
 
 
 def get_stt_model(model_name: str):
