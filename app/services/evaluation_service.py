@@ -1,7 +1,6 @@
-from app.prompts.chat.chat_evaluation import REAL_TECH_CHAT_EVAL, REAL_PERSONAL_CHAT_EVAL, GENERAL_TECH_CHAT_EVAL
-from app.prompts.voice.voice_evaluation import REAL_TECH_VOICE_EVAL, REAL_PERSONAL_VOICE_EVAL, GENERAL_TECH_VOICE_EVAL
-from app.schemas.evaluation import SingleEvaluationRequest
-from app.schemas.evaluation import EvaluationRequest
+from app.prompts.chat.chat_evaluation import GENERAL_TECH_CHAT_EVAL, REAL_PERSONAL_CHAT_EVAL, REAL_TECH_CHAT_EVAL
+from app.prompts.voice.voice_evaluation import GENERAL_TECH_VOICE_EVAL, REAL_PERSONAL_VOICE_EVAL, REAL_TECH_VOICE_EVAL
+from app.schemas.evaluation import EvaluationRequest, SingleEvaluationRequest
 
 
 def generate_evaluation_prompt(interview_id: int, user_data: EvaluationRequest) -> str:

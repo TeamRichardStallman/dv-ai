@@ -4,10 +4,9 @@ import tempfile
 from openai import OpenAI
 
 from app.core.config import Config
+from app.utils.wpm import calculate_wpm
 
 from .base import BaseSTTModel
-
-from app.utils.wpm import calculate_wpm
 
 
 class WhisperSTTModel(BaseSTTModel):
@@ -24,17 +23,18 @@ class WhisperSTTModel(BaseSTTModel):
                 model="whisper-1",
                 file=open(temp_file_path, "rb"),
                 response_format="verbose_json",
-                timestamp_granularities=["word"]
+                timestamp_granularities=["word"],
             )
 
             wpm = calculate_wpm(response.to_dict())
 
-            return response.to_dict().get('text'), wpm
+            return response.to_dict().get("text"), wpm
         except Exception as e:
             raise RuntimeError(f"Error transcribing audio with OpenAI Whisper API: {e}")
         finally:
             if os.path.exists(temp_file_path):
                 os.remove(temp_file_path)
+
 
 # 로컬에서 실행해보기 위한 테스트 코드
 
