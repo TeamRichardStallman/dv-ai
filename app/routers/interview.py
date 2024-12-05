@@ -5,7 +5,7 @@ from fastapi import APIRouter, Depends, HTTPException
 from app.schemas.answer import AnswerRequest, AnswerResponse
 from app.schemas.evaluation import EvaluationRequest, PersonalEvaluationResponse, TechnicalEvaluationResponse
 from app.schemas.question import QuestionsRequest, QuestionsResponse
-from app.services.interview_service import process_answer, process_evaluation, process_questions
+from app.services.interview_service import process_single_evaluation, process_evaluation, process_questions
 from app.services.s3_service import S3Service, get_s3_service
 from app.services.stt_service import STTService, get_stt_service
 from app.services.tts_service import TTSService, get_tts_service
@@ -70,7 +70,7 @@ async def create_asnwer_text_from_answer_audio(
     stt_service: STTService = Depends(get_stt_service),
 ):
     try:
-        return await process_answer(interview_id, question_or_answer_id, request_data, s3_service, stt_service)
+        return await process_single_evaluation(interview_id, question_or_answer_id, request_data, s3_service, stt_service)
     except ValueError as e:
         raise HTTPException(status_code=400, detail=str(e))
     except Exception as e:
