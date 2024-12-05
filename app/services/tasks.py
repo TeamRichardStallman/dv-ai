@@ -1,3 +1,4 @@
+import httpx
 from asgiref.sync import async_to_sync
 
 from app.core.celery_app import celery_app
@@ -9,6 +10,7 @@ from app.services.interview_service import (
     process_interview_evaluation,
     process_interview_questions,
 )
+from app.core.config import Config
 from app.utils.format import to_serializable
 
 
@@ -22,6 +24,16 @@ def async_process_interview_questions(self, interview_id: int, request_data: dic
 
     try:
         result = async_to_sync(process_interview_questions)(interview_id, request_data_obj)
+
+        try:
+            with httpx.Client() as client:
+                response = client.post(
+                    f"{Config.BACK_API_URL}/question/completion",
+                    json=result.dict() if hasattr(result, "dict") else result,
+                )
+                response.raise_for_status()
+        except Exception as http_error:
+            raise RuntimeError(f"Error sending result to external server: {http_error}")
 
         self.update_state(
             state="SUCCESS",
@@ -52,6 +64,16 @@ def async_process_interview_evaluation(self, interview_id: int, request_data: di
     try:
 
         result = process_interview_evaluation(interview_id, evaluation_data_obj)
+
+        try:
+            with httpx.Client() as client:
+                response = client.post(
+                    f"{Config.BACK_API_URL}/evaluation/completion",
+                    json=result.dict() if hasattr(result, "dict") else result,
+                )
+                response.raise_for_status()
+        except Exception as http_error:
+            raise RuntimeError(f"Error sending result to external server: {http_error}")
 
         self.update_state(
             state="SUCCESS",
@@ -84,6 +106,16 @@ def async_process_answer_evaluation(self, interview_id: int, request_data: dict)
         result = async_to_sync(process_answer_evaluation)(interview_id, answer_data_obj)
 
         serializable_result = to_serializable(result)
+
+        try:
+            with httpx.Client() as client:
+                response = client.post(
+                    f"{Config.BACK_API_URL}/answer/evaluations",
+                    json=result.dict() if hasattr(result, "dict") else result,
+                )
+                response.raise_for_status()
+        except Exception as http_error:
+            raise RuntimeError(f"Error sending result to external server: {http_error}")
 
         self.update_state(
             state="SUCCESS",
