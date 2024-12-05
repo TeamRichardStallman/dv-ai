@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import Optional, Union
 
 from pydantic import BaseModel
 
@@ -11,12 +11,20 @@ class ScoreDetail(BaseModel):
     rationale: str
 
 
-class TextScores(BaseModel):
+class TechnicalTextScores(BaseModel):
     appropriate_response: ScoreDetail
     logical_flow: ScoreDetail
     key_terms: ScoreDetail
     consistency: ScoreDetail
     grammatical_errors: ScoreDetail
+
+
+class PersonalTextScores(BaseModel):
+    teamwork: ScoreDetail
+    communication: ScoreDetail
+    problem_solving: ScoreDetail
+    accountability: ScoreDetail
+    growth_mindset: ScoreDetail
 
 
 class VoiceScores(BaseModel):
@@ -26,7 +34,7 @@ class VoiceScores(BaseModel):
 
 
 class Scores(BaseModel):
-    text_scores: TextScores
+    text_scores: Union[TechnicalTextScores, PersonalTextScores]
     voice_scores: Optional[VoiceScores]
 
 
@@ -55,12 +63,13 @@ class AnswerBaseModel(BaseModel):
 class AnswerRequestModel(BaseRequest):
     question: QuestionBaseModel
     answer: AnswerBaseModel
+    file_path: Optional[str] = "cover-letters/SK_AI_01.txt"
 
 
 # Request: 응답으로 나오는 Reponse 모델
 class AnswerResponseModel(BaseModel):
     user_id: int
     interview_id: int
-    question_id: int
     interview_method: str
+    question_id: int
     answer: AnswerDetail

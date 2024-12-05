@@ -10,7 +10,7 @@ class GoogleSTTModel(BaseSTTModel):
     def __init__(self):
         self.client = speech.SpeechClient()
 
-    async def transcribe(self, audio_file: bytes, language_code: str = "ko-KR") -> str:
+    async def transcribe(self, audio_file: bytes, language_code: str = "ko-KR"):
         try:
             audio = AudioSegment.from_file(io.BytesIO(audio_file), format="mp3")
             flac_audio = io.BytesIO()

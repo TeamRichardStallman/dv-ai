@@ -1,4 +1,4 @@
-def calculate_wpm(word_data: dict):
+def calculate_wpm(word_data: dict) -> float:
     # 총 단어 수 계산
     total_words = len(word_data.get("words"))
     if total_words == 0:

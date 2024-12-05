@@ -14,9 +14,11 @@ BASE_URL = "http://test"
     "interview_id, interview_mode, interview_type, interview_method, question_count, file_paths",
     [
         (1, "real", "technical", "chat", 1, ["cover-letters/SK_AI_01.txt"]),
-        (2, "real", "personal", "chat", 1, ["cover-letters/SK_AI_01.txt"]),
-        (3, "real", "technical", "voice", 1, ["cover-letters/cover_letter_01.txt"]),
-        (4, "general", "technical", "chat", 1, []),
+        (2, "real", "technical", "voice", 1, ["cover-letters/SK_AI_01.txt"]),
+        (3, "real", "personal", "chat", 1, ["cover-letters/SK_AI_01.txt"]),
+        (4, "real", "personal", "voice", 1, ["cover-letters/SK_AI_01.txt"]),
+        (5, "general", "technical", "chat", 1, []),
+        (6, "general", "technical", "voice", 1, []),
     ],
 )
 async def test_create_interview_questions(

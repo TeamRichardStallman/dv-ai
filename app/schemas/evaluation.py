@@ -33,12 +33,6 @@ class EvaluationRequestModel(BaseRequest):
     file_paths: Optional[List[str]] = ["cover-letters/SK_AI_01.txt"]
 
 
-class SingleEvaluationRequestModel(BaseRequest):
-    question: QuestionBaseModel
-    answer: AnswerPartialResponse
-    file_path: Optional[str] = "cover-letters/SK_AI_01.txt"
-
-
 class TechnicalTextOverallEvaluation(BaseModel):
     job_fit: ScoreDetail
     growth_potential: ScoreDetail
@@ -61,12 +55,12 @@ class VoiceOverallEvaluation(BaseModel):
 
 class TechnicalOverallEvaluation(BaseModel):
     text_overall: TechnicalTextOverallEvaluation
-    voice_overall: VoiceOverallEvaluation
+    voice_overall: Optional[VoiceOverallEvaluation]
 
 
 class PersonalOverallEvaluation(BaseModel):
     text_overall: PersonalTextOverallEvaluation
-    voice_overall: VoiceOverallEvaluation
+    voice_overall: Optional[VoiceOverallEvaluation]
 
 
 # Reponse: 응답으로 나오는 Reponse 모델

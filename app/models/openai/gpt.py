@@ -4,6 +4,7 @@ from typing import Literal, Union
 from openai import OpenAI
 
 from app.core.config import Config
+from app.schemas.answer import AnswerResponseModel
 from app.schemas.evaluation import (
     EvaluationRequestModel,
     PersonalEvaluationResponseModel,
@@ -15,10 +16,10 @@ client_gpt = OpenAI(api_key=Config.OPENAI_API_KEY)
 
 
 class ContentGenerator:
-    def __init__(self, user_data: Union[QuestionsRequestModel, EvaluationRequestModel]):
-        self.user_data = user_data
+    def __init__(self, request_data: Union[QuestionsRequestModel, EvaluationRequestModel]):
+        self.request_data = request_data
 
-    def invoke(self, prompt: str, input: str, choice: Literal["question", "evaluation"]):
+    def invoke(self, prompt: str, input: str, choice: Literal["question", "answer", "evaluation"]):
         response = client_gpt.chat.completions.create(
             model=Config.GPT_MODEL,
             messages=[
@@ -36,8 +37,10 @@ class ContentGenerator:
 
         if choice == "question":
             return QuestionsResponseModel(**parsed_content)
+        elif choice == "answer":
+            return AnswerResponseModel(**parsed_content)
         elif choice == "evaluation":
-            if self.user_data.interview_type == "technical":
+            if self.request_data.interview_type == "technical":
                 return TechnicalEvaluationResponseModel(**parsed_content)
-            elif self.user_data.interview_type == "personal":
+            elif self.request_data.interview_type == "personal":
                 return PersonalEvaluationResponseModel(**parsed_content)

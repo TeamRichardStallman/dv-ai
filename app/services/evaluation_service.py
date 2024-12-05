@@ -1,77 +1,47 @@
-from app.prompts.chat.chat_evaluation import GENERAL_TECH_CHAT_EVAL, REAL_PERSONAL_CHAT_EVAL, REAL_TECH_CHAT_EVAL
-from app.prompts.voice.voice_evaluation import GENERAL_TECH_VOICE_EVAL, REAL_PERSONAL_VOICE_EVAL, REAL_TECH_VOICE_EVAL
-from app.schemas.evaluation import EvaluationRequestModel, SingleEvaluationRequestModel
+from app.prompts.chat.chat_overall import GENERAL_TECH_CHAT_OVER, REAL_PERSONAL_CHAT_OVER, REAL_TECH_CHAT_OVER
+from app.prompts.voice.voice_overall import GENERAL_TECH_VOICE_OVER, REAL_PERSONAL_VOICE_OVER, REAL_TECH_VOICE_OVER
+from app.schemas.evaluation import EvaluationRequestModel
 
 
-def generate_evaluation_prompt(interview_id: int, request_data: EvaluationRequestModel) -> str:
+def generate_interview_evaluation_prompt(interview_id: int, request_data: EvaluationRequestModel) -> str:
     try:
         user_id = request_data.user_id
         job_role = request_data.job_role
+        interview_method = request_data.interview_method
         interview_type = request_data.interview_type
         interview_mode = request_data.interview_mode
+
     except KeyError as e:
         raise KeyError(f"Missing required key in request_data: {e}")
-
-    if interview_mode == "real":
-        if interview_type == "technical":
-            generation_prompt = REAL_TECH_CHAT_EVAL
-        elif interview_type == "personal":
-            generation_prompt = REAL_PERSONAL_CHAT_EVAL
-    elif interview_mode == "general":
-        generation_prompt = GENERAL_TECH_CHAT_EVAL
-    else:
-        raise ValueError(f"Unknown interview_mode: {interview_mode}")
-
-    try:
-        prompt = generation_prompt.format(
-            job_role=job_role, interview_type=interview_type, user_id=user_id, interview_id=interview_id
-        )
-    except KeyError as e:
-        raise KeyError(f"Missing key during prompt formatting: {e}")
-
-    return prompt
-
-
-def generate_single_evaluation_prompt(interview_id: int, request_data: SingleEvaluationRequestModel, wpm: int) -> str:
-    user_id = request_data.user_id
-    job_role = request_data.job_role
-    interview_type = request_data.interview_type
-    interview_mode = request_data.interview_mode
-    interview_method = request_data.interview_method
-    question_text = request_data.question.question
-    answer_text = request_data.answer.answer_text
 
     if interview_method == "chat":
         if interview_mode == "real":
             if interview_type == "technical":
-                generation_prompt = REAL_TECH_CHAT_EVAL
+                generation_prompt = REAL_TECH_CHAT_OVER
             elif interview_type == "personal":
-                generation_prompt = REAL_PERSONAL_CHAT_EVAL
+                generation_prompt = REAL_PERSONAL_CHAT_OVER
         elif interview_mode == "general":
-            generation_prompt = GENERAL_TECH_CHAT_EVAL
+            generation_prompt = GENERAL_TECH_CHAT_OVER
         else:
             raise ValueError(f"Unknown interview_mode: {interview_mode}")
 
     else:
         if interview_mode == "real":
             if interview_type == "technical":
-                generation_prompt = REAL_TECH_VOICE_EVAL
+                generation_prompt = REAL_TECH_VOICE_OVER
             elif interview_type == "personal":
-                generation_prompt = REAL_PERSONAL_VOICE_EVAL
+                generation_prompt = REAL_PERSONAL_VOICE_OVER
         elif interview_mode == "general":
-            generation_prompt = GENERAL_TECH_VOICE_EVAL
+            generation_prompt = GENERAL_TECH_VOICE_OVER
         else:
             raise ValueError(f"Unknown interview_mode: {interview_mode}")
 
     try:
         prompt = generation_prompt.format(
-            user_id=user_id,
             job_role=job_role,
             interview_type=interview_type,
+            user_id=user_id,
             interview_id=interview_id,
-            question_text=question_text,
-            answer_text=answer_text,
-            wpm=wpm,
         )
     except KeyError as e:
         raise KeyError(f"Missing key during prompt formatting: {e}")

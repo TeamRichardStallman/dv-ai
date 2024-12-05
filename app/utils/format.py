@@ -18,6 +18,8 @@ def to_serializable(value):
         return [to_serializable(v) for v in value]
     elif isinstance(value, tuple):
         return tuple(to_serializable(v) for v in value)
+    elif isinstance(value, float):
+        return str(value)
     elif hasattr(value, "__dict__"):
         return to_serializable(value.__dict__)
     else:

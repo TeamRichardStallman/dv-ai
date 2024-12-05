@@ -126,26 +126,28 @@ REAL_TECH_VOICE_EVAL: str = """
         "question_id": {question_id},
         "answer":{{
             "answer_text": "Refined text based on the STT output"
-        }},
-        "scores": {{
-            "text_scores": {{
-                "appropriate_response": {{ "score": integer, "rationale": "Detailed rationale for score" }},
-                "logical_flow": {{ "score": integer, "rationale": "Detailed rationale for score" }},
-                "key_terms": {{ "score": integer, "rationale": "Detailed rationale for score" }},
-                "consistency": {{ "score": integer, "rationale": "Detailed rationale for score" }},
-                "grammatical_errors": {{ "score": integer, "rationale": "Detailed rationale for score" }}
+            "s3_audio_url": {s3_audio_url},
+            "s3_video_url": {s3_video_url},
+            "scores": {{
+                "text_scores": {{
+                    "appropriate_response": {{ "score": integer, "rationale": "Detailed rationale for score" }},
+                    "logical_flow": {{ "score": integer, "rationale": "Detailed rationale for score" }},
+                    "key_terms": {{ "score": integer, "rationale": "Detailed rationale for score" }},
+                    "consistency": {{ "score": integer, "rationale": "Detailed rationale for score" }},
+                    "grammatical_errors": {{ "score": integer, "rationale": "Detailed rationale for score" }}
+                }},
+                "voice_scores": {{
+                    "wpm": {{ "score": integer, "rationale": "Detailed rationale for score" }},
+                    "stutter": {{ "score": integer, "rationale": "Detailed rationale for score" }},
+                    "pronunciation": {{ "score": integer, "rationale": "Detailed rationale for score" }}
+                }},
             }},
-            "voice_scores": {{
-                "wpm": {{ "score": {wpm}, "rationale": "Detailed rationale for score" }},
-                "stutter": {{ "score": integer, "rationale": "Detailed rationale for score" }},
-                "pronunciation": {{ "score": integer, "rationale": "Detailed rationale for score" }}
-            }},
+            "feedback": {{
+                "strengths": "Detailed feedback on strengths",
+                "improvement": "Detailed feedback on areas for improvement",
+                "suggestion": "Detailed feedback on suggestions"
+            }}
         }},
-        "feedback": {{
-            "strengths": "Detailed feedback on strengths",
-            "improvement": "Detailed feedback on areas for improvement",
-            "suggestion": "Detailed feedback on suggestions"
-        }}
     }}
     """
 
@@ -159,7 +161,7 @@ REAL_PERSONAL_VOICE_EVAL: str = """
     - **question_intent**: The intention behind the interview question.
     - **key_terms**: Key interpersonal or personality-related terms expected in the response.
     - **answer_text**: The candidate's answer, transcribed from STT. Due to STT characteristics, it may contain typos or unusual words.
-    - **wpm**: Words per minute (WPM), measured based on the candidate's answer.
+    - **wpm**: {wpm} Words per minute (WPM), measured based on the candidate's answer.
 
     Your task consists of three main steps to evaluate the candidate's response:
     1. **Text Refinement and Fluency Analysis**:
@@ -278,27 +280,29 @@ REAL_PERSONAL_VOICE_EVAL: str = """
         "interview_method": "voice",
         "question_id": {question_id},
         "answer":{{
-            "answer_text": "Refined text based on the STT output"
-        }},
-        "scores": {{
-            "text_scores": {{
-                "teamwork": {{ "score": integer, "rationale": "Detailed rationale for score" }},
-                "communication": {{ "score": integer, "rationale": "Detailed rationale for score" }},
-                "problem_solving": {{ "score": integer, "rationale": "Detailed rationale for score" }},
-                "accountability": {{ "score": integer, "rationale": "Detailed rationale for score" }},
-                "growth_mindset": {{ "score": integer, "rationale": "Detailed rationale for score" }}
+            "answer_text": "Refined text based on the STT output",
+            "s3_audio_url": {s3_audio_url},
+            "s3_video_url": {s3_video_url},
+             "scores": {{
+                "text_scores": {{
+                    "teamwork": {{ "score": integer, "rationale": "Detailed rationale for score" }},
+                    "communication": {{ "score": integer, "rationale": "Detailed rationale for score" }},
+                    "problem_solving": {{ "score": integer, "rationale": "Detailed rationale for score" }},
+                    "accountability": {{ "score": integer, "rationale": "Detailed rationale for score" }},
+                    "growth_mindset": {{ "score": integer, "rationale": "Detailed rationale for score" }}
+                }},
+                "voice_scores": {{
+                    "wpm": {{ "score": integer, "rationale": "Detailed rationale for score" }},
+                    "stutter": {{ "score": integer, "rationale": "Detailed rationale for score" }},
+                    "pronunciation": {{ "score": integer, "rationale": "Detailed rationale for score" }}
+                }},
             }},
-            "voice_scores": {{
-                "wpm": {{ "score": integer, "rationale": "Detailed rationale for score" }},
-                "stutter": {{ "score": integer, "rationale": "Detailed rationale for score" }},
-                "pronunciation": {{ "score": integer, "rationale": "Detailed rationale for score" }}
-            }},
+            "feedback": {{
+                "strengths": "Detailed feedback on strengths",
+                "improvement": "Detailed feedback on areas for improvement",
+                "suggestion": "Detailed feedback on suggestions"
+            }}
         }},
-        "feedback": {{
-            "strengths": "Detailed feedback on strengths",
-            "improvement": "Detailed feedback on areas for improvement",
-            "suggestion": "Detailed feedback on suggestions"
-        }}
     }}
     """
 
@@ -311,7 +315,7 @@ GENERAL_TECH_VOICE_EVAL: str = """
     - **question_intent**: The intention behind the interview question.
     - **key_terms**: Key technical or domain-specific terms expected in the response.
     - **answer_text**: The candidate's answer, transcribed from STT. Due to STT characteristics, it may contain typos or unusual words.
-    - **wpm**: Words per minute (WPM), measured based on the candidate's answer.
+    - **wpm**: {wpm} Words per minute (WPM), measured based on the candidate's answer.
 
     Your task consists of three main steps to evaluate the candidate's response:
     1. **Text Refinement and Fluency Analysis**:
@@ -428,26 +432,28 @@ GENERAL_TECH_VOICE_EVAL: str = """
         "interview_method": "voice",
         "question_id": {question_id},
         "answer":{{
-            "answer_text": "Refined text based on the STT output"
-        }},
-        "scores": {{
-            "text_scores": {{
-                "appropriate_response": {{ "score": integer, "rationale": "Detailed rationale for score" }},
-                "logical_flow": {{ "score": integer, "rationale": "Detailed rationale for score" }},
-                "key_terms": {{ "score": integer, "rationale": "Detailed rationale for score" }},
-                "consistency": {{ "score": integer, "rationale": "Detailed rationale for score" }},
-                "grammatical_errors": {{ "score": integer, "rationale": "Detailed rationale for score" }}
+            "answer_text": "Refined text based on the STT output",
+            "s3_audio_url": {s3_audio_url},
+            "s3_video_url": {s3_video_url},
+            "scores": {{
+                "text_scores": {{
+                    "appropriate_response": {{ "score": integer, "rationale": "Detailed rationale for score" }},
+                    "logical_flow": {{ "score": integer, "rationale": "Detailed rationale for score" }},
+                    "key_terms": {{ "score": integer, "rationale": "Detailed rationale for score" }},
+                    "consistency": {{ "score": integer, "rationale": "Detailed rationale for score" }},
+                    "grammatical_errors": {{ "score": integer, "rationale": "Detailed rationale for score" }}
+                }},
+                "voice_scores": {{
+                    "wpm": {{ "score": integer, "rationale": "Detailed rationale for score" }},
+                    "stutter": {{ "score": integer, "rationale": "Detailed rationale for score" }},
+                    "pronunciation": {{ "score": integer, "rationale": "Detailed rationale for score" }}
+                }},
             }},
-            "voice_scores": {{
-                "wpm": {{ "score": integer, "rationale": "Detailed rationale for score" }},
-                "stutter": {{ "score": integer, "rationale": "Detailed rationale for score" }},
-                "pronunciation": {{ "score": integer, "rationale": "Detailed rationale for score" }}
-            }},
+            "feedback": {{
+                "strengths": "Detailed feedback on strengths",
+                "improvement": "Detailed feedback on areas for improvement",
+                "suggestion": "Detailed feedback on suggestions"
+            }}
         }},
-        "feedback": {{
-            "strengths": "Detailed feedback on strengths",
-            "improvement": "Detailed feedback on areas for improvement",
-            "suggestion": "Detailed feedback on suggestions"
-        }}
     }}
     """

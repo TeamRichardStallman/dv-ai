@@ -13,7 +13,7 @@ class WhisperSTTModel(BaseSTTModel):
     def __init__(self):
         self.client = OpenAI(api_key=Config.OPENAI_API_KEY)
 
-    async def transcribe(self, audio_file: bytes) -> str:
+    async def transcribe(self, audio_file: bytes):
         try:
             with tempfile.NamedTemporaryFile(delete=False, suffix=".mp3") as temp_file:
                 temp_file.write(audio_file)
@@ -34,29 +34,3 @@ class WhisperSTTModel(BaseSTTModel):
         finally:
             if os.path.exists(temp_file_path):
                 os.remove(temp_file_path)
-
-
-# 로컬에서 실행해보기 위한 테스트 코드
-
-# if __name__ == "__main__":
-#     import asyncio
-
-#     async def main():
-#         try:
-#             # 실제 오디오 파일 읽기
-#             with open("/Users/joon/Documents/KakaoTech_Bootcamp/Team_Project2/dv-ai/temp.wav", "rb") as f:
-#                 audio_data = f.read()
-
-#             # 모델 인스턴스 생성
-#             model = WhisperSTTModel()
-
-#             # 실제 오디오 데이터를 이용해 transcribe 실행
-#             transcription, wpm = await model.transcribe(audio_data)
-
-#             # 결과 출력
-#             print("Transcription:", transcription)
-#             print("Words Per Minute (WPM):", wpm)
-#         except RuntimeError as e:
-#             print(f"Error during transcription: {e}")
-
-#     asyncio.run(main())

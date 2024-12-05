@@ -9,26 +9,19 @@ from app.services.interview_service import (
     process_interview_evaluation,
     process_interview_questions,
 )
-from app.services.s3_service import S3Service
-from app.services.stt_service import get_stt_service
-from app.services.tts_service import get_tts_service
 from app.utils.format import to_serializable
 
 
 @celery_app.task(bind=True)
 def async_process_interview_questions(self, interview_id: int, request_data: dict) -> str:
+    request_data_obj = QuestionsRequestModel(**request_data)
     self.update_state(
         state="PROGRESS",
         meta={"message": f"Processing questions for interview {interview_id} in progress"},
     )
 
     try:
-        request_data_obj = QuestionsRequestModel(**request_data)
-
-        s3_service = S3Service()
-        tts_service = get_tts_service(model_name="openai")
-
-        result = async_to_sync(process_interview_questions)(interview_id, request_data_obj, s3_service, tts_service)
+        result = async_to_sync(process_interview_questions)(interview_id, request_data_obj)
 
         self.update_state(
             state="SUCCESS",
@@ -51,12 +44,12 @@ def async_process_interview_questions(self, interview_id: int, request_data: dic
 
 @celery_app.task(bind=True)
 def async_process_interview_evaluation(self, interview_id: int, request_data: dict) -> str:
+    evaluation_data_obj = EvaluationRequestModel(**request_data)
     self.update_state(
         state="PROGRESS",
         meta={"message": f"Processing evaluation for interview {interview_id} in progress"},
     )
     try:
-        evaluation_data_obj = EvaluationRequestModel(**request_data)
 
         result = process_interview_evaluation(interview_id, evaluation_data_obj)
 
@@ -79,28 +72,23 @@ def async_process_interview_evaluation(self, interview_id: int, request_data: di
 
 
 @celery_app.task(bind=True)
-def async_process_answer_evaluation(self, interview_id: int, question_id: int, request_data: dict) -> str:
+def async_process_answer_evaluation(self, interview_id: int, request_data: dict) -> str:
+    answer_data_obj = AnswerRequestModel(**request_data)
     self.update_state(
         state="PROGRESS",
-        meta={"message": f"Processing answer for question {question_id} in interview {interview_id} in progress"},
+        meta={
+            "message": f"Processing answer for question {answer_data_obj.question.question_id} in interview {interview_id} in progress"
+        },
     )
-
     try:
-        answer_data_obj = AnswerRequestModel(**request_data)
-
-        s3_service = S3Service()
-        stt_service = get_stt_service(model_name="whisper")
-
-        result = async_to_sync(process_answer_evaluation)(
-            interview_id, question_id, answer_data_obj, s3_service, stt_service
-        )
+        result = async_to_sync(process_answer_evaluation)(interview_id, answer_data_obj)
 
         serializable_result = to_serializable(result)
 
         self.update_state(
             state="SUCCESS",
             meta={
-                "message": f"Answer processed for question {question_id} in interview {interview_id}!",
+                "message": f"Answer processed for question {answer_data_obj.question.question_id} in interview {interview_id}!",
                 "result": serializable_result,
             },
         )

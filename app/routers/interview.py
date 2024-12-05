@@ -12,8 +12,6 @@ from app.services.tasks import (
     async_process_interview_questions,
 )
 
-# from app.services.interview_service import process_single_evaluation
-
 router = APIRouter(prefix="/interview", tags=["Interview"])
 
 
@@ -53,17 +51,15 @@ async def create_interview_evaluation(interview_id: Union[int, str], request_dat
 @router.post("/{interview_id}/answer/{question_id}", tags=["Interview"], response_model=MessageQueueResponse)
 async def create_answer_evaluation(
     interview_id: int,
-    question_id: int,
     request_data: AnswerRequestModel,
 ):
     try:
-        task = async_process_answer_evaluation.delay(interview_id, question_id, request_data.dict())
+        task = async_process_answer_evaluation.delay(interview_id, request_data.dict())
         return {
             "message": "Answer processing started!",
             "task_id": task.id,
             "status": "processing",
         }
-        # return await process_single_evaluation(interview_id, question_or_answer_id, request_data, s3_service, stt_service)
     except ValueError as e:
         raise HTTPException(status_code=400, detail=str(e))
     except Exception as e:

@@ -1,5 +1,5 @@
-# 실전 / 기술 / 채팅 면접 평가
-REAL_TECH_CHAT_EVAL: str = """
+# 실전 기술 평가
+REAL_TECH_CHAT_OVER: str = """
     You are an experienced interviewer in the {job_role} domain, conducting a {interview_type} interview focused on assessing the candidate’s technical expertise, problem-solving skills, and ability to apply knowledge to real-world scenarios.
 
     Below is the input information provided to guide your evaluation:
@@ -70,33 +70,20 @@ REAL_TECH_CHAT_EVAL: str = """
     {{
         "user_id": {user_id},
         "interview_id": {interview_id},
-        "interview_method": "chat",
-        "question_id": {question_id},
-        "answer":{{
-            "answer_text": "Refined text based on the STT output"
-            "s3_audio_url": null,
-            "s3_video_url": null,
-            "scores": {{
-                "text_scores": {{
-                    "appropriate_response": {{ "score": integer, "rationale": "Detailed rationale for score" }},
-                    "logical_flow": {{ "score": integer, "rationale": "Detailed rationale for score" }},
-                    "key_terms": {{ "score": integer, "rationale": "Detailed rationale for score" }},
-                    "consistency": {{ "score": integer, "rationale": "Detailed rationale for score" }},
-                    "grammatical_errors": {{ "score": integer, "rationale": "Detailed rationale for score" }}
-                }},
-                "voice_scores": null,
+        "overall_evaluation": {{
+            "text_overall": {{
+                "job_fit": {{ "score": integer, "rationale": "Detailed feedback on job_fit" }},
+                "growth_potential": {{ "score": integer, "rationale": "Detailed feedback on growth_potential" }},
+                "work_attitude": {{ "score": integer, "rationale": "Detailed feedback on work_attitude" }},
+                "technical_depth": {{ "score": integer, "rationale": "Detailed feedback on technical_depth" }}
             }},
-            "feedback": {{
-                "strengths": "Detailed feedback on strengths",
-                "improvement": "Detailed feedback on areas for improvement",
-                "suggestion": "Detailed feedback on suggestions"
-            }}
-        }},
+            "voice_overall": null,
+        }}
     }}
     """
 
-# 실전 / 인성 / 채팅 면접 평가
-REAL_PERSONAL_CHAT_EVAL: str = """
+# 실전 인성 평가
+REAL_PERSONAL_CHAT_OVER: str = """
     You are an experienced interviewer in the **{job_role}** domain, conducting a **{interview_type}** interview focused on assessing the candidate’s interpersonal skills and personality fit for the role.
 
     Below is the input information provided to guide your evaluation:
@@ -167,33 +154,20 @@ REAL_PERSONAL_CHAT_EVAL: str = """
     {{
         "user_id": {user_id},
         "interview_id": {interview_id},
-        "interview_method": "chat",
-        "question_id": {question_id},
-        "answer":{{
-            "answer_text": "Refined text based on the STT output"
-            "s3_audio_url": null,
-            "s3_video_url": null,
-            "scores": {{
-                "text_scores": {{
-                    "teamwork": {{ "score": integer, "rationale": "Detailed rationale for score" }},
-                    "communication": {{ "score": integer, "rationale": "Detailed rationale for score" }},
-                    "problem_solving": {{ "score": integer, "rationale": "Detailed rationale for score" }},
-                    "accountability": {{ "score": integer, "rationale": "Detailed rationale for score" }},
-                    "growth_mindset": {{ "score": integer, "rationale": "Detailed rationale for score" }}
-                }},
-                "voice_scores": null,
+        "overall_evaluation": {{
+            "text_overall": {{
+                "company_fit": {{ "score": integer, "rationale": "Detailed feedback on company_fit" }},
+                "adaptability": {{ "score": integer, "rationale": "Detailed feedback on adaptability" }},
+                "interpersonal_skills": {{ "score": integer, "rationale": "Detailed feedback on interpersonal_skills" }},
+                "growth_attitude": {{ "score": integer, "rationale": "Detailed feedback on growth_attitude" }}
             }},
-            "feedback": {{
-                "strengths": "Detailed feedback on strengths",
-                "improvement": "Detailed feedback on areas for improvement",
-                "suggestion": "Detailed feedback on suggestions"
-            }}
-        }},
+            "voice_overall": null,
+        }}
     }}
     """
 
-# 모의 / 기술 / 채팅 면접 평가
-GENERAL_TECH_CHAT_EVAL: str = """
+# 모의 기술 평가
+GENERAL_TECH_CHAT_OVER: str = """
     You are an experienced interviewer in the {job_role} domain, conducting a {interview_type} interview focused on assessing the candidate’s technical expertise.
 
     Below is the input information provided to guide your evaluation:
@@ -263,27 +237,14 @@ GENERAL_TECH_CHAT_EVAL: str = """
     {{
         "user_id": {user_id},
         "interview_id": {interview_id},
-        "interview_method": "chat",
-        "question_id": {question_id},
-        "answer":{{
-            "answer_text": "Refined text based on the STT output"
-            "s3_audio_url": null,
-            "s3_video_url": null,
-            "scores": {{
-                "text_scores": {{
-                    "appropriate_response": {{ "score": integer, "rationale": "Detailed rationale for score" }},
-                    "logical_flow": {{ "score": integer, "rationale": "Detailed rationale for score" }},
-                    "key_terms": {{ "score": integer, "rationale": "Detailed rationale for score" }},
-                    "consistency": {{ "score": integer, "rationale": "Detailed rationale for score" }},
-                    "grammatical_errors": {{ "score": integer, "rationale": "Detailed rationale for score" }}
-                }},
-                "voice_scores": null,
+        "overall_evaluation": {{
+            "text_overall": {{
+                "job_fit": {{ "score": integer, "rationale": "Detailed feedback on job_fit" }},
+                "growth_potential": {{ "score": integer, "rationale": "Detailed feedback on growth_potential" }},
+                "work_attitude": {{ "score": integer, "rationale": "Detailed feedback on work_attitude" }},
+                "technical_depth": {{ "score": integer, "rationale": "Detailed feedback on technical_depth" }}
             }},
-            "feedback": {{
-                "strengths": "Detailed feedback on strengths",
-                "improvement": "Detailed feedback on areas for improvement",
-                "suggestion": "Detailed feedback on suggestions"
-            }}
-        }},
+            "voice_overall": null,
+        }}
     }}
     """
