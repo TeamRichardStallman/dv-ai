@@ -1,12 +1,12 @@
 import weave
 
 from app.prompts.question import GENERAL_TECH, REAL_PERSONAL, REAL_TECH
-from app.schemas.question import QuestionsRequest
+from app.schemas.question import QuestionsRequestModel
 
 weave.init("ticani0610-no/prompt-test")
 
 
-def generate_questions_prompt(interview_id: int, user_data: QuestionsRequest):
+def generate_questions_prompt(interview_id: int, user_data: QuestionsRequestModel):
     try:
         user_id = user_data.user_id
         job_role = user_data.job_role

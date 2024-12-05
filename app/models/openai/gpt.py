@@ -1,28 +1,25 @@
 import json
 from typing import Literal, Union
 
-# import weave
 from openai import OpenAI
 
-# import wandb
 from app.core.config import Config
-from app.schemas.evaluation import EvaluationRequest, PersonalEvaluationResponse, TechnicalEvaluationResponse
-from app.schemas.question import QuestionsRequest, QuestionsResponse
+from app.schemas.answer import AnswerResponseModel
+from app.schemas.evaluation import (
+    EvaluationRequestModel,
+    PersonalEvaluationResponseModel,
+    TechnicalEvaluationResponseModel,
+)
+from app.schemas.question import QuestionsRequestModel, QuestionsResponseModel
 
 client_gpt = OpenAI(api_key=Config.OPENAI_API_KEY)
 
-# W&B login
-# wandb.login(key=Config.WANDB_API_KEY)
-
-# weave.init("ticani0610-no/prompt-test")
-
 
 class ContentGenerator:
-    def __init__(self, user_data: Union[QuestionsRequest, EvaluationRequest]):
-        self.user_data = user_data
+    def __init__(self, request_data: Union[QuestionsRequestModel, EvaluationRequestModel]):
+        self.request_data = request_data
 
-    # @weave.op(call_display_name=lambda call: f"{call.func_name}__{datetime.now()}")
-    def invoke(self, prompt: str, input: str, choice: Literal["question", "evaluation"]):
+    def invoke(self, prompt: str, input: str, choice: Literal["question", "answer", "evaluation"]):
         response = client_gpt.chat.completions.create(
             model=Config.GPT_MODEL,
             messages=[
@@ -39,10 +36,11 @@ class ContentGenerator:
         parsed_content = json.loads(response_content)
 
         if choice == "question":
-            # weave.publish(weave.Dataset(name="dataset", rows=[{"cover_letter": input}]))
-            return QuestionsResponse(**parsed_content)
+            return QuestionsResponseModel(**parsed_content)
+        elif choice == "answer":
+            return AnswerResponseModel(**parsed_content)
         elif choice == "evaluation":
-            if self.user_data.interview_type == "technical":
-                return TechnicalEvaluationResponse(**parsed_content)
-            elif self.user_data.interview_type == "personal":
-                return PersonalEvaluationResponse(**parsed_content)
+            if self.request_data.interview_type == "technical":
+                return TechnicalEvaluationResponseModel(**parsed_content)
+            elif self.request_data.interview_type == "personal":
+                return PersonalEvaluationResponseModel(**parsed_content)

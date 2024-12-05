@@ -11,7 +11,8 @@ class QuestionDeatil(BaseModel):
     s3_video_url: Optional[str] = None
 
 
-class Question(BaseModel):
+# Base: Question의 최소 단위 데이터 모델
+class QuestionBaseModel(BaseModel):
     question_id: int
     question: QuestionDeatil
     question_excerpt: Optional[str] = None
@@ -19,12 +20,14 @@ class Question(BaseModel):
     key_terms: List[str]
 
 
-class QuestionsResponse(BaseModel):
-    user_id: int
-    interview_id: int
-    questions: List[Question]
-
-
-class QuestionsRequest(BaseRequest):
+# Request:요청에 필요한 Request Body 모델
+class QuestionsRequestModel(BaseRequest):
     question_count: int = 1
     file_paths: Optional[List[str]] = ["cover-letters/cover_letter_01.txt"]
+
+
+# Reponse: 응답으로 나오는 Reponse 모델
+class QuestionsResponseModel(BaseModel):
+    user_id: int
+    interview_id: int
+    questions: List[QuestionBaseModel]

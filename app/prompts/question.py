@@ -252,7 +252,7 @@ Your task is to create **exactly {question_count} in-depth interview questions**
     {{
       "question_id": 1,
       "question": {{
-        "question_text": 최근에 사용된 {job_role} 분야의 프레임워크 중 하나를 선택하여 그 특징과 장점을 설명해 주시겠어요?,
+        "question_text": "최근에 사용된 {job_role} 분야의 프레임워크 중 하나를 선택하여 그 특징과 장점을 설명해 주시겠어요?",
         "s3_audio_url": null,
         "s3_video_url": null,
       }},
@@ -263,7 +263,7 @@ Your task is to create **exactly {question_count} in-depth interview questions**
     {{
       "question_id": 2,
       "question": {{
-        "question_text": RESTful API 설계 시 가장 중요하게 고려해야 할 점은 무엇이며, 이를 프로젝트에서 어떻게 적용했는지 말씀해 주세요?,
+        "question_text": "RESTful API 설계 시 가장 중요하게 고려해야 할 점은 무엇이며, 이를 프로젝트에서 어떻게 적용했는지 말씀해 주세요?",
         "s3_audio_url": null,
         "s3_video_url": null,
       }},

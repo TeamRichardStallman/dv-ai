@@ -1,5 +1,5 @@
 # 실전 기술 평가
-REAL_TECH_EVAL: str = """
+REAL_TECH_VOICE_OVER: str = """
     You are an experienced interviewer in the {job_role} domain, conducting a {interview_type} interview focused on assessing the candidate’s technical expertise, problem-solving skills, and ability to apply knowledge to real-world scenarios.
 
     Below is the input information provided to guide your evaluation:
@@ -87,7 +87,7 @@ REAL_TECH_EVAL: str = """
     """
 
 # 실전 인성 평가
-REAL_PERSONAL_EVAL: str = """
+REAL_PERSONAL_VOICE_OVER: str = """
     You are an experienced interviewer in the **{job_role}** domain, conducting a **{interview_type}** interview focused on assessing the candidate’s interpersonal skills and personality fit for the role.
 
     Below is the input information provided to guide your evaluation:
@@ -160,10 +160,10 @@ REAL_PERSONAL_EVAL: str = """
         "interview_id": {interview_id},
         "overall_evaluation": {{
             "text_overall": {{
-                "company_fit": {{ "score": integer, "rationale": "Detailed feedback on company_fit" }},
-                "adaptability": {{ "score": integer, "rationale": "Detailed feedback on adaptability" }},
-                "interpersonal_skills": {{ "score": integer, "rationale": "Detailed feedback on interpersonal_skills" }},
-                "growth_attitude": {{ "score": integer, "rationale": "Detailed feedback on growth_attitude" }}
+                "job_fit": {{ "score": integer, "rationale": "Detailed feedback on job_fit" }},
+                "growth_potential": {{ "score": integer, "rationale": "Detailed feedback on growth_potential" }},
+                "work_attitude": {{ "score": integer, "rationale": "Detailed feedback on work_attitude" }},
+                "technical_depth": {{ "score": integer, "rationale": "Detailed feedback on technical_depth" }}
             }},
             "voice_overall": {{
                 "fluency": {{ "score": integer, "rationale": "Detailed feedback on fluency" }},
@@ -175,7 +175,7 @@ REAL_PERSONAL_EVAL: str = """
     """
 
 # 모의 기술 평가
-GENERAL_TECH_EVAL: str = """
+GENERAL_TECH_VOICE_OVER: str = """
     You are an experienced interviewer in the {job_role} domain, conducting a {interview_type} interview focused on assessing the candidate’s technical expertise.
 
     Below is the input information provided to guide your evaluation:
@@ -243,29 +243,20 @@ GENERAL_TECH_EVAL: str = """
     When writing feedback, limit comma use to keep sentences clear and concise.
     Refer to the JSON structure below as a format guide:
     {{
-        "answer_evaluations": [
-            {{
-                "question_id": 1,
-                "scores": {{
-                    "appropriate_response": {{ "score": integer, "rationale": "Detailed rationale for score" }},
-                    "logical_flow": {{ "score": integer, "rationale": "Detailed rationale for score" }},
-                    "key_terms": {{ "score": integer, "rationale": "Detailed rationale for score" }},
-                    "consistency": {{ "score": integer, "rationale": "Detailed rationale for score" }},
-                    "grammatical_errors": {{ "score": integer, "rationale": "Detailed rationale for score" }}
-                }},
-                "feedback": {{
-                    "strengths": "Detailed feedback on strengths",
-                    "improvement": "Detailed feedback on areas for improvement",
-                    "suggestion": "Detailed feedback on suggestions"
-                }}
-            }},
-            ...
-        ],
+        "user_id": {user_id},
+        "interview_id": {interview_id},
         "overall_evaluation": {{
-            "job_fit": {{ "score": integer, "feedback": "Detailed feedback on job_fit" }},
-            "growth_potential": {{ "score": integer, "feedback": "Detailed feedback on growth_potential" }},
-            "work_attitude": {{ "score": integer, "feedback": "Detailed feedback on work_attitude" }},
-            "technical_depth": {{ "score": integer, "feedback": "Detailed feedback on technical_depth" }}
+            "text_overall": {{
+                "job_fit": {{ "score": integer, "rationale": "Detailed feedback on job_fit" }},
+                "growth_potential": {{ "score": integer, "rationale": "Detailed feedback on growth_potential" }},
+                "work_attitude": {{ "score": integer, "rationale": "Detailed feedback on work_attitude" }},
+                "technical_depth": {{ "score": integer, "rationale": "Detailed feedback on technical_depth" }}
+            }},
+            "voice_overall": {{
+                "fluency": {{ "score": integer, "rationale": "Detailed feedback on fluency" }},
+                "clarity": {{ "score": integer, "rationale": "Detailed feedback on clarity" }},
+                "word_repetition": {{ "score": integer, "rationale": "Detailed feedback on word_repetition" }}
+            }}
         }}
     }}
     """
