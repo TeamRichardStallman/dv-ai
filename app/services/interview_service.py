@@ -9,12 +9,16 @@ from openai import OpenAI
 
 from app.models.openai.gpt import ContentGenerator
 <<<<<<< HEAD
+<<<<<<< HEAD
 from app.schemas.answer import AnswerRequestModel, AnswerResponseModel
 from app.schemas.evaluation import (
     EvaluationRequestModel,
     PersonalEvaluationResponseModel,
     TechnicalEvaluationResponseModel,
 =======
+=======
+
+>>>>>>> fbf940b (DV-188 feat: lint)
 # from app.models.LangChain.langchain import ContentGenerator
 from app.schemas.answer import (
     AnswerDetail,
