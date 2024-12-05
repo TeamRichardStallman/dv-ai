@@ -1,6 +1,9 @@
-from typing import Literal, Optional, Union
+from typing import Optional
 
 from pydantic import BaseModel
+
+from app.schemas.base import BaseRequest
+from app.schemas.question import Question
 
 
 class ScoreDetail(BaseModel):
@@ -47,10 +50,9 @@ class AnswerModel(BaseModel):
     s3_video_url: str
 
 
-class AnswerRequest(BaseModel):
-    interview_method: Literal["chat", "voice", "video"] = "voice"
-    user_id: Union[int, str]
+class AnswerRequest(BaseRequest):
     answer: AnswerModel
+    question: Question
 
 
 class AnswerResponse(BaseModel):

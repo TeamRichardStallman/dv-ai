@@ -20,14 +20,14 @@ from app.schemas.answer import (
 )
 from app.schemas.evaluation import EvaluationRequest, PersonalEvaluationResponse, TechnicalEvaluationResponse
 from app.schemas.question import QuestionsRequest, QuestionsResponse
-from app.services.evaluation_service import generate_evaluation_prompt
+from app.services.evaluation_service import generate_evaluation_prompt, generate_single_evaluation_prompt
 from app.services.question_service import generate_questions_prompt
 from app.services.s3_service import S3Service
 from app.services.stt_service import STTService
 from app.services.tts_service import TTSService
 from app.utils.format import clean_text
 from app.utils.generate import create_file_objects, get_cover_letters_data
-from app.utils.merge import merge_questions_and_answers
+from app.utils.merge import merge_questions_and_answers, merge_single_question_and_answer
 
 load_dotenv()
 
@@ -85,7 +85,7 @@ def process_evaluation(
     return data
 
 
-async def process_answer(
+async def process_single_evaluation(
     interview_id: int,
     question_or_answer_id: int,
     request_data: AnswerRequest,
@@ -135,18 +135,43 @@ async def process_answer(
             raise ValueError("s3_audio_url is required")
 
         audio_file = await s3_service.get_s3_object(s3_audio_url)
-        transcribed_text = await stt_service.transcribe_audio(audio_file)
 
-        answer.answer_text = clean_text(transcribed_text)
-        answer.s3_audio_url = request_data.answer.s3_audio_url
+        transcribed_text, wpm = await stt_service.transcribe_audio(audio_file)
+        cleaned_text = clean_text(transcribed_text)
 
-    return {
-        "user_id": request_data.user_id,
-        "interview_id": interview_id,
-        "question_id": question_or_answer_id,
-        "interview_method": request_data.interview_method,
-        "answer": answer,
-    }
+        merged_input = merge_single_question_and_answer(
+            question=request_data.question,
+            answer=request_data.answer,
+        )
+
+        merged_input["answer_text"] = cleaned_text
+        merged_input_str = json.dumps(merged_input, ensure_ascii=False)
+
+        user_data = {
+            "user_id": request_data.user_id,
+            "job_role": request_data.job_role,
+            "interview_type": request_data.interview_type,
+            "interview_mode": request_data.interview_mode,
+            "interview_method": request_data.interview_method,
+        }
+
+        prompt = generate_single_evaluation_prompt(interview_id, user_data, wpm)
+
+        generator = ContentGenerator(user_data=user_data)
+        evaluation_result = generator.invoke(prompt, merged_input_str, "evaluation")
+
+        answer.answer_text = cleaned_text
+        answer.s3_audio_url = s3_audio_url
+        answer.scores = evaluation_result.get("scores", default_scores)
+        answer.feedback = evaluation_result.get("feedback", default_feedback)
+
+        return {
+            "user_id": request_data.user_id,
+            "interview_id": interview_id,
+            "question_id": question_or_answer_id,
+            "interview_method": request_data.interview_method,
+            "answer": answer,
+        }
 
 
 async def generate_interview_questions(interview_id: int, user_data: QuestionsRequest) -> QuestionsResponse:

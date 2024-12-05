@@ -8,6 +8,8 @@ from app.schemas.question import QuestionsRequest
 from app.schemas.task import MessageQueueResponse
 from app.services.tasks import async_process_answer, async_process_evaluation, async_process_questions
 
+# from app.services.interview_service import process_single_evaluation
+
 router = APIRouter(prefix="/interview", tags=["Interview"])
 
 
@@ -57,6 +59,7 @@ async def create_asnwer_text_from_answer_audio(
             "task_id": task.id,
             "status": "processing",
         }
+        # return await process_single_evaluation(interview_id, question_or_answer_id, request_data, s3_service, stt_service)
     except ValueError as e:
         raise HTTPException(status_code=400, detail=str(e))
     except Exception as e:

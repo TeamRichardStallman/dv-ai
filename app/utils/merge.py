@@ -2,6 +2,7 @@ from typing import List
 
 from app.schemas.evaluation import AnswerPartialResponse
 from app.schemas.question import Question
+from app.schemas.answer import AnswerModel
 
 
 def merge_questions_and_answers(questions: List[Question], answers: List[AnswerPartialResponse]):
@@ -28,3 +29,18 @@ def merge_questions_and_answers(questions: List[Question], answers: List[AnswerP
                 }
             )
     return merged_data
+
+
+def merge_question_and_answer(question: Question, answer: AnswerModel) -> dict:
+    return {
+        "question_id": question.question_id,
+        "question_excerpt": question.question_excerpt,
+        "question": {
+            "question_text": question.question.question_text,
+            "s3_audio_url": question.question.s3_audio_url,
+            "s3_video_url": question.question.s3_video_url,
+        },
+        "question_intent": question.question_intent,
+        "key_terms": question.key_terms,
+        "answer_text": answer.answer_text,
+    }

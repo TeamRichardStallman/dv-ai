@@ -5,6 +5,7 @@ from pydantic import BaseModel
 from app.schemas.answer import ScoreDetail, Scores
 from app.schemas.base import BaseRequest
 from app.schemas.question import Question
+from app.schemas.evaluation import SimplifiedAnswerResponse
 
 
 class Feedback(BaseModel):
@@ -30,6 +31,12 @@ class EvaluationRequest(BaseRequest):
     questions: List[Question]
     answers: List[AnswerPartialResponse]
     file_paths: Optional[List[str]] = ["cover-letters/SK_AI_01.txt"]
+
+
+class SingleEvaluationRequest(BaseRequest):
+    question: Question
+    answer: SimplifiedAnswerResponse
+    file_path: Optional[str] = "cover-letters/SK_AI_01.txt"
 
 
 class TechnicalTextOverallEvaluation(BaseModel):
