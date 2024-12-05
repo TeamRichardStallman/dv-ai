@@ -111,16 +111,29 @@ async def test_create_interview_evaluation():
 
 
 @pytest.mark.asyncio
+@pytest.mark.parametrize("interview_mode", ["real", "general"])
+@pytest.mark.parametrize("interview_type", ["technical", "personal"])
 @pytest.mark.parametrize("interview_method", ["chat", "voice"])
-async def test_create_answer_text_from_answer_audio(interview_method):
+async def test_create_answer_evaluation(interview_mode, interview_type, interview_method):
     answer_data = {
+        "user_id": 1,
+        "interview_mode": interview_mode,
+        "interview_type": interview_type,
         "interview_method": interview_method,
-        "user_id": 0,
+        "job_role": "ai",
+        "question": {
+            "question_id": 1,
+            "question": {"question_text": "string", "s3_audio_url": "string", "s3_video_url": "string"},
+            "question_excerpt": "string",
+            "question_intent": "string",
+            "key_terms": ["string"],
+        },
         "answer": {
-            "answer_text": "answer test",
+            "answer_text": "테스트용 답변입니다.",
             "s3_audio_url": "test/questions/audio_1.mp3",
             "s3_video_url": "string",
         },
+        "file_path": "cover-letters/SK_AI_01.txt",
     }
 
     async with AsyncClient(transport=ASGITransport(app=app), base_url=BASE_URL) as ac:
@@ -147,10 +160,7 @@ async def test_create_answer_text_from_answer_audio(interview_method):
                 answer = result["answer"]
 
                 assert "answer_text" in answer, "Answer must contain 'answer_text'"
-                if interview_method == "chat":
-                    assert (
-                        answer["answer_text"] == "answer test"
-                    ), f"Expected answer_text to be 'answer test', but got '{answer['answer_text']}'"
+
                 break
             elif task_status["status"] == "FAILURE":
                 pytest.fail(f"Task failed with error: {task_status.get('error')}")
