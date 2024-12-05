@@ -3,7 +3,7 @@ from typing import Optional
 from pydantic import BaseModel
 
 from app.schemas.base import BaseRequest
-from app.schemas.question import Question
+from app.schemas.question import QuestionBaseModel
 
 
 class ScoreDetail(BaseModel):
@@ -44,18 +44,21 @@ class AnswerDetail(BaseModel):
     feedback: Feedback
 
 
-class AnswerModel(BaseModel):
+# Base: Answer의 최소 단위 데이터 모델
+class AnswerBaseModel(BaseModel):
     answer_text: str = "테스트용 답변입니다."
     s3_audio_url: str = "test/questions/audio_1.mp3"
     s3_video_url: str
 
 
-class AnswerRequest(BaseRequest):
-    answer: AnswerModel
-    question: Question
+# Request:요청에 필요한 Request Body 모델
+class AnswerRequestModel(BaseRequest):
+    question: QuestionBaseModel
+    answer: AnswerBaseModel
 
 
-class AnswerResponse(BaseModel):
+# Request: 응답으로 나오는 Reponse 모델
+class AnswerResponseModel(BaseModel):
     user_id: int
     interview_id: int
     question_id: int

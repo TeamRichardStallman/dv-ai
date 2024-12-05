@@ -1,6 +1,6 @@
-from app.schemas.evaluation import EvaluationRequest, TechnicalEvaluationResponse
+from app.schemas.evaluation import EvaluationRequestModel, TechnicalEvaluationResponseModel
 
-EVALUATION_REQUEST_DATA: EvaluationRequest = {
+EVALUATION_REQUEST_DATA: EvaluationRequestModel = {
     "user_id": 1,
     "interview_mode": "real",
     "interview_type": "technical",
@@ -58,7 +58,7 @@ EVALUATION_REQUEST_DATA: EvaluationRequest = {
 }
 
 
-EVALUATION_RESPONSE_DATA: TechnicalEvaluationResponse = {
+EVALUATION_RESPONSE_DATA: TechnicalEvaluationResponseModel = {
     "answer_evaluations": [
         {
             "question_id": 1,

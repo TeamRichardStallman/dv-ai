@@ -1,16 +1,16 @@
 from app.prompts.chat.chat_evaluation import GENERAL_TECH_CHAT_EVAL, REAL_PERSONAL_CHAT_EVAL, REAL_TECH_CHAT_EVAL
 from app.prompts.voice.voice_evaluation import GENERAL_TECH_VOICE_EVAL, REAL_PERSONAL_VOICE_EVAL, REAL_TECH_VOICE_EVAL
-from app.schemas.evaluation import EvaluationRequest, SingleEvaluationRequest
+from app.schemas.evaluation import EvaluationRequestModel, SingleEvaluationRequestModel
 
 
-def generate_evaluation_prompt(interview_id: int, user_data: EvaluationRequest) -> str:
+def generate_evaluation_prompt(interview_id: int, request_data: EvaluationRequestModel) -> str:
     try:
-        user_id = user_data.user_id
-        job_role = user_data.job_role
-        interview_type = user_data.interview_type
-        interview_mode = user_data.interview_mode
+        user_id = request_data.user_id
+        job_role = request_data.job_role
+        interview_type = request_data.interview_type
+        interview_mode = request_data.interview_mode
     except KeyError as e:
-        raise KeyError(f"Missing required key in user_data: {e}")
+        raise KeyError(f"Missing required key in request_data: {e}")
 
     if interview_mode == "real":
         if interview_type == "technical":
@@ -32,7 +32,7 @@ def generate_evaluation_prompt(interview_id: int, user_data: EvaluationRequest) 
     return prompt
 
 
-def generate_single_evaluation_prompt(interview_id: int, request_data: SingleEvaluationRequest, wpm: int) -> str:
+def generate_single_evaluation_prompt(interview_id: int, request_data: SingleEvaluationRequestModel, wpm: int) -> str:
     user_id = request_data.user_id
     job_role = request_data.job_role
     interview_type = request_data.interview_type

@@ -10,16 +10,20 @@ from openai import OpenAI
 from app.models.openai.gpt import ContentGenerator
 from app.schemas.answer import (
     AnswerDetail,
-    AnswerRequest,
-    AnswerResponse,
+    AnswerRequestModel,
+    AnswerResponseModel,
     Feedback,
     ScoreDetail,
     Scores,
     TextScores,
     VoiceScores,
 )
-from app.schemas.evaluation import EvaluationRequest, PersonalEvaluationResponse, TechnicalEvaluationResponse
-from app.schemas.question import QuestionsRequest, QuestionsResponse
+from app.schemas.evaluation import (
+    EvaluationRequestModel,
+    PersonalEvaluationResponseModel,
+    TechnicalEvaluationResponseModel,
+)
+from app.schemas.question import QuestionsRequestModel, QuestionsResponseModel
 from app.services.evaluation_service import generate_evaluation_prompt, generate_single_evaluation_prompt
 from app.services.question_service import generate_questions_prompt
 from app.services.s3_service import S3Service
@@ -27,7 +31,7 @@ from app.services.stt_service import STTService
 from app.services.tts_service import TTSService
 from app.utils.format import clean_text
 from app.utils.generate import create_file_objects, get_cover_letters_data
-from app.utils.merge import merge_questions_and_answers, merge_single_question_and_answer
+from app.utils.merge import merge_question_and_answer, merge_questions_and_answers
 
 load_dotenv()
 
@@ -39,12 +43,12 @@ weave.init("ticani0610-no/prompt-test")
 logging.basicConfig(level=logging.INFO)
 
 
-async def process_questions(
+async def process_interview_questions(
     interview_id: Union[int, str],
-    request_data: QuestionsRequest,
+    request_data: QuestionsRequestModel,
     s3_service: S3Service,
     tts_service: TTSService,
-) -> QuestionsResponse:
+) -> QuestionsResponseModel:
     try:
         questions = await generate_interview_questions(interview_id, request_data)
 
@@ -71,10 +75,10 @@ async def process_questions(
         logging.error(f"Error processing questions for interview {interview_id}: {str(e)}")
 
 
-def process_evaluation(
+def process_interview_evaluation(
     interview_id: int,
-    user_data: EvaluationRequest,
-) -> Union[TechnicalEvaluationResponse, PersonalEvaluationResponse]:
+    user_data: EvaluationRequestModel,
+) -> Union[TechnicalEvaluationResponseModel, PersonalEvaluationResponseModel]:
     prompt = generate_evaluation_prompt(interview_id, user_data)
 
     merged_input = merge_questions_and_answers(user_data.questions, user_data.answers)
@@ -85,13 +89,13 @@ def process_evaluation(
     return data
 
 
-async def process_single_evaluation(
+async def process_answer_evaluation(
     interview_id: int,
     question_or_answer_id: int,
-    request_data: AnswerRequest,
+    request_data: AnswerRequestModel,
     s3_service: S3Service,
     stt_service: STTService,
-) -> AnswerResponse:
+) -> AnswerResponseModel:
 
     default_text_scores = TextScores(
         appropriate_response=ScoreDetail(score=0, rationale=""),
@@ -139,7 +143,7 @@ async def process_single_evaluation(
         transcribed_text, wpm = await stt_service.transcribe_audio(audio_file)
         cleaned_text = clean_text(transcribed_text)
 
-        merged_input = merge_single_question_and_answer(
+        merged_input = merge_question_and_answer(
             question=request_data.question,
             answer=request_data.answer,
         )
@@ -174,7 +178,7 @@ async def process_single_evaluation(
         }
 
 
-async def generate_interview_questions(interview_id: int, user_data: QuestionsRequest) -> QuestionsResponse:
+async def generate_interview_questions(interview_id: int, user_data: QuestionsRequestModel) -> QuestionsResponseModel:
     s3_service = S3Service()
     prompt = generate_questions_prompt(interview_id, user_data)
 

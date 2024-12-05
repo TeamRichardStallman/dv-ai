@@ -4,8 +4,7 @@ from pydantic import BaseModel
 
 from app.schemas.answer import ScoreDetail, Scores
 from app.schemas.base import BaseRequest
-from app.schemas.question import Question
-from app.schemas.evaluation import SimplifiedAnswerResponse
+from app.schemas.question import QuestionBaseModel
 
 
 class Feedback(BaseModel):
@@ -27,15 +26,16 @@ class AnswerPartialResponse(BaseModel):
     answer: SimplifiedAnswerDetail
 
 
-class EvaluationRequest(BaseRequest):
-    questions: List[Question]
+# Request:요청에 필요한 Request Body 모델
+class EvaluationRequestModel(BaseRequest):
+    questions: List[QuestionBaseModel]
     answers: List[AnswerPartialResponse]
     file_paths: Optional[List[str]] = ["cover-letters/SK_AI_01.txt"]
 
 
-class SingleEvaluationRequest(BaseRequest):
-    question: Question
-    answer: SimplifiedAnswerResponse
+class SingleEvaluationRequestModel(BaseRequest):
+    question: QuestionBaseModel
+    answer: AnswerPartialResponse
     file_path: Optional[str] = "cover-letters/SK_AI_01.txt"
 
 
@@ -69,13 +69,15 @@ class PersonalOverallEvaluation(BaseModel):
     voice_overall: VoiceOverallEvaluation
 
 
-class TechnicalEvaluationResponse(BaseModel):
+# Reponse: 응답으로 나오는 Reponse 모델
+class TechnicalEvaluationResponseModel(BaseModel):
     user_id: int
     interview_id: int
     overall_evaluation: TechnicalOverallEvaluation
 
 
-class PersonalEvaluationResponse(BaseModel):
+# Reponse: 응답으로 나오는 Reponse 모델
+class PersonalEvaluationResponseModel(BaseModel):
     user_id: int
     interview_id: int
     overall_evaluation: PersonalOverallEvaluation
