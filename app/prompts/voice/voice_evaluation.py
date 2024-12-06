@@ -14,7 +14,7 @@ REAL_TECH_VOICE_EVAL: str = """
     1. **Text Refinement and Fluency Analysis**:
     - Refine the `answer_text` by correcting typos and contextual mismatches while preserving its original meaning and logic. Simultaneously, assess pronunciation and fluency, identifying hesitations like "음..," "어.." or similar issues, and assign scores based on the evaluation criteria.
     2. **Answer Evaluation**:
-    - Evaluate the refined `answer_text` by assigning scores for categories such as WPM, logical flow, and appropriate response. Provide a rationale for each score, including specific examples when necessary.
+    - Evaluate the refined `answer_text` by assigning scores for categories such as WPM, logical flow, and appropriate response. Provide a rationale for each score, always including specific examples.
     3. **Comprehensive Feedback**:
     - Summarize the evaluation with detailed feedback, highlighting strengths, areas for improvement, and actionable suggestions to guide the candidate’s development.
 
@@ -50,8 +50,8 @@ REAL_TECH_VOICE_EVAL: str = """
 
     ### Step 2: Answer Evaluation
     Evaluate the refined `answer_text` from Step 1 using the following criteria, scoring each from 0 to 10.
-    For each score, provide a clear rationale with at least three sentences explaining your assessment.
-    **Note: If a candidate’s answer scores below 10, give specific examples to illustrate which parts of their response did not meet expectations.**
+    For each score, always provide a clear rationale with at least three sentences explaining your assessment.
+    **Note: If a candidate’s answer scores below 10, always give specific examples to illustrate which parts of their response did not meet expectations.**
 
     #### Evaluation Criteria
     a. **wpm (Words Per Minute)**: Was the provided speech rate (WPM) appropriate, allowing for clear and effective communication during the interview?
@@ -98,8 +98,8 @@ REAL_TECH_VOICE_EVAL: str = """
     ---
 
     ### Step 3: Detailed Feedback and Suggestions
-    Along with scoring, provide detailed feedback for each answer in the following areas, using at least three sentences per evaluation.
-    **Note: If an answer scores below 10, include specific examples illustrating which aspects led to the deduction.**
+    Along with scoring, provide detailed feedback for the candidate’s answer based on the evaluations in STEP 1. Each category requires at least three sentences of rationale.
+    **Note: For any score below 10, always include specific examples to explain which aspects led to the deduction.**
 
     #### Feedback Categories
     a. **strengths**: Highlight the candidate's strong points across both steps, focusing on how they excelled in key aspects of the response.
@@ -167,7 +167,7 @@ REAL_PERSONAL_VOICE_EVAL: str = """
     1. **Text Refinement and Fluency Analysis**:
     - Refine the `answer_text` by correcting typos and contextual mismatches while preserving its original meaning and logic. Simultaneously, assess pronunciation and fluency, identifying hesitations like "음..," "어.." or similar issues, and assign scores based on the evaluation criteria.
     2. **Answer Evaluation**:
-    - Evaluate the refined `answer_text` by assigning scores for interpersonal skills such as teamwork, communication, and accountability. Provide a rationale for each score, including specific examples where necessary.
+    - Evaluate the refined `answer_text` by assigning scores for interpersonal skills such as teamwork, communication, and accountability. Provide a rationale for each score, always including specific examples.
     3. **Comprehensive Feedback**:
     - Summarize the evaluation with detailed feedback, highlighting strengths, areas for improvement, and actionable suggestions to guide the candidate’s development.
 
@@ -203,8 +203,8 @@ REAL_PERSONAL_VOICE_EVAL: str = """
 
     ### Step 2: Answer Evaluation
     Evaluate the refined `answer_text` from Step 1 using the following criteria, scoring each from 0 to 10.
-    For each score, provide a clear rationale with at least three sentences explaining your assessment.
-    **Note: If a candidate’s answer scores below 10, give specific examples to illustrate which parts of their response did not meet expectations.**
+    For each score, always provide a clear rationale with at least three sentences explaining your assessment.
+    **Note: If a candidate’s answer scores below 10, always give specific examples to illustrate which parts of their response did not meet expectations.**
 
     #### Evaluation Criteria
     a. **wpm (Words Per Minute)**: Was the provided speech rate (WPM) appropriate, allowing for clear and effective communication during the interview?
@@ -251,19 +251,19 @@ REAL_PERSONAL_VOICE_EVAL: str = """
     ---
 
     ### Step 3: Detailed Feedback and Suggestions
-    Along with scoring, provide detailed feedback for each answer in the following areas, using at least three sentences per evaluation.
-    **Note: If an answer scores below 10, include specific examples illustrating which aspects led to the deduction.**
+    Along with scoring, provide detailed feedback for the candidate’s answer based on the evaluations in STEP 1. Each category requires at least three sentences of rationale.
+    **Note: For any score below 10, always include specific examples to explain which aspects led to the deduction.**
 
     #### Feedback Categories
-    a. **strengths**: Highlight the candidate's strong points across both steps, focusing on how they excelled in key aspects of the response.
+    a. **strengths**: Describe the candidate’s strong points in relation to the question. Highlight how they met the requirements, demonstrated relevant skills, or provided meaningful examples. Focus on qualities like teamwork, accountability, adaptability, or other interpersonal strengths that enhanced the response.
         - For **Step 1**: Identify areas where the candidate's speech rate, fluency, and pronunciation contributed positively to clarity and professionalism.
         - For **Step 2**: Emphasize how the refined response effectively addressed the question, showcasing skills such as teamwork, communication, or problem-solving.
 
-    b. **improvement**: Identify weaknesses or areas for improvement, focusing on specific aspects of the evaluation criteria.
+    b. **improvement**: Identify specific weaknesses or gaps in the response. Provide clear examples to show how certain parts did not fully meet the expectations, such as insufficient detail, lack of clarity, or limited demonstration of interpersonal skills.
         - For **Step 1**: Highlight issues related to speech delivery, such as inappropriate speech rate, excessive hesitations, or unclear pronunciation that impacted clarity.
         - For **Step 2**: Point out shortcomings in the response, such as lack of depth, logical inconsistencies, insufficient use of key terms, or failure to address the question's intent.
 
-    c. **suggestion**: Provide clear, actionable steps the candidate could take to improve their response.
+    c. **suggestion**: Provide clear and actionable steps to improve the response. Focus on enhancing specific areas like communication, clarity, depth, or relevance, and encourage the use of detailed examples or better alignment with the question’s intent.
         - For **Step 1**: Recommend ways to enhance speech delivery, such as achieving an optimal speech rate, reducing hesitations, or improving pronunciation for better clarity.
         - For **Step 2**: Suggest strategies to strengthen the response, such as improving logical flow, including relevant examples, or providing more detailed insights to address the question effectively.
 
@@ -283,7 +283,7 @@ REAL_PERSONAL_VOICE_EVAL: str = """
             "answer_text": "Refined text based on the STT output",
             "s3_audio_url": {s3_audio_url},
             "s3_video_url": {s3_video_url},
-             "scores": {{
+            "scores": {{
                 "text_scores": {{
                     "teamwork": {{ "score": integer, "rationale": "Detailed rationale for score" }},
                     "communication": {{ "score": integer, "rationale": "Detailed rationale for score" }},
@@ -321,7 +321,7 @@ GENERAL_TECH_VOICE_EVAL: str = """
     1. **Text Refinement and Fluency Analysis**:
     - Refine the `answer_text` by correcting typos and contextual mismatches while preserving its original meaning and logic. Simultaneously, assess pronunciation and fluency, identifying hesitations like "음..," "어.." or similar issues, and assign scores based on the evaluation criteria.
     2. **Answer Evaluation**:
-    - Evaluate the refined `answer_text` by assigning scores for categories such as WPM, logical flow, and appropriate response. Provide a rationale for each score, including specific examples when necessary.
+    - Evaluate the refined `answer_text` by assigning scores for categories such as WPM, logical flow, and appropriate response. Provide a rationale for each score, always including specific examples.
     3. **Comprehensive Feedback**:
     - Summarize the evaluation with detailed feedback, highlighting strengths, areas for improvement, and actionable suggestions to guide the candidate’s development.
 
@@ -357,8 +357,8 @@ GENERAL_TECH_VOICE_EVAL: str = """
 
     ### Step 2: Answer Evaluation
     Evaluate the refined `answer_text` from Step 1 using the following criteria, scoring each from 0 to 10.
-    For each score, provide a clear rationale with at least three sentences explaining your assessment.
-    **Note: If a candidate’s answer scores below 10, give specific examples to illustrate which parts of their response did not meet expectations.**
+    For each score, always provide a clear rationale with at least three sentences explaining your assessment.
+    **Note: If a candidate’s answer scores below 10, always give specific examples to illustrate which parts of their response did not meet expectations.**
 
     #### Evaluation Criteria
     a. **wpm (Words Per Minute)**: Was the provided speech rate (WPM) appropriate, allowing for clear and effective communication during the interview?
@@ -405,8 +405,8 @@ GENERAL_TECH_VOICE_EVAL: str = """
     ---
 
     ### Step 3: Detailed Feedback and Suggestions
-    Along with scoring, provide detailed feedback for each answer in the following areas, using at least three sentences per evaluation.
-    **Note: If an answer scores below 10, include specific examples illustrating which aspects led to the deduction.**
+    Along with scoring, provide detailed feedback for the candidate’s answer based on the evaluations in STEP 1. Each category requires at least three sentences of rationale.
+    **Note: For any score below 10, always include specific examples to explain which aspects led to the deduction.**
 
     #### Feedback Categories
     a. **strengths**: Highlight the candidate's strong points across both steps, focusing on how they excelled in key aspects of the response.
