@@ -66,7 +66,7 @@ async def process_interview_questions(
         logging.error(f"Error processing questions for interview {interview_id}: {str(e)}")
 
 
-def process_interview_evaluation(
+def process_overall_evaluation(
     interview_id: int,
     request_data: EvaluationRequestModel,
 ) -> Union[TechnicalEvaluationResponseModel, PersonalEvaluationResponseModel]:
