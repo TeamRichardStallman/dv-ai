@@ -1,4 +1,4 @@
-from typing import Optional, Union
+from typing import Union
 
 from pydantic import BaseModel
 
@@ -35,7 +35,7 @@ class VoiceScores(BaseModel):
 
 class Scores(BaseModel):
     text_scores: Union[TechnicalTextScores, PersonalTextScores]
-    voice_scores: Optional[VoiceScores]
+    voice_scores: Union[VoiceScores, None]
 
 
 class Feedback(BaseModel):
@@ -46,8 +46,8 @@ class Feedback(BaseModel):
 
 class AnswerDetail(BaseModel):
     answer_text: str
-    s3_audio_url: Optional[str]
-    s3_video_url: Optional[str]
+    s3_audio_url: Union[str, None] = None
+    s3_video_url: Union[str, None] = None
     scores: Scores
     feedback: Feedback
 
@@ -63,7 +63,7 @@ class AnswerBaseModel(BaseModel):
 class AnswerRequestModel(BaseRequest):
     question: QuestionBaseModelWithId
     answer: AnswerBaseModel
-    file_path: Optional[str] = "cover-letters/SK_AI_01.txt"
+    file_path: Union[str, None] = "cover-letters/SK_AI_01.txt"
 
 
 # Request: 응답으로 나오는 Reponse 모델
