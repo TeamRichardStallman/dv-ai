@@ -1,4 +1,4 @@
-from typing import List, Optional
+from typing import List, Optional, Union
 
 from pydantic import BaseModel
 
@@ -15,8 +15,8 @@ class Feedback(BaseModel):
 
 class SimplifiedAnswerDetail(BaseModel):
     answer_text: str
-    s3_audio_url: Optional[str]
-    s3_video_url: Optional[str]
+    s3_audio_url: Union[str, None] = None
+    s3_video_url: Union[str, None] = None
     scores: Scores
     feedback: Feedback
 
