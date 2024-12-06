@@ -21,7 +21,7 @@ from app.services.question_service import generate_questions_prompt
 from app.services.s3_service import S3Service, get_s3_service
 from app.services.stt_service import get_stt_service
 from app.services.tts_service import get_tts_service
-from app.utils.generate import create_file_objects, get_cover_letters_data
+from app.utils.generate import create_file_objects, generate_filename, get_cover_letters_data
 from app.utils.merge import merge_question_and_answer, merge_questions_and_answers
 
 load_dotenv()
@@ -49,9 +49,9 @@ async def process_interview_questions(
 
                 audio_bytes = await tts_service.generate_speech(question_text)
 
+                question_file_name = generate_filename("question.mp3")
                 object_key = (
-                    f"test/users/{request_data.user_id}/interviews/{interview_id}/"
-                    f"questions/question-{question.question_id}.mp3"
+                    f"test/users/{request_data.user_id}/interviews/{interview_id}/" f"questions/{question_file_name}"
                 )
 
                 await s3_service.upload_s3_object(object_key, audio_bytes)

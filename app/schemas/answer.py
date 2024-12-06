@@ -3,7 +3,7 @@ from typing import Optional, Union
 from pydantic import BaseModel
 
 from app.schemas.base import BaseRequest
-from app.schemas.question import QuestionBaseModel
+from app.schemas.question import QuestionBaseModelWithId
 
 
 class ScoreDetail(BaseModel):
@@ -55,13 +55,13 @@ class AnswerDetail(BaseModel):
 # Base: Answer의 최소 단위 데이터 모델
 class AnswerBaseModel(BaseModel):
     answer_text: str = "테스트용 답변입니다."
-    s3_audio_url: str = "test/questions/audio_1.mp3"
+    s3_audio_url: str = "questions/audio_1.mp3"
     s3_video_url: str
 
 
 # Request:요청에 필요한 Request Body 모델
 class AnswerRequestModel(BaseRequest):
-    question: QuestionBaseModel
+    question: QuestionBaseModelWithId
     answer: AnswerBaseModel
     file_path: Optional[str] = "cover-letters/SK_AI_01.txt"
 

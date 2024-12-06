@@ -1,4 +1,5 @@
 import asyncio
+from unittest.mock import patch
 
 import pytest
 from httpx import ASGITransport, AsyncClient
@@ -9,6 +10,7 @@ from app.tests.data.evaluation import EVALUATION_REQUEST_DATA
 BASE_URL = "http://test"
 
 
+@patch("app.services.tasks.BaseTaskWithAPICallback.send_to_backend", return_value=None)
 @pytest.mark.asyncio
 @pytest.mark.parametrize(
     "interview_id, interview_mode, interview_type, interview_method, question_count, file_paths",
@@ -22,7 +24,7 @@ BASE_URL = "http://test"
     ],
 )
 async def test_create_interview_questions(
-    interview_id, interview_mode, interview_type, interview_method, question_count, file_paths
+    mock_send_to_backend, interview_id, interview_mode, interview_type, interview_method, question_count, file_paths
 ):
     async with AsyncClient(transport=ASGITransport(app=app), base_url=BASE_URL) as ac:
         response = await ac.post(
@@ -71,8 +73,9 @@ async def test_create_interview_questions(
             pytest.fail("Task did not complete within the allowed time.")
 
 
+@patch("app.services.tasks.BaseTaskWithAPICallback.send_to_backend", return_value=None)
 @pytest.mark.asyncio
-async def test_create_interview_evaluation():
+async def test_create_interview_evaluation(mock_send_to_backend):
     evaluation_request_data = EVALUATION_REQUEST_DATA
 
     async with AsyncClient(transport=ASGITransport(app=app), base_url=BASE_URL) as ac:
@@ -110,11 +113,12 @@ async def test_create_interview_evaluation():
             pytest.fail("Task did not complete within the allowed time.")
 
 
+@patch("app.services.tasks.BaseTaskWithAPICallback.send_to_backend", return_value=None)
 @pytest.mark.asyncio
 @pytest.mark.parametrize("interview_mode", ["real", "general"])
 @pytest.mark.parametrize("interview_type", ["technical", "personal"])
 @pytest.mark.parametrize("interview_method", ["chat", "voice"])
-async def test_create_answer_evaluation(interview_mode, interview_type, interview_method):
+async def test_create_answer_evaluation(mock_send_to_backend, interview_mode, interview_type, interview_method):
     answer_data = {
         "user_id": 1,
         "interview_mode": interview_mode,

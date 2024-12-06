@@ -4,7 +4,7 @@ from pydantic import BaseModel
 
 from app.schemas.answer import ScoreDetail, Scores
 from app.schemas.base import BaseRequest
-from app.schemas.question import QuestionBaseModel
+from app.schemas.question import QuestionBaseModelWithId
 
 
 class Feedback(BaseModel):
@@ -28,7 +28,7 @@ class AnswerPartialResponse(BaseModel):
 
 # Request:요청에 필요한 Request Body 모델
 class EvaluationRequestModel(BaseRequest):
-    questions: List[QuestionBaseModel]
+    questions: List[QuestionBaseModelWithId]
     answers: List[AnswerPartialResponse]
     file_paths: Optional[List[str]] = ["cover-letters/SK_AI_01.txt"]
 
