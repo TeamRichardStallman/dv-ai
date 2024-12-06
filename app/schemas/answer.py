@@ -1,4 +1,4 @@
-from typing import Optional, Union
+from typing import Union
 
 from pydantic import BaseModel
 
@@ -35,7 +35,7 @@ class VoiceScores(BaseModel):
 
 class Scores(BaseModel):
     text_scores: Union[TechnicalTextScores, PersonalTextScores]
-    voice_scores: Optional[VoiceScores]
+    voice_scores: Union[VoiceScores, None]
 
 
 class Feedback(BaseModel):

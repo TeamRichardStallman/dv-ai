@@ -1,4 +1,4 @@
-from typing import List, Optional, Union
+from typing import List, Union
 
 from pydantic import BaseModel
 
@@ -26,7 +26,7 @@ class QuestionBaseModelWithId(QuestionBaseModel):
 # Request:요청에 필요한 Request Body 모델
 class QuestionsRequestModel(BaseRequest):
     question_count: int = 1
-    file_paths: Optional[List[str]] = ["cover-letters/cover_letter_01.txt"]
+    file_paths: Union[List[str], None] = ["cover-letters/cover_letter_01.txt"]
 
 
 # Reponse: 응답으로 나오는 Reponse 모델
