@@ -2,10 +2,10 @@ from typing import List
 
 from app.schemas.answer import AnswerBaseModel
 from app.schemas.evaluation import AnswerPartialResponse
-from app.schemas.question import QuestionBaseModel
+from app.schemas.question import QuestionBaseModelWithId
 
 
-def merge_questions_and_answers(questions: List[QuestionBaseModel], answers: List[AnswerPartialResponse]):
+def merge_questions_and_answers(questions: List[QuestionBaseModelWithId], answers: List[AnswerPartialResponse]):
     merged_data = []
 
     for q in questions:
@@ -31,7 +31,7 @@ def merge_questions_and_answers(questions: List[QuestionBaseModel], answers: Lis
     return merged_data
 
 
-def merge_question_and_answer(question: QuestionBaseModel, answer: AnswerBaseModel) -> dict:
+def merge_question_and_answer(question: QuestionBaseModelWithId, answer: AnswerBaseModel) -> dict:
     return {
         "question_id": question.question_id,
         "question_excerpt": question.question_excerpt,

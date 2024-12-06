@@ -13,11 +13,14 @@ class QuestionDeatil(BaseModel):
 
 # Base: Question의 최소 단위 데이터 모델
 class QuestionBaseModel(BaseModel):
-    question_id: int
     question: QuestionDeatil
     question_excerpt: Optional[str] = None
     question_intent: str
     key_terms: List[str]
+
+
+class QuestionBaseModelWithId(QuestionBaseModel):
+    question_id: int
 
 
 # Request:요청에 필요한 Request Body 모델

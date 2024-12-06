@@ -17,7 +17,6 @@ Your task is to create **{question_count} in-depth interview questions** based o
 
 **For each question, include**:
 
-- **Question_id**: A unique identifier for the question.
 - **Question_excerpt**: The exact excerpt from the cover letter that inspired the question, or `null` if no excerpt is available.
 - **Question_text**: The clearly phrased question.
 - **Question_intent**: The purpose of the question—what you aim to discover about the candidate.
@@ -35,7 +34,6 @@ Your task is to create **{question_count} in-depth interview questions** based o
   "interview_id": {interview_id},
   "questions": [
     {{
-      "question_id": ...,
       "question": {{
         "question_text": ...,
         "s3_audio_url": null,
@@ -56,7 +54,6 @@ Your task is to create **{question_count} in-depth interview questions** based o
   "interview_id": {interview_id},
   "questions": [
     {{
-      "question_id": 1,
       "question": {{
         "question_text": "React로 대규모 웹 애플리케이션을 리팩토링하신 경험에 대해 자세히 말씀해 주시겠어요?",
         "s3_audio_url": null,
@@ -67,7 +64,6 @@ Your task is to create **{question_count} in-depth interview questions** based o
       "key_terms": ["React", "리팩토링", "웹 애플리케이션", "문제 해결", "성능 최적화"]
     }},
     {{
-      "question_id": 2,
       "question": {{
         "question_text": "컴퓨터 공학 기초 지식을 바탕으로 OOP(Object-Oriented Programming)의 장점과 활용 사례에 대해 설명해 주세요.",
         "s3_audio_url": null,
@@ -118,7 +114,6 @@ These questions should assess the candidate’s suitability by exploring their p
        "interview_id": {interview_id},
        "questions": [
          {{
-           "question_id": ...,
            "question": {{
              "question_text": ...,
              "s3_audio_url": null,
@@ -134,7 +129,6 @@ These questions should assess the candidate’s suitability by exploring their p
      ```
 
 ### **Field Definitions**:
-- **question_id**: A unique identifier for the question (e.g., 1, 2, 3, …).
 - **question_excerpt**: A brief summary or paraphrase of the part of the self-introduction that inspired the question.
   If the question is general and not based on the self-introduction, set this field to `null`.
 - **question_text**: The clearly phrased interview question.
@@ -152,7 +146,6 @@ These questions should assess the candidate’s suitability by exploring their p
   "interview_id": {interview_id},
   "questions": [
     {{
-      "question_id": 1,
       "question": {{
         "question_text": "팀 프로젝트에서 다른 개발자들과 협업하여 웹 애플리케이션을 출시하셨다고 말씀하셨는데, 그 경험에 대해 자세히 말씀해 주시겠어요?",
         "s3_audio_url": null,
@@ -163,7 +156,6 @@ These questions should assess the candidate’s suitability by exploring their p
       "key_terms": ["팀워크", "협업", "커뮤니케이션", "프로젝트 관리"]
     }},
     {{
-      "question_id": 2,
       "question": {{
         "question_text": "어려운 상황에서 문제를 해결했던 경험을 말씀해 주시겠어요?",
         "s3_audio_url": null,
@@ -212,7 +204,6 @@ Your task is to create **exactly {question_count} in-depth interview questions**
 
 **For each question, provide**:
 
-- **Question_id**: A unique identifier.
 - **Question_text**: The question, phrased clearly and professionally.
 - **Question_intent**: A brief explanation of what the question aims to assess.
 - **Key_terms**: A list of key points, keywords, or concepts that an ideal answer should cover.
@@ -229,7 +220,6 @@ Your task is to create **exactly {question_count} in-depth interview questions**
   "interview_id": {interview_id},
   "questions": [
     {{
-      "question_id": ...,
       "question": {{
         "question_text": ...,
         "s3_audio_url": null,
@@ -250,7 +240,6 @@ Your task is to create **exactly {question_count} in-depth interview questions**
   "interview_id": {interview_id},
   "questions": [
     {{
-      "question_id": 1,
       "question": {{
         "question_text": "최근에 사용된 {job_role} 분야의 프레임워크 중 하나를 선택하여 그 특징과 장점을 설명해 주시겠어요?",
         "s3_audio_url": null,
@@ -261,7 +250,6 @@ Your task is to create **exactly {question_count} in-depth interview questions**
       "key_terms": ["최신 프레임워크 이름", "특징", "장점", "실제 적용 경험"]
     }},
     {{
-      "question_id": 2,
       "question": {{
         "question_text": "RESTful API 설계 시 가장 중요하게 고려해야 할 점은 무엇이며, 이를 프로젝트에서 어떻게 적용했는지 말씀해 주세요?",
         "s3_audio_url": null,
