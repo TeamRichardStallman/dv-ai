@@ -8,8 +8,8 @@ from app.schemas.question import QuestionsRequestModel
 from app.schemas.task import MessageQueueResponse
 from app.services.tasks import (
     async_process_answer_evaluation,
-    async_process_interview_evaluation,
     async_process_interview_questions,
+    async_process_overall_evaluation,
 )
 
 router = APIRouter(prefix="/interview", tags=["Interview"])
@@ -36,9 +36,9 @@ async def create_interview_questions(
     tags=["Interview"],
     response_model=MessageQueueResponse,
 )
-async def create_interview_evaluation(interview_id: Union[int, str], request_data: EvaluationRequestModel):
+async def create_overall_evaluation(interview_id: Union[int, str], request_data: EvaluationRequestModel):
     try:
-        task = async_process_interview_evaluation.delay(interview_id, request_data.dict())
+        task = async_process_overall_evaluation.delay(interview_id, request_data.dict())
         return {
             "message": "Evaluation processing started!",
             "task_id": task.id,

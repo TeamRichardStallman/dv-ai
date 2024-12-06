@@ -75,7 +75,7 @@ async def test_create_interview_questions(
 
 @patch("app.services.tasks.BaseTaskWithAPICallback.send_to_backend", return_value=None)
 @pytest.mark.asyncio
-async def test_create_interview_evaluation(mock_send_to_backend):
+async def test_create_overall_evaluation(mock_send_to_backend):
     evaluation_request_data = EVALUATION_REQUEST_DATA
 
     async with AsyncClient(transport=ASGITransport(app=app), base_url=BASE_URL) as ac:

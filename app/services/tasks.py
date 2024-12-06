@@ -9,8 +9,8 @@ from app.schemas.evaluation import EvaluationRequestModel
 from app.schemas.question import QuestionsRequestModel
 from app.services.interview_service import (
     process_answer_evaluation,
-    process_interview_evaluation,
     process_interview_questions,
+    process_overall_evaluation,
 )
 from app.utils.format import to_serializable
 
@@ -76,7 +76,7 @@ class AsyncProcessInterviewEvaluation(BaseTaskWithAPICallback):
 
 
 @celery_app.task(bind=True, base=AsyncProcessInterviewEvaluation)
-def async_process_interview_evaluation(self, interview_id: int, request_data: dict) -> str:
+def async_process_overall_evaluation(self, interview_id: int, request_data: dict) -> str:
     evaluation_data_obj = EvaluationRequestModel(**request_data)
     self.update_state(
         state="PROGRESS",
@@ -84,7 +84,7 @@ def async_process_interview_evaluation(self, interview_id: int, request_data: di
     )
     try:
 
-        result = process_interview_evaluation(interview_id, evaluation_data_obj)
+        result = process_overall_evaluation(interview_id, evaluation_data_obj)
         self.update_state(
             state="SUCCESS",
             meta={
