@@ -3,13 +3,12 @@ import logging
 import os
 from typing import Union
 
-import weave
 from dotenv import load_dotenv
 from openai import OpenAI
 
-from app.models.openai.gpt import ContentGenerator
+# from app.models.openai.gpt import ContentGenerator
 
-# from app.models.LangChain.langchain import ContentGenerator
+from app.models.LangChain.langchain import QuestionGenerator, EvaluationGenerator
 from app.schemas.answer import (
     AnswerDetail,
     AnswerRequest,
@@ -36,9 +35,8 @@ load_dotenv()
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 client_gpt = OpenAI(api_key=OPENAI_API_KEY)
 
-weave.init("ticani0610-no/prompt-test")
-
 logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 
 async def process_questions(
@@ -78,13 +76,12 @@ def process_evaluation(
     user_data: EvaluationRequest,
 ) -> Union[TechnicalEvaluationResponse, PersonalEvaluationResponse]:
     prompt = generate_evaluation_prompt(interview_id, user_data)
-
     merged_input = merge_questions_and_answers(user_data.questions, user_data.answers)
     merged_input_str = json.dumps(merged_input, ensure_ascii=False)
 
-    generator = ContentGenerator(user_data=user_data)
-    data = generator.invoke(prompt, merged_input_str, "evaluation")
-    return data
+    evaluation_generator = EvaluationGenerator(user_data=user_data)
+    evaluation = evaluation_generator.evaluate(prompt, merged_input_str)
+    return evaluation
 
 
 async def process_answer(
@@ -154,14 +151,14 @@ async def process_answer(
 async def generate_interview_questions(interview_id: int, user_data: QuestionsRequest) -> QuestionsResponse:
     s3_service = S3Service()
     prompt = generate_questions_prompt(interview_id, user_data)
-
+    
     cover_letter = ""
     if user_data.interview_mode == "real":
         file_objects = create_file_objects(user_data.file_paths)
         file_data = await s3_service.get_files_from_s3(file_objects)
         cover_letter = get_cover_letters_data(file_data)
-        cover_letter = cover_letter
-
-    generator = ContentGenerator(user_data=user_data)
-    data = generator.invoke(prompt, cover_letter, "question")
-    return data
+   
+    question_generator = QuestionGenerator()
+    questions = question_generator.generate_questions(prompt, cover_letter)
+    
+    return questions
