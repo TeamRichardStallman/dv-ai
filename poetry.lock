@@ -18,7 +18,6 @@ description = "Async http client/server framework (asyncio)"
 optional = false
 python-versions = ">=3.9"
 files = [
-<<<<<<< HEAD
     {file = "aiohttp-3.11.10-cp310-cp310-macosx_10_9_universal2.whl", hash = "sha256:cbad88a61fa743c5d283ad501b01c153820734118b65aee2bd7dbb735475ce0d"},
     {file = "aiohttp-3.11.10-cp310-cp310-macosx_10_9_x86_64.whl", hash = "sha256:80886dac673ceaef499de2f393fc80bb4481a129e6cb29e624a12e3296cc088f"},
     {file = "aiohttp-3.11.10-cp310-cp310-macosx_11_0_arm64.whl", hash = "sha256:61b9bae80ed1f338c42f57c16918853dc51775fb5cb61da70d590de14d8b5fb4"},
@@ -101,7 +100,10 @@ files = [
     {file = "aiohttp-3.11.10-cp39-cp39-win_amd64.whl", hash = "sha256:c6b9e6d7e41656d78e37ce754813fa44b455c3d0d0dced2a047def7dc5570b74"},
     {file = "aiohttp-3.11.10.tar.gz", hash = "sha256:b1fc6b45010a8d0ff9e88f9f2418c6fd408c99c211257334aff41597ebece42e"},
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+>>>>>>> 9c42f4b (DV-188 feat: LangChain prompt 구조 개선)
 =======
     {file = "aiohttp-3.11.9-cp310-cp310-macosx_10_9_universal2.whl", hash = "sha256:0411777249f25d11bd2964a230b3ffafcbed6cd65d0f2b132bc2b8f5b8c347c7"},
     {file = "aiohttp-3.11.9-cp310-cp310-macosx_10_9_x86_64.whl", hash = "sha256:499368eb904566fbdf1a3836a1532000ef1308f34a1bcbf36e6351904cced771"},
@@ -181,7 +183,12 @@ files = [
     {file = "aiohttp-3.11.9.tar.gz", hash = "sha256:a9266644064779840feec0e34f10a89b3ff1d2d6b751fe90017abcad1864fa7c"},
 >>>>>>> 74403d8 (DV-188 feat: update poetry.lock)
 >>>>>>> 73d3ac2 (DV-188 feat: update poetry.lock)
+<<<<<<< HEAD
 >>>>>>> 65c73eb (DV-188 feat: update poetry.lock)
+=======
+=======
+>>>>>>> 46a2832 (DV-188 feat: LangChain prompt 구조 개선)
+>>>>>>> 9c42f4b (DV-188 feat: LangChain prompt 구조 개선)
 ]
 
 [package.dependencies]
@@ -2842,22 +2849,13 @@ sympy = "*"
 
 [[package]]
 name = "openai"
-<<<<<<< HEAD
 version = "1.57.0"
-=======
-version = "1.56.2"
->>>>>>> 74403d8 (DV-188 feat: update poetry.lock)
 description = "The official Python library for the openai API"
 optional = false
 python-versions = ">=3.8"
 files = [
-<<<<<<< HEAD
     {file = "openai-1.57.0-py3-none-any.whl", hash = "sha256:972e36960b821797952da3dc4532f486c28e28a2a332d7d0c5407f242e9d9c39"},
     {file = "openai-1.57.0.tar.gz", hash = "sha256:76f91971c4bdbd78380c9970581075e0337b5d497c2fbf7b5255078f4b31abf9"},
-=======
-    {file = "openai-1.56.2-py3-none-any.whl", hash = "sha256:82d0c48f9504e04c7797e9b799dcf7f49a246d99b6cbfd90f3193ea80815b69e"},
-    {file = "openai-1.56.2.tar.gz", hash = "sha256:17312af69bc7670d4048f98ab5849f8784d98c39ac64fcde19406e3774a0c1e5"},
->>>>>>> 74403d8 (DV-188 feat: update poetry.lock)
 ]
 
 [package.dependencies]
@@ -4059,22 +4057,13 @@ jupyter = ["ipywidgets (>=7.5.1,<9)"]
 
 [[package]]
 name = "rich-toolkit"
-<<<<<<< HEAD
 version = "0.12.0"
-=======
-version = "0.11.3"
->>>>>>> 74403d8 (DV-188 feat: update poetry.lock)
 description = "Rich toolkit for building command-line applications"
 optional = false
 python-versions = ">=3.8"
 files = [
-<<<<<<< HEAD
     {file = "rich_toolkit-0.12.0-py3-none-any.whl", hash = "sha256:a2da4416384410ae871e890db7edf8623e1f5e983341dbbc8cc03603ce24f0ab"},
     {file = "rich_toolkit-0.12.0.tar.gz", hash = "sha256:facb0b40418010309f77abd44e2583b4936656f6ee5c8625da807564806a6c40"},
-=======
-    {file = "rich_toolkit-0.11.3-py3-none-any.whl", hash = "sha256:a46e00455b752604c9a58928410a2f15e0a134870458ea8ae4c23ec233e2d5ec"},
-    {file = "rich_toolkit-0.11.3.tar.gz", hash = "sha256:042cee58083e0bcbb56a69514b56a5def853ad064f977b6b95519087e4d9f239"},
->>>>>>> 74403d8 (DV-188 feat: update poetry.lock)
 ]
 
 [package.dependencies]
