@@ -105,9 +105,11 @@ REAL_TECH_VOICE_EVAL: str = """
     a. **strengths**: Highlight the candidate's strong points across both steps, focusing on how they excelled in key aspects of the response.
         - For **Step 1**: Identify areas where the candidate's speech rate, fluency, and pronunciation contributed positively to clarity and professionalism.
         - For **Step 2**: Emphasize how the response addressed key aspects of the question by clearly meeting the requirements, showcasing relevant skills, or providing insightful examples that enhanced the quality of the response.
+
     b. **improvement**: Identify any weaknesses or areas where the response could be improved, focusing on specific aspects of the evaluation criteria.
         - For **Step 1**: Highlight any issues related to the candidate's speech rate, fluency, or pronunciation that negatively impacted the clarity or professionalism of the response.
         - For **Step 2**: Pinpoint areas where the response fell short of addressing the question’s requirements, such as a lack of logical flow, insufficient use of key terms, or inconsistencies in the answer.
+
     c. **suggestion**: Provide clear, actionable steps the candidate could take to address the identified weaknesses and improve their response.
         - For **Step 1**: Suggest ways to enhance speech delivery, such as maintaining an appropriate speech rate, reducing hesitations, or improving pronunciation for clearer communication.
         - For **Step 2**: Recommend specific strategies to strengthen the response, such as improving logical flow, including relevant key terms, or adding more detailed and relevant examples to enhance the depth and relevance of the answer.
