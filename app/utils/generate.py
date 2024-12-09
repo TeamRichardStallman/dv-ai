@@ -52,8 +52,5 @@ def get_cover_letters_data(file_data: List[Dict[str, str]]):
     return cover_letters_items[0]["data"]
 
 
-def generate_filename(original_name: str) -> str:
-    _, ext = os.path.splitext(original_name)
-    unique_id = uuid.uuid4()
-    new_filename = f"{unique_id}{ext}"
-    return new_filename
+def generate_uuid() -> str:
+    return str(uuid.uuid4())
