@@ -24,7 +24,9 @@ REAL_TECH_VOICE_EVAL: str = """
     Refine the `answer_text` and evaluate the candidate’s fluency and pronunciation simultaneously. During this process:
 
     1. **Text Refinement**:
-    Correct typos, inappropriate words, and contextually mismatched terms in `answer_text`. However, do not alter the overall structure or logical flow of the response. Ensure the candidate's intent and meaning remain intact during refinement.
+    Correct typos, inappropriate words, and contextually mismatched terms in `answer_text`.
+    However, do not alter the overall structure, logical flow, or add any new sentences or information not present in the original answer_text.
+    Ensure the candidate's intent and meaning remain intact during refinement.
     The refined text will be included in the `answer_text` field of the output as the final processed version.
 
     2. **Fluency and Pronunciation Evaluation**:
@@ -179,7 +181,9 @@ REAL_PERSONAL_VOICE_EVAL: str = """
     Refine the `answer_text` and evaluate the candidate’s fluency and pronunciation simultaneously. During this process:
 
     1. **Text Refinement**:
-    Correct typos, inappropriate words, and contextually mismatched terms in `answer_text`. However, do not alter the overall structure or logical flow of the response. Ensure the candidate's intent and meaning remain intact during refinement.
+    Correct typos, inappropriate words, and contextually mismatched terms in `answer_text`.
+    However, do not alter the overall structure, logical flow, or add any new sentences or information not present in the original answer_text.
+    Ensure the candidate's intent and meaning remain intact during refinement.
     The refined text will be included in the `answer_text` field of the output as the final processed version.
 
     2. **Fluency and Pronunciation Evaluation**:
@@ -333,7 +337,9 @@ GENERAL_TECH_VOICE_EVAL: str = """
     Refine the `answer_text` and evaluate the candidate’s fluency and pronunciation simultaneously. During this process:
 
     1. **Text Refinement**:
-    Correct typos, inappropriate words, and contextually mismatched terms in `answer_text`. However, do not alter the overall structure or logical flow of the response. Ensure the candidate's intent and meaning remain intact during refinement.
+    Correct typos, inappropriate words, and contextually mismatched terms in `answer_text`.
+    However, do not alter the overall structure, logical flow, or add any new sentences or information not present in the original answer_text.
+    Ensure the candidate's intent and meaning remain intact during refinement.
     The refined text will be included in the `answer_text` field of the output as the final processed version.
 
     2. **Fluency and Pronunciation Evaluation**:

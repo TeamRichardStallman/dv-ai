@@ -90,7 +90,7 @@ REAL_TECH_VOICE_OVER: str = """
 
     ### Your Key Task: Comprehensive Evaluation
     Based on the provided information and analysis of the candidate’s responses to individual questions, provide a comprehensive evaluation of their overall performance.
-    Assign a score (0-10) for each category and support your assessment with at least five sentences of detailed feedback.
+    Assign a score (0-10) for each category and support your assessment with at least seven sentences of detailed feedback.
     Each evaluation should address the following:
 
     #### Overall Evaluation Categories
