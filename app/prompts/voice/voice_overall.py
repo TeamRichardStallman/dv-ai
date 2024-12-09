@@ -14,8 +14,8 @@ REAL_TECH_VOICE_OVER: str = """
     - **key_terms**: Key technical or domain-specific terms expected in the response.
     - **answer_text**: The candidate's answer.
     - **scores**: Includes text-based and voice-based scores evaluated against specific criteria:
-        - text_scores: Evaluated on appropriateness, logical flow, key terms, consistency, and grammar.
-        - voice_scores: Evaluated on fluency, pronunciation, and speech rate.
+        - **text_scores**: Evaluated on appropriateness, logical flow, key terms, consistency, and grammar.
+        - **voice_scores**: Evaluated on fluency, pronunciation, and speech rate.
     - **feedback**: Strengths, areas for improvement, and actionable suggestions based on the evaluations.
 
     #### Each voice-based score is assigned according to the following detailed criteria:
@@ -152,8 +152,8 @@ REAL_PERSONAL_VOICE_OVER: str = """
     - **key_terms**: Key interpersonal or personality-related terms expected in the response.
     - **answer_text**: The candidate's answer.
     - **scores**: Includes text-based and voice-based scores evaluated against specific criteria:
-        - text_scores: Evaluated on teamwork, problem-solving, accountability, and growth mindset.
-        - voice_scores: Evaluated on fluency, pronunciation, and speech rate.
+        - **text_scores**: Evaluated on teamwork, problem-solving, accountability, and growth mindset.
+        - **voice_scores**: Evaluated on fluency, pronunciation, and speech rate.
     - **feedback**: Strengths, areas for improvement, and actionable suggestions based on the evaluations.
 
     #### Each voice-based score is assigned according to the following detailed criteria:
@@ -172,35 +172,41 @@ REAL_PERSONAL_VOICE_OVER: str = """
         - 9-10: Perfect pronunciation with clear, contextually appropriate articulation, enhancing the response’s quality.
 
     #### Each text-based score and wpm score is assigned according to the following detailed criteria:
-    1. **teamwork**: Does the answer show effective collaboration skills, respect for others' ideas, and a willingness to work together?
+    a. **wpm (Words Per Minute)**: Was the provided speech rate (WPM) appropriate, allowing for clear and effective communication during the interview?
+        0: Speech rate is completely off the acceptable range (≤100 WPM or ≥200 WPM), making the response nearly impossible to follow or understand.
+        1-3: Speech rate is significantly outside the ideal range (101-120 WPM or 180-199 WPM), causing major issues in comprehension or delivery.
+        4-7: Speech rate is slightly outside the ideal range (121-139 WPM or 161-179 WPM), causing minor disruptions but still understandable.
+        8-10: Speech rate is perfectly within the ideal range (140-160 WPM), ensuring clear, professional, and effective communication throughout the response.
+
+    b. **teamwork**: Does the answer show effective collaboration skills, respect for others' ideas, and a willingness to work together?
         0: No evidence of teamwork or collaborative approach.
         1-3: Minimal teamwork skills, with little willingness to consider others' perspectives.
         4-6: Shows basic understanding of teamwork, but lacks depth or examples.
         7-8: Clearly demonstrates teamwork with relevant examples showing a team-oriented approach.
         9-10: Strongly demonstrates teamwork through detailed examples of respect, cooperation, and adaptability.
 
-    2. **communication**: Does the candidate communicate ideas clearly and listen actively?
+    c. **communication**: Does the candidate communicate ideas clearly and listen actively?
         0: Response is confusing or lacks coherence, with poor communication skills.
         1-3: Limited clarity or conciseness; some parts are hard to follow.
         4-6: Basic communication skills present, but could be clearer or more articulate.
         7-8: Communicates effectively, with a clear and organized answer.
         9-10: Exceptional clarity and organization, demonstrating excellent communication.
 
-    3. **problem_solving**: Does the candidate show an adaptable approach to resolving challenges, with openness to change?
+    d. **problem_solving**: Does the candidate show an adaptable approach to resolving challenges, with openness to change?
         0: Resists change or struggles with problem-solving.
         1-3: Shows limited adaptability, with few examples of problem-solving.
         4-6: Basic problem-solving skills present but could be more creative.
         7-8: Demonstrates a clear approach to solving problems and adapting to challenges.
         9-10: Strong adaptability and creativity in problem-solving, with specific examples.
 
-    4. **accountability**: Does the candidate demonstrate responsibility and reliability in fulfilling their duties?
+    e. **accountability**: Does the candidate demonstrate responsibility and reliability in fulfilling their duties?
         0: Shows no sense of responsibility or reliability.
         1-3: Limited responsibility; lacks follow-through or commitment.
         4-6: Some sense of responsibility but could show more consistency or dependability.
         7-8: Demonstrates accountability and reliability, with examples of fulfilling commitments.
         9-10: Highly dependable, with strong examples of responsibility and consistent follow-through on commitments.
 
-    5. **growth_mindset**: Does the candidate show a positive attitude, professionalism, and desire to grow?
+    f. **growth_mindset**: Does the candidate show a positive attitude, professionalism, and desire to grow?
         0: Negative attitude or lacks professionalism.
         1-3: Limited openness to growth or self-improvement.
         4-6: Shows some interest in growth but could be more enthusiastic.
@@ -285,8 +291,8 @@ GENERAL_TECH_VOICE_OVER: str = """
     - **key_terms**: Key technical or domain-specific terms expected in the response.
     - **answer_text**: The candidate's answer.
     - **scores**: Includes text-based and voice-based scores evaluated against specific criteria:
-        - text_scores: Evaluated on appropriateness, logical flow, key terms, consistency, and grammar.
-        - voice_scores: Evaluated on fluency, pronunciation, and speech rate.
+        - **text_scores**: Evaluated on appropriateness, logical flow, key terms, consistency, and grammar.
+        - **voice_scores**: Evaluated on fluency, pronunciation, and speech rate.
     - **feedback**: Strengths, areas for improvement, and actionable suggestions based on the evaluations.
 
     #### Each voice-based score is assigned according to the following detailed criteria:
