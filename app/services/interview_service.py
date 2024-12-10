@@ -7,7 +7,7 @@ from dotenv import load_dotenv
 from openai import OpenAI
 
 # from app.models.openai.gpt import ContentGenerator
-from app.models.LangChain.langchain import QuestionGenerator, EvaluationGenerator
+from app.models.LangChain.langchain import EvaluationGenerator, QuestionGenerator
 from app.schemas.answer import AnswerRequestModel, AnswerResponseModel
 from app.schemas.evaluation import (
     EvaluationRequestModel,
@@ -31,6 +31,7 @@ client_gpt = OpenAI(api_key=OPENAI_API_KEY)
 
 
 logging.basicConfig(level=logging.INFO)
+
 
 async def process_interview_questions(
     interview_id: Union[int, str],
@@ -60,7 +61,7 @@ async def process_interview_questions(
                 question.question.s3_audio_url = object_key
         else:
             for question in questions.questions:
-                question.question.s3_audio_url = None   
+                question.question.s3_audio_url = None
 
         return questions
     except Exception as e:
@@ -78,6 +79,7 @@ def process_overall_evaluation(
     generator = EvaluationGenerator(request_data=request_data)
     data = generator.evaluate(prompt, merged_input_str, "evaluation")
     return data
+
 
 async def process_answer_evaluation(
     interview_id: int,

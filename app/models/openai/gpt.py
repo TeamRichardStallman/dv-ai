@@ -3,7 +3,6 @@ from typing import Literal, Union
 
 import chromadb
 from chromadb.utils.embedding_functions import OpenAIEmbeddingFunction
-
 from openai import OpenAI
 
 from app.core.config import Config

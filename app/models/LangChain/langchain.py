@@ -1,8 +1,8 @@
-from typing import Union, Literal
+from typing import Literal, Union
 
+from langchain_core.output_parsers import PydanticOutputParser
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_openai import ChatOpenAI
-from langchain_core.output_parsers import PydanticOutputParser
 from langsmith import traceable
 
 from app.core.config import Config
@@ -29,10 +29,12 @@ class BaseGenerator:
 class QuestionGenerator(BaseGenerator):
     @traceable
     def generate_questions(self, questions_prompt: str, additional_context: str) -> QuestionsResponseModel:
-        chat_prompt = ChatPromptTemplate.from_messages([
-            ("system", questions_prompt),
-            ("human", additional_context),
-        ])
+        chat_prompt = ChatPromptTemplate.from_messages(
+            [
+                ("system", questions_prompt),
+                ("human", additional_context),
+            ]
+        )
 
         parser = PydanticOutputParser(pydantic_object=QuestionsResponseModel)
 
@@ -50,10 +52,12 @@ class EvaluationGenerator(BaseGenerator):
     ) -> Union[TechnicalEvaluationResponseModel, PersonalEvaluationResponseModel, AnswerResponseModel]:
         parser = self._get_parser(choice)
 
-        chat_prompt = ChatPromptTemplate.from_messages([
-            ("system", evaluation_prompt),
-            ("human", "{qa_input}"),
-        ])
+        chat_prompt = ChatPromptTemplate.from_messages(
+            [
+                ("system", evaluation_prompt),
+                ("human", "{qa_input}"),
+            ]
+        )
 
         chain = chat_prompt | self.llm | parser
         return chain.invoke({"qa_input": qa_input})
