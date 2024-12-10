@@ -3,7 +3,6 @@ import logging
 import os
 from typing import Union
 
-import weave
 from dotenv import load_dotenv
 from openai import OpenAI
 
@@ -76,11 +75,9 @@ def process_overall_evaluation(
 
     merged_input = merge_questions_and_answers(request_data.questions, request_data.answers)
     merged_input_str = json.dumps(merged_input, ensure_ascii=False)
-
     generator = EvaluationGenerator(request_data=request_data)
-    data = generator.invoke(prompt, merged_input_str, "evaluation")
+    data = generator.evaluate(prompt, merged_input_str, "evaluation")
     return data
-
 
 async def process_answer_evaluation(
     interview_id: int,
@@ -100,7 +97,7 @@ async def process_answer_evaluation(
 
     generator = EvaluationGenerator(request_data=new_request_data)
 
-    data = generator.invoke(prompt, merged_input_str, "answer")
+    data = generator.evaluate(prompt, merged_input_str, "answer")
 
     return data
 
@@ -119,5 +116,5 @@ async def generate_interview_questions(
         cover_letter = cover_letter
 
     generator = QuestionGenerator(request_data=request_data)
-    data = generator.invoke(prompt, cover_letter, "question")
+    data = generator.generate_questions(prompt, cover_letter)
     return data
