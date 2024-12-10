@@ -2,6 +2,8 @@ from app.prompts.chat.chat_overall import GENERAL_TECH_CHAT_OVER, REAL_PERSONAL_
 from app.prompts.voice.voice_overall import GENERAL_TECH_VOICE_OVER, REAL_PERSONAL_VOICE_OVER, REAL_TECH_VOICE_OVER
 from app.schemas.evaluation import EvaluationRequestModel
 
+from langchain_core.prompts import PromptTemplate
+
 
 def generate_interview_evaluation_prompt(interview_id: int, request_data: EvaluationRequestModel) -> str:
     try:
@@ -35,7 +37,7 @@ def generate_interview_evaluation_prompt(interview_id: int, request_data: Evalua
             generation_prompt = GENERAL_TECH_VOICE_OVER
         else:
             raise ValueError(f"Unknown interview_mode: {interview_mode}")
-
+    generation_prompt = PromptTemplate.from_template(generation_prompt)
     try:
         prompt = generation_prompt.format(
             job_role=job_role,

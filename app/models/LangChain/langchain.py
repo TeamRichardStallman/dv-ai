@@ -1,23 +1,29 @@
-import json
-from typing import Union
+from typing import Union, Literal
 
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_openai import ChatOpenAI
+from langchain_core.output_parsers import PydanticOutputParser
 from langsmith import traceable
 
 from app.core.config import Config
-from app.schemas.evaluation import EvaluationRequestModel, PersonalEvaluationResponseModel, TechnicalEvaluationResponseModel
+from app.schemas.answer import AnswerResponseModel
+from app.schemas.evaluation import (
+    EvaluationRequestModel,
+    PersonalEvaluationResponseModel,
+    TechnicalEvaluationResponseModel,
+)
 from app.schemas.question import QuestionsRequestModel, QuestionsResponseModel
 
 
 class BaseGenerator:
-    def __init__(self):
+    def __init__(self, request_data: Union[QuestionsRequestModel, EvaluationRequestModel]):
+        self.request_data = request_data
         self.llm = ChatOpenAI(
-            api_key=Config.OPENAI_API_KEY, model=Config.GPT_MODEL, temperature=Config.TEMPERATURE, top_p=Config.TOP_P
+            api_key=Config.OPENAI_API_KEY,
+            model=Config.GPT_MODEL,
+            temperature=Config.TEMPERATURE,
+            top_p=Config.TOP_P,
         )
-
-    def _clean_json(self, response_content: str) -> str:
-        return response_content.strip().removeprefix("```json").removesuffix("```").strip()
 
 
 class QuestionGenerator(BaseGenerator):
@@ -25,45 +31,40 @@ class QuestionGenerator(BaseGenerator):
     def generate_questions(self, questions_prompt: str, additional_context: str) -> QuestionsResponseModel:
         chat_prompt = ChatPromptTemplate.from_messages([
             ("system", questions_prompt),
-            ("human", additional_context)
+            ("human", additional_context),
         ])
-        print(chat_prompt)
 
-        chain = chat_prompt | self.llm
-        response = chain.invoke({})
-        response_content = response.content.strip()
+        parser = PydanticOutputParser(pydantic_object=QuestionsResponseModel)
 
-        print(response_content)
-
-        cleaned_content = self._clean_json(response_content)
-        parsed_content = json.loads(cleaned_content)
-
-        return QuestionsResponseModel(**parsed_content)
+        chain = chat_prompt | self.llm | parser
+        return chain.invoke({})
 
 
 class EvaluationGenerator(BaseGenerator):
-    def __init__(self, user_data: EvaluationRequestModel):
-        super().__init__()
-        self.user_data = user_data
-
     @traceable
-    def evaluate(self, evaluation_prompt: str, qa_input: str) -> Union[TechnicalEvaluationResponseModel, PersonalEvaluationResponseModel]:
+    def evaluate(
+        self,
+        evaluation_prompt: str,
+        qa_input: str,
+        choice: Literal["answer", "evaluation"],
+    ) -> Union[TechnicalEvaluationResponseModel, PersonalEvaluationResponseModel, AnswerResponseModel]:
+        parser = self._get_parser(choice)
+
         chat_prompt = ChatPromptTemplate.from_messages([
             ("system", evaluation_prompt),
-            ("human", "{qa_input}")
+            ("human", "{qa_input}"),
         ])
-        print(chat_prompt)
 
-        chain = chat_prompt | self.llm
-        response = chain.invoke({"qa_input": qa_input})
-        response_content = response.content.strip()
+        chain = chat_prompt | self.llm | parser
+        return chain.invoke({"qa_input": qa_input})
 
-        print(response_content)
-
-        cleaned_content = self._clean_json(response_content)
-        parsed_content = json.loads(cleaned_content)
-
-        if self.user_data.interview_type == "technical":
-            return TechnicalEvaluationResponseModel(**parsed_content)
-        else:
-            return PersonalEvaluationResponseModel(**parsed_content)
+    def _get_parser(self, choice: Literal["answer", "evaluation"]):
+        if choice == "answer":
+            return PydanticOutputParser(pydantic_object=AnswerResponseModel)
+        elif choice == "evaluation":
+            if self.request_data.interview_type == "technical":
+                return PydanticOutputParser(pydantic_object=TechnicalEvaluationResponseModel)
+            elif self.request_data.interview_type == "personal":
+                return PydanticOutputParser(pydantic_object=PersonalEvaluationResponseModel)
+            else:
+                raise ValueError(f"Invalid interview type: {self.request_data.interview_type}")

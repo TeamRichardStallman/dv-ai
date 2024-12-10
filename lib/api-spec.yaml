@@ -1,13 +1,13 @@
 components:
   schemas:
-    AnswerModel:
+    AnswerBaseModel:
       properties:
         answer_text:
           default: "\uD14C\uC2A4\uD2B8\uC6A9 \uB2F5\uBCC0\uC785\uB2C8\uB2E4."
           title: Answer Text
           type: string
         s3_audio_url:
-          default: test/questions/audio_1.mp3
+          default: questions/audio_1.mp3
           title: S3 Audio Url
           type: string
         s3_video_url:
@@ -15,7 +15,7 @@ components:
           type: string
       required:
       - s3_video_url
-      title: AnswerModel
+      title: AnswerBaseModel
       type: object
     AnswerPartialResponse:
       properties:
@@ -29,10 +29,16 @@ components:
       - answer
       title: AnswerPartialResponse
       type: object
-    AnswerRequest:
+    AnswerRequestModel:
       properties:
         answer:
-          $ref: '#/components/schemas/AnswerModel'
+          $ref: '#/components/schemas/AnswerBaseModel'
+        file_path:
+          anyOf:
+          - type: string
+          - type: 'null'
+          default: cover-letters/SK_AI_01.txt
+          title: File Path
         interview_method:
           default: voice
           enum:
@@ -41,6 +47,31 @@ components:
           - video
           title: Interview Method
           type: string
+        interview_mode:
+          default: real
+          enum:
+          - real
+          - general
+          title: Interview Mode
+          type: string
+        interview_type:
+          default: technical
+          enum:
+          - technical
+          - personal
+          title: Interview Type
+          type: string
+        job_role:
+          default: ai
+          enum:
+          - frontend
+          - backend
+          - infra
+          - ai
+          title: Job Role
+          type: string
+        question:
+          $ref: '#/components/schemas/QuestionBaseModelWithId'
         user_id:
           anyOf:
           - type: integer
@@ -48,10 +79,11 @@ components:
           title: User Id
       required:
       - user_id
+      - question
       - answer
-      title: AnswerRequest
+      title: AnswerRequestModel
       type: object
-    EvaluationRequest:
+    EvaluationRequestModel:
       properties:
         answers:
           items:
@@ -100,7 +132,7 @@ components:
           type: string
         questions:
           items:
-            $ref: '#/components/schemas/Question'
+            $ref: '#/components/schemas/QuestionBaseModelWithId'
           title: Questions
           type: array
         user_id:
@@ -112,7 +144,7 @@ components:
       - user_id
       - questions
       - answers
-      title: EvaluationRequest
+      title: EvaluationRequestModel
       type: object
     Feedback:
       properties:
@@ -157,7 +189,27 @@ components:
       - status
       title: MessageQueueResponse
       type: object
-    Question:
+    PersonalTextScores:
+      properties:
+        accountability:
+          $ref: '#/components/schemas/ScoreDetail'
+        communication:
+          $ref: '#/components/schemas/ScoreDetail'
+        growth_mindset:
+          $ref: '#/components/schemas/ScoreDetail'
+        problem_solving:
+          $ref: '#/components/schemas/ScoreDetail'
+        teamwork:
+          $ref: '#/components/schemas/ScoreDetail'
+      required:
+      - teamwork
+      - communication
+      - problem_solving
+      - accountability
+      - growth_mindset
+      title: PersonalTextScores
+      type: object
+    QuestionBaseModelWithId:
       properties:
         key_terms:
           items:
@@ -178,11 +230,11 @@ components:
           title: Question Intent
           type: string
       required:
-      - question_id
       - question
       - question_intent
       - key_terms
-      title: Question
+      - question_id
+      title: QuestionBaseModelWithId
       type: object
     QuestionDeatil:
       properties:
@@ -203,7 +255,7 @@ components:
       - question_text
       title: QuestionDeatil
       type: object
-    QuestionsRequest:
+    QuestionsRequestModel:
       properties:
         file_paths:
           anyOf:
@@ -256,7 +308,7 @@ components:
           title: User Id
       required:
       - user_id
-      title: QuestionsRequest
+      title: QuestionsRequestModel
       type: object
     ScoreDetail:
       properties:
@@ -274,7 +326,10 @@ components:
     Scores:
       properties:
         text_scores:
-          $ref: '#/components/schemas/TextScores'
+          anyOf:
+          - $ref: '#/components/schemas/TechnicalTextScores'
+          - $ref: '#/components/schemas/PersonalTextScores'
+          title: Text Scores
         voice_scores:
           anyOf:
           - $ref: '#/components/schemas/VoiceScores'
@@ -305,13 +360,11 @@ components:
           $ref: '#/components/schemas/Scores'
       required:
       - answer_text
-      - s3_audio_url
-      - s3_video_url
       - scores
       - feedback
       title: SimplifiedAnswerDetail
       type: object
-    TextScores:
+    TechnicalTextScores:
       properties:
         appropriate_response:
           $ref: '#/components/schemas/ScoreDetail'
@@ -329,7 +382,7 @@ components:
       - key_terms
       - consistency
       - grammatical_errors
-      title: TextScores
+      title: TechnicalTextScores
       type: object
     ValidationError:
       properties:
@@ -402,9 +455,9 @@ paths:
       summary: Ping
       tags:
       - Common
-  /interview/{interview_id}/answer/{question_or_answer_id}:
+  /interview/{interview_id}/answer/{question_id}:
     post:
-      operationId: create_asnwer_text_from_answer_audio_interview__interview_id__answer__question_or_answer_id__post
+      operationId: create_answer_evaluation_interview__interview_id__answer__question_id__post
       parameters:
       - in: path
         name: interview_id
@@ -412,17 +465,11 @@ paths:
         schema:
           title: Interview Id
           type: integer
-      - in: path
-        name: question_or_answer_id
-        required: true
-        schema:
-          title: Question Or Answer Id
-          type: integer
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/AnswerRequest'
+              $ref: '#/components/schemas/AnswerRequestModel'
         required: true
       responses:
         '200':
@@ -437,13 +484,13 @@ paths:
               schema:
                 $ref: '#/components/schemas/HTTPValidationError'
           description: Validation Error
-      summary: Create Asnwer Text From Answer Audio
+      summary: Create Answer Evaluation
       tags:
       - Interview
       - Interview
   /interview/{interview_id}/evaluation:
     post:
-      operationId: create_interview_evaluation_interview__interview_id__evaluation_post
+      operationId: create_overall_evaluation_interview__interview_id__evaluation_post
       parameters:
       - in: path
         name: interview_id
@@ -457,7 +504,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/EvaluationRequest'
+              $ref: '#/components/schemas/EvaluationRequestModel'
         required: true
       responses:
         '200':
@@ -472,7 +519,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/HTTPValidationError'
           description: Validation Error
-      summary: Create Interview Evaluation
+      summary: Create Overall Evaluation
       tags:
       - Interview
       - Interview
@@ -492,7 +539,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/QuestionsRequest'
+              $ref: '#/components/schemas/QuestionsRequestModel'
         required: true
       responses:
         '200':

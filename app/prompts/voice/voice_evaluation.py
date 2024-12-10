@@ -136,36 +136,36 @@ REAL_TECH_VOICE_EVAL: str = """
 
     ### JSON Output Example
     Refer to the following JSON structure for the format of your output:
-    {{
+    {{{{
         "user_id": {user_id},
         "interview_id": {interview_id},
         "interview_method": "voice",
         "question_id": {question_id},
-        "answer":{{
+        "answer":{{{{
             "answer_text": "Refined text based on the STT output"
             "s3_audio_url": {s3_audio_url},
             "s3_video_url": {s3_video_url},
             "scores": {{{{
-                "text_scores": {{
-                    "appropriate_response": {{ "score": integer, "rationale": "Detailed rationale for score" }},
-                    "logical_flow": {{ "score": integer, "rationale": "Detailed rationale for score" }},
-                    "key_terms": {{ "score": integer, "rationale": "Detailed rationale for score" }},
-                    "consistency": {{ "score": integer, "rationale": "Detailed rationale for score" }},
-                    "grammatical_errors": {{ "score": integer, "rationale": "Detailed rationale for score" }}
-                }},
-                "voice_scores": {{
-                    "wpm": {{ "score": integer, "rationale": "Detailed rationale for score" }},
-                    "stutter": {{ "score": integer, "rationale": "Detailed rationale for score" }},
-                    "pronunciation": {{ "score": integer, "rationale": "Detailed rationale for score" }}
-                }},
+                "text_scores": {{{{
+                    "appropriate_response": {{{{ "score": integer, "rationale": "Detailed rationale for score" }}}},
+                    "logical_flow": {{{{ "score": integer, "rationale": "Detailed rationale for score" }}}},
+                    "key_terms": {{{{ "score": integer, "rationale": "Detailed rationale for score" }}}},
+                    "consistency": {{{{ "score": integer, "rationale": "Detailed rationale for score" }}}},
+                    "grammatical_errors": {{{{ "score": integer, "rationale": "Detailed rationale for score" }}}}
+                }}}},
+                "voice_scores": {{{{
+                    "wpm": {{{{ "score": integer, "rationale": "Detailed rationale for score" }}}},
+                    "stutter": {{{{ "score": integer, "rationale": "Detailed rationale for score" }}}},
+                    "pronunciation": {{{{ "score": integer, "rationale": "Detailed rationale for score" }}}}
+                }}}},
             }}}},
-            "feedback": {{
+            "feedback": {{{{
                 "strengths": "Detailed feedback on strengths",
                 "improvement": "Detailed feedback on areas for improvement",
                 "suggestion": "Detailed feedback on suggestions"
-            }}
-        }},
-    }}
+            }}}}
+        }}}},
+    }}}}
     """
 
 # 실전 / 인성 / 음성 면접 평가
@@ -306,36 +306,36 @@ REAL_PERSONAL_VOICE_EVAL: str = """
 
     ### JSON Output Example
     Refer to the following JSON structure for the format of your output:
-    {{
+    {{{{
         "user_id": {user_id},
         "interview_id": {interview_id},
         "interview_method": "voice",
         "question_id": {question_id},
-        "answer":{{
+        "answer":{{{{
             "answer_text": "Refined text based on the STT output",
             "s3_audio_url": {s3_audio_url},
             "s3_video_url": {s3_video_url},
             "scores": {{{{
-                "text_scores": {{
-                    "teamwork": {{ "score": integer, "rationale": "Detailed rationale for score" }},
-                    "communication": {{ "score": integer, "rationale": "Detailed rationale for score" }},
-                    "problem_solving": {{ "score": integer, "rationale": "Detailed rationale for score" }},
-                    "accountability": {{ "score": integer, "rationale": "Detailed rationale for score" }},
-                    "growth_mindset": {{ "score": integer, "rationale": "Detailed rationale for score" }}
-                }},
-                "voice_scores": {{
-                    "wpm": {{ "score": integer, "rationale": "Detailed rationale for score" }},
-                    "stutter": {{ "score": integer, "rationale": "Detailed rationale for score" }},
-                    "pronunciation": {{ "score": integer, "rationale": "Detailed rationale for score" }}
-                }},
+                "text_scores": {{{{
+                    "teamwork": {{{{ "score": integer, "rationale": "Detailed rationale for score" }}}},
+                    "communication": {{{{ "score": integer, "rationale": "Detailed rationale for score" }}}},
+                    "problem_solving": {{{{ "score": integer, "rationale": "Detailed rationale for score" }}}},
+                    "accountability": {{{{ "score": integer, "rationale": "Detailed rationale for score" }}}},
+                    "growth_mindset": {{{{ "score": integer, "rationale": "Detailed rationale for score" }}}}
+                }}}},
+                "voice_scores": {{{{
+                    "wpm": {{{{ "score": integer, "rationale": "Detailed rationale for score" }}}},
+                    "stutter": {{{{ "score": integer, "rationale": "Detailed rationale for score" }}}},
+                    "pronunciation": {{{{ "score": integer, "rationale": "Detailed rationale for score" }}}}
+                }}}},
             }}}},
-            "feedback": {{
+            "feedback": {{{{
                 "strengths": "Detailed feedback on strengths",
                 "improvement": "Detailed feedback on areas for improvement",
                 "suggestion": "Detailed feedback on suggestions"
-            }}
-        }},
-    }}
+            }}}}
+        }}}},
+    }}}}
     """
 
 # 모의 / 기술 / 음성 면접 평가
@@ -473,34 +473,34 @@ GENERAL_TECH_VOICE_EVAL: str = """
 
     ### JSON Output Example
     Refer to the following JSON structure for the format of your output:
-    {{
+    {{{{
         "user_id": {user_id},
         "interview_id": {interview_id},
         "interview_method": "voice",
         "question_id": {question_id},
-        "answer":{{
+        "answer":{{{{
             "answer_text": "Refined text based on the STT output",
             "s3_audio_url": {s3_audio_url},
             "s3_video_url": {s3_video_url},
             "scores": {{{{
-                "text_scores": {{
-                    "appropriate_response": {{ "score": integer, "rationale": "Detailed rationale for score" }},
-                    "logical_flow": {{ "score": integer, "rationale": "Detailed rationale for score" }},
-                    "key_terms": {{ "score": integer, "rationale": "Detailed rationale for score" }},
-                    "consistency": {{ "score": integer, "rationale": "Detailed rationale for score" }},
-                    "grammatical_errors": {{ "score": integer, "rationale": "Detailed rationale for score" }}
-                }},
-                "voice_scores": {{
-                    "wpm": {{ "score": integer, "rationale": "Detailed rationale for score" }},
-                    "stutter": {{ "score": integer, "rationale": "Detailed rationale for score" }},
-                    "pronunciation": {{ "score": integer, "rationale": "Detailed rationale for score" }}
-                }},
+                "text_scores": {{{{
+                    "appropriate_response": {{{{ "score": integer, "rationale": "Detailed rationale for score" }}}},
+                    "logical_flow": {{{{ "score": integer, "rationale": "Detailed rationale for score" }}}},
+                    "key_terms": {{{{ "score": integer, "rationale": "Detailed rationale for score" }}}},
+                    "consistency": {{{{ "score": integer, "rationale": "Detailed rationale for score" }}}},
+                    "grammatical_errors": {{{{ "score": integer, "rationale": "Detailed rationale for score" }}}}
+                }}}},
+                "voice_scores": {{{{
+                    "wpm": {{{{ "score": integer, "rationale": "Detailed rationale for score" }}}},
+                    "stutter": {{{{ "score": integer, "rationale": "Detailed rationale for score" }}}},
+                    "pronunciation": {{{{ "score": integer, "rationale": "Detailed rationale for score" }}}}
+                }}}},
             }}}},
-            "feedback": {{
+            "feedback": {{{{
                 "strengths": "Detailed feedback on strengths",
                 "improvement": "Detailed feedback on areas for improvement",
                 "suggestion": "Detailed feedback on suggestions"
-            }}
-        }},
-    }}
+            }}}}
+        }}}},
+    }}}}
     """
