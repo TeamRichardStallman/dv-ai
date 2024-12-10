@@ -1,8 +1,8 @@
+from langchain_core.prompts import PromptTemplate
+
 from app.prompts.chat.chat_overall import GENERAL_TECH_CHAT_OVER, REAL_PERSONAL_CHAT_OVER, REAL_TECH_CHAT_OVER
 from app.prompts.voice.voice_overall import GENERAL_TECH_VOICE_OVER, REAL_PERSONAL_VOICE_OVER, REAL_TECH_VOICE_OVER
 from app.schemas.evaluation import EvaluationRequestModel
-
-from langchain_core.prompts import PromptTemplate
 
 
 def generate_interview_evaluation_prompt(interview_id: int, request_data: EvaluationRequestModel) -> str:

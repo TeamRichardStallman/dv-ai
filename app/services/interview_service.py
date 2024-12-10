@@ -7,7 +7,7 @@ from dotenv import load_dotenv
 from openai import OpenAI
 
 # from app.models.openai.gpt import ContentGenerator
-from app.models.LangChain.langchain import QuestionGenerator, EvaluationGenerator
+from app.models.LangChain.langchain import EvaluationGenerator, QuestionGenerator
 from app.schemas.answer import AnswerRequestModel, AnswerResponseModel
 from app.schemas.evaluation import (
     EvaluationRequestModel,
@@ -67,7 +67,7 @@ async def process_interview_questions(
                 question.question.s3_audio_url = object_key
         else:
             for question in questions.questions:
-                question.question.s3_audio_url = None   
+                question.question.s3_audio_url = None
 
         return questions
     except Exception as e:
