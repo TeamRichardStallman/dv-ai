@@ -3,11 +3,11 @@ import logging
 import os
 from typing import Union
 
+import weave
 from dotenv import load_dotenv
 from openai import OpenAI
 
-# from app.models.openai.gpt import ContentGenerator
-from app.models.LangChain.langchain import EvaluationGenerator, QuestionGenerator
+from app.models.openai.gpt import ContentGenerator
 from app.schemas.answer import AnswerRequestModel, AnswerResponseModel
 from app.schemas.evaluation import (
     EvaluationRequestModel,
@@ -29,6 +29,7 @@ load_dotenv()
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 client_gpt = OpenAI(api_key=OPENAI_API_KEY)
 
+weave.init("ticani0610-no/prompt-test")
 
 logging.basicConfig(level=logging.INFO)
 
@@ -82,8 +83,9 @@ def process_overall_evaluation(
 
     merged_input = merge_questions_and_answers(request_data.questions, request_data.answers)
     merged_input_str = json.dumps(merged_input, ensure_ascii=False)
-    generator = EvaluationGenerator(request_data=request_data)
-    data = generator.evaluate(prompt, merged_input_str, "evaluation")
+
+    generator = ContentGenerator(request_data=request_data)
+    data = generator.invoke(prompt, merged_input_str, "evaluation")
     return data
 
 
@@ -103,9 +105,9 @@ async def process_answer_evaluation(
     )
     merged_input_str = json.dumps(merged_input, ensure_ascii=False)
 
-    generator = EvaluationGenerator(request_data=new_request_data)
+    generator = ContentGenerator(request_data=new_request_data)
 
-    data = generator.evaluate(prompt, merged_input_str, "answer")
+    data = generator.invoke(prompt, merged_input_str, "answer")
 
     return data
 
@@ -114,7 +116,7 @@ async def generate_interview_questions(
     interview_id: int, request_data: QuestionsRequestModel
 ) -> QuestionsResponseModel:
     s3_service = get_s3_service()
-    prompt = generate_questions_prompt(request_data)
+    prompt = generate_questions_prompt(interview_id, request_data)
 
     cover_letter = ""
     if request_data.interview_mode == "real":
@@ -123,6 +125,6 @@ async def generate_interview_questions(
         cover_letter = process_file(file_data)
         cover_letter = cover_letter
 
-    generator = QuestionGenerator(request_data=request_data)
-    data = generator.generate_questions(prompt, cover_letter, interview_id=interview_id)
+    generator = ContentGenerator(request_data=request_data)
+    data = generator.invoke(prompt, cover_letter, "question")
     return data
