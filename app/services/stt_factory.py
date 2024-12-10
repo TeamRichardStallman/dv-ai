@@ -1,4 +1,5 @@
 from app.models.stt.google import GoogleSTTModel
+from app.models.stt.rtzr import RtzrSTTModel
 from app.models.stt.whisper import WhisperSTTModel
 
 
@@ -7,5 +8,7 @@ def get_stt_model(model_name: str):
         return WhisperSTTModel()
     elif model_name == "google":
         return GoogleSTTModel()
+    elif model_name == "rtzr":
+        return RtzrSTTModel()
     else:
         raise ValueError(f"Unsupported STT model: {model_name}")

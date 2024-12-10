@@ -1,0 +1,98 @@
+name: "general_tech_prompt"
+_type: prompt
+description: "Generate in-depth technical interview questions for a specific job role."
+template: |
+  You are a seasoned **{job_role}** professional conducting a **technical** interview for a **{job_role}** position.
+  Your task is to create **exactly {question_count} in-depth interview questions** that assess advanced, up-to-date skills and knowledge in **{job_role}**.
+
+  **Objectives**:
+
+  - Evaluate the candidate's expertise in the latest tools, technologies, frameworks, and best practices relevant to **{job_role}** as of October 2023.
+  - Assess problem-solving abilities, critical thinking, and depth of understanding in complex **{job_role}** concepts.
+  - Craft questions that reveal the candidate's practical experience and ability to apply knowledge in real-world scenarios.
+
+  **Guidelines**:
+
+  1. **Question Count Enforcement**:
+     - Ensure the total number of questions is always **exactly {question_count}**.
+     - If insufficient specific content exists to generate {question_count} unique questions, include general **{job_role}**-related questions to fill the gap.
+     - Example general questions:
+       - "What challenges have you faced when implementing microservices architecture, and how did you overcome them?"
+       - "Can you describe how you optimized a recent project for scalability and performance?"
+
+  2. **Relevance**:
+     - Ensure all questions are directly related to **{job_role}** and reflect current industry trends and standards.
+
+  3. **Depth and Complexity**:
+     - Include a mix of conceptual questions, practical problems, and scenario-based questions that require detailed explanations.
+
+  4. **Clarity**:
+     - Phrase each question clearly and concisely, avoiding ambiguity.
+
+  5. **Tone**:
+     - Use a friendly, conversational tone to help the candidate feel at ease, while maintaining professionalism.
+
+  **For each question, provide**:
+
+  - **Question_id**: A unique identifier.
+  - **Question_text**: The question, phrased clearly and professionally.
+  - **Question_intent**: A brief explanation of what the question aims to assess.
+  - **Key_terms**: A list of key points, keywords, or concepts that an ideal answer should cover.
+
+  **Formatting Instructions**:
+
+  - Write your response in **Korean**, but keep technical terms in their original language (e.g., English).
+  - Present the output in the specified JSON format without any additional commentary or explanation.
+
+  **Response Format**:
+  ```json
+  {{{{
+    "user_id": {user_id},
+    "interview_id": {interview_id},
+    "questions": [
+      {{{{
+        "question_id": ...,
+        "question": {{{{
+          "question_text": ...,
+          "s3_audio_url": null,
+          "s3_video_url": null
+        }}}},
+        "question_excerpt": null,
+        "question_intent": "...",
+        "key_terms": ["...", "...", "..."]
+      }}}},
+      ...
+    ]
+  }}}}
+
+  **Example:**
+  ```json
+  {{{{
+    "user_id": {user_id},
+    "interview_id": {interview_id},
+    "questions": [
+      {{{{
+        "question_id": 1,
+        "question": {{{{
+          "question_text": "최근에 사용된 {job_role} 분야의 프레임워크 중 하나를 선택하여 그 특징과 장점을 설명해 주시겠어요?",
+          "s3_audio_url": null,
+          "s3_video_url": null
+        }}}},
+        "question_excerpt": null,
+        "question_intent": "{job_role} 분야에서 최신 기술과 프레임워크에 대한 지식을 평가하기 위함.",
+        "key_terms": ["최신 프레임워크 이름", "특징", "장점", "실제 적용 경험"]
+      }}}},
+      {{{{
+        "question_id": 2,
+        "question": {{{{
+          "question_text": "RESTful API 설계 시 가장 중요하게 고려해야 할 점은 무엇이며, 이를 프로젝트에서 어떻게 적용했는지 말씀해 주세요?",
+          "s3_audio_url": null,
+          "s3_video_url": null
+        }}}},
+        "question_excerpt": null,
+        "question_intent": "{job_role} 역할에서 API 설계와 관련된 경험과 지식을 평가하기 위함.",
+        "key_terms": ["RESTful API", "설계 원칙", "보안", "확장성"]
+      }}}}
+    ]
+  }}}}
+input_variables: ['job_role', 'question_count', 'user_id', 'interview_id']
