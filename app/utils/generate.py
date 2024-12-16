@@ -1,8 +1,11 @@
 import os
 import uuid
+from io import BytesIO
 from typing import Dict, List
 
+import fitz
 import yaml
+from docx import Document
 from fastapi.openapi.utils import get_openapi
 
 
@@ -43,13 +46,61 @@ def create_file_objects(file_paths: List[str]) -> List[Dict[str, str]]:
     return file_objects
 
 
-def get_cover_letters_data(file_data: List[Dict[str, str]]):
-    cover_letters_items = [item for item in file_data if item["type"] == "cover-letters"]
+def process_pdf(file_data: bytes) -> str:
+    try:
+        temp_pdf_path = "temp.pdf"
+        with open(temp_pdf_path, "wb") as temp_pdf_file:
+            temp_pdf_file.write(file_data)
 
-    if not cover_letters_items:
-        return None
+        doc = fitz.open(temp_pdf_path)
+        texts = []
+        for page in doc:
+            text = page.get_text("text")
+            if text:
+                texts.append(text.strip())
+        doc.close()
 
-    return cover_letters_items[0]["data"]
+        return "\n".join(texts)
+    except Exception as e:
+        print(f"Error processing PDF: {e}")
+        return ""
+
+
+def process_txt(file_data: bytes) -> str:
+    try:
+        text = file_data.decode("utf-8", errors="ignore")
+        return text.strip()
+    except Exception as e:
+        print(f"Error processing TXT: {e}")
+        return ""
+
+
+def process_docx(file_data: bytes) -> str:
+    try:
+        temp_file = BytesIO(file_data)
+        doc = Document(temp_file)
+        texts = [paragraph.text for paragraph in doc.paragraphs if paragraph.text.strip()]
+        return "\n".join(texts)
+    except Exception as e:
+        print(f"Error processing DOCX: {e}")
+        return ""
+
+
+def process_file(file_data: List[Dict[str, str]]) -> str:
+    file_path = file_data[0]["path"]
+    file_data = file_data[0]["data"]
+
+    _, ext = os.path.splitext(file_path.lower())
+
+    if ext == ".pdf" or ext == ".pptx":
+        return process_pdf(file_data)
+    elif ext == ".txt":
+        return process_txt(file_data)
+    elif ext == ".docx":
+        return process_docx(file_data)
+    else:
+        print(f"Unsupported file type: {ext}")
+        return ""
 
 
 def generate_uuid() -> str:

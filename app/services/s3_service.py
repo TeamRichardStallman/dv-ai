@@ -40,11 +40,10 @@ class S3Service:
         s3_files = []
 
         for file_object in file_objects:
-            path = file_object["path"]
-            file_data = await self.get_s3_object(path)
-            file_type = file_object["type"]
+            file_path = file_object["path"]
+            file_data = await self.get_s3_object(file_path)
 
-            s3_files.append({"type": file_type, "data": file_data})
+            s3_files.append({"path": file_path, "data": file_data})
 
         return s3_files
 
