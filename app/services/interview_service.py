@@ -21,7 +21,7 @@ from app.services.question_service import generate_questions_prompt
 from app.services.s3_service import S3Service, get_s3_service
 from app.services.stt_service import get_stt_service
 from app.services.tts_service import get_tts_service
-from app.utils.generate import create_file_objects, generate_uuid, get_cover_letters_data
+from app.utils.generate import create_file_objects, generate_uuid, process_file
 from app.utils.merge import merge_question_and_answer, merge_questions_and_answers
 
 load_dotenv()
@@ -116,7 +116,7 @@ async def generate_interview_questions(
     if request_data.interview_mode == "real":
         file_objects = create_file_objects(request_data.file_paths)
         file_data = await s3_service.get_files_from_s3(file_objects)
-        cover_letter = get_cover_letters_data(file_data)
+        cover_letter = process_file(file_data)
         cover_letter = cover_letter
 
     generator = ContentGenerator(request_data=request_data)
