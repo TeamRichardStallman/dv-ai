@@ -105,3 +105,9 @@ def process_file(file_data: List[Dict[str, str]]) -> str:
 
 def generate_uuid() -> str:
     return str(uuid.uuid4())
+
+
+def ensure_feedback_fields(data: dict) -> dict:
+    if "feedback" not in data["answer"] or not isinstance(data["answer"]["feedback"], dict):
+        data["answer"]["feedback"] = {"strengths": "N/A", "improvement": "N/A", "suggestion": "N/A"}
+    return data

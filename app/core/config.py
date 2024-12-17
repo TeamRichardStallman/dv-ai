@@ -15,7 +15,7 @@ class Config:
     AWS_REGION = os.getenv("AWS_REGION")
     S3_BUCKET_NAME = os.getenv("S3_BUCKET_NAME")
 
-    GPT_MODEL = "gpt-4o-mini"  # other model: gpt-3.5-turbo, gpt-4o
+    GPT_MODEL = "gpt-4o"  # other model: gpt-3.5-turbo, gpt-4o
     ANTHROPIC_MODEL = "claude-3-opus-20240229"
 
     SEED = 456  # 동일한 입력에 대해 일관된 결과를 생성

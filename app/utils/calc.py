@@ -46,7 +46,7 @@ def process_chunks_with_gpt(chunks: List[str], model: str = "gpt-4", max_tokens:
     responses = []
     for chunk in chunks:
         response = client_gpt.chat.completions.create(
-            model="gpt-4o-mini",
+            model="gpt-4o",
             messages=[{"role": "user", "content": chunk}],
             max_tokens=max_tokens,
         )
