@@ -114,7 +114,7 @@ async def generate_interview_questions(
     interview_id: int, request_data: QuestionsRequestModel
 ) -> QuestionsResponseModel:
     s3_service = get_s3_service()
-    prompt = generate_questions_prompt(interview_id, request_data)
+    prompt = generate_questions_prompt(request_data)
 
     cover_letter = ""
     if request_data.interview_mode == "real":
@@ -124,5 +124,5 @@ async def generate_interview_questions(
         cover_letter = cover_letter
 
     generator = QuestionGenerator(request_data=request_data)
-    data = generator.generate_questions(prompt, cover_letter)
+    data = generator.generate_questions(prompt, cover_letter, interview_id=interview_id)
     return data

@@ -44,6 +44,12 @@ elevenlabs = "^1.13.5"
 =======
 >>>>>>> 0791835 (DV-188 feat: LangChain 적용)
 chromadb = "^0.5.20"
+langchain = "^0.3.9"
+langchain-openai = "^0.2.10"
+langchain-chroma = "^0.1.4"
+langchain-community = "^0.3.12"
+lark = "^1.2.2"
+flashrank = "^0.2.9"
 
 >>>>>>> a7cbed7 (DV-188 feat: LLM cache)
 

@@ -31,24 +31,24 @@ template: |
   5. **Output Requirements**:
      - Structure your output using the following JSON format:
        ```json
-       {{{{
+       {{
          "user_id": {user_id},
          "interview_id": {interview_id},
          "questions": [
-           {{{{
+           {{
              "question_id": ...,
-             "question": {{{{
+             "question": {{
                "question_text": ...,
                "s3_audio_url": null,
                "s3_video_url": null
-             }}}},
+             }},
              "question_excerpt": ...,
              "question_intent": ...,
              "key_terms": ["competency1", "competency2", "competency3"]
-           }}}},
+           }},
            ...
          ]
-       }}}}
+       }}
        ```
 
   ### **Field Definitions**:
@@ -65,32 +65,32 @@ template: |
 
   ### **Example Output**:
   ```json
-  {{{{
+  {{
     "user_id": {user_id},
     "interview_id": {interview_id},
     "questions": [
-      {{{{
+      {{
         "question_id": 1,
-        "question": {{{{
+        "question": {{
           "question_text": "팀 프로젝트에서 다른 개발자들과 협업하여 웹 애플리케이션을 출시하셨다고 말씀하셨는데, 그 경험에 대해 자세히 말씀해 주시겠어요?",
           "s3_audio_url": null,
           "s3_video_url": null
-        }}}},
+        }},
         "question_excerpt": "저는 팀 프로젝트에서 다른 개발자들과 협업하여 성공적인 웹 애플리케이션을 출시한 경험이 있습니다.",
         "question_intent": "협업 능력과 팀워크에 대한 경험을 평가하기 위함입니다.",
         "key_terms": ["팀워크", "협업", "커뮤니케이션", "프로젝트 관리"]
-      }}}},
-      {{{{
+      }},
+      {{
         "question_id": 2,
-        "question": {{{{
+        "question": {{
           "question_text": "어려운 상황에서 문제를 해결했던 경험을 말씀해 주시겠어요?",
           "s3_audio_url": null,
           "s3_video_url": null
-        }}}},
+        }},
         "question_excerpt": null,
         "question_intent": "문제 해결 능력과 스트레스 관리 능력을 평가하기 위함입니다.",
         "key_terms": ["문제 해결", "창의적 사고", "압박 상황"]
-      }}}}
+      }}
     ]
-  }}}}
+  }}
 input_variables: ['job_role', 'question_count', 'user_id', 'interview_id']

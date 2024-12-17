@@ -46,53 +46,53 @@ template: |
 
   **Response Format**:
   ```json
-  {{{{
+  {{
     "user_id": {user_id},
     "interview_id": {interview_id},
     "questions": [
-      {{{{
+      {{
         "question_id": ...,
-        "question": {{{{
+        "question": {{
           "question_text": ...,
           "s3_audio_url": null,
           "s3_video_url": null
-        }}}},
+        }},
         "question_excerpt": null,
         "question_intent": "...",
         "key_terms": ["...", "...", "..."]
-      }}}},
+      }},
       ...
     ]
-  }}}}
+  }}
 
   **Example:**
   ```json
-  {{{{
+  {{
     "user_id": {user_id},
     "interview_id": {interview_id},
     "questions": [
-      {{{{
+      {{
         "question_id": 1,
-        "question": {{{{
+        "question": {{
           "question_text": "최근에 사용된 {job_role} 분야의 프레임워크 중 하나를 선택하여 그 특징과 장점을 설명해 주시겠어요?",
           "s3_audio_url": null,
           "s3_video_url": null
-        }}}},
+        }},
         "question_excerpt": null,
         "question_intent": "{job_role} 분야에서 최신 기술과 프레임워크에 대한 지식을 평가하기 위함.",
         "key_terms": ["최신 프레임워크 이름", "특징", "장점", "실제 적용 경험"]
-      }}}},
-      {{{{
+      }},
+      {{
         "question_id": 2,
-        "question": {{{{
+        "question": {{
           "question_text": "RESTful API 설계 시 가장 중요하게 고려해야 할 점은 무엇이며, 이를 프로젝트에서 어떻게 적용했는지 말씀해 주세요?",
           "s3_audio_url": null,
           "s3_video_url": null
-        }}}},
+        }},
         "question_excerpt": null,
         "question_intent": "{job_role} 역할에서 API 설계와 관련된 경험과 지식을 평가하기 위함.",
         "key_terms": ["RESTful API", "설계 원칙", "보안", "확장성"]
-      }}}}
+      }}
     ]
-  }}}}
+  }}
 input_variables: ['job_role', 'question_count', 'user_id', 'interview_id']
