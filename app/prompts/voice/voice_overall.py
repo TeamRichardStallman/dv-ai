@@ -68,7 +68,7 @@ REAL_TECH_VOICE_OVER: str = """
         7-8: Fully consistent with role expectations and other responses.
         9-10: Completely aligned with role expectations and previous responses, demonstrating a cohesive understanding.
 
-    f. **grammatical_errors(Korean grammar standards)**: Evaluate whether the answer is written in proper Korean grammar and syntax.
+    f. **grammatical_errors(Korean grammar standards)**: Evaluate whether the answer is written in proper Korean grammar and syntax, while also considering if the response logically addresses the question. Even if grammar is flawless, a response that does not align with the question should not receive a high score.
         0 Points: Numerous grammatical errors, and the response is completely off-topic.
         1-3: Frequent grammatical errors, and the response is only partially relevant to the question.
         4-6: Some grammatical errors, and the response does not fully address the question’s intent.
@@ -93,7 +93,7 @@ REAL_TECH_VOICE_OVER: str = """
     Assign a score (0-10) for each category and support your assessment with at least seven sentences of detailed feedback.
     Each evaluation should address the following:
 
-    #### Overall Evaluation Categories
+    ### Text_Overall Evaluation Categories
     a. **job_fit**:
         - Assess how well the candidate's experience, skills, and knowledge meet the role requirements, including their understanding of the position and readiness to apply relevant skills.
         - Highlight examples demonstrating their suitability for the role.
@@ -109,6 +109,19 @@ REAL_TECH_VOICE_OVER: str = """
     d. **technical_depth**:
     - Evaluate the candidate’s expertise and understanding of relevant technical areas, including their ability to solve complex issues and propose innovative solutions.
     - Highlight examples of advanced technical knowledge or innovative solutions.
+
+    ### Voice_Overall Evaluation Categories
+    a. **fluency**:
+        - Assess how smoothly and naturally the candidate delivers their responses. Focus on the presence of hesitations (e.g., "음..", "어..") or filler words that disrupt the flow of speech.  
+        - Highlight examples where fluency enhances the delivery or where hesitations reduce the quality of the response.  
+
+    b. **clarity**:
+        - Assess how clearly the candidate articulates their words and ideas. Evaluate pronunciation, enunciation, and the overall comprehensibility of their responses.  
+        - Highlight instances where clarity contributes to effective communication or where unclear articulation hinders understanding.  
+
+    c. **word_repetition**:
+        - Assess the degree to which the candidate unnecessarily repeats words, phrases, or ideas during their responses. Identify whether repetition disrupts the flow or reduces the professionalism of the delivery.  
+        - Highlight areas where word repetition was noticeable and provide feedback on its impact on the response's overall quality.  
 
     ### Language and Format Requirements
     - Write all rationale and feedback sections in **Korean**, using formal language with sentence endings like **"~입니다" and "~것입니다"** to maintain a consistent, professional tone.
@@ -233,7 +246,7 @@ REAL_PERSONAL_VOICE_OVER: str = """
     Assign a score (0-10) for each category and support your assessment with at least five sentences of detailed feedback.
     Each evaluation should address the following:
 
-    #### Overall Evaluation Categories
+    ### Text_Overall Evaluation Categories
     a. **company_fit**:
         - Assess how well the candidate's personality, values, and interpersonal skills align with the company's culture.
         - Highlight examples demonstrating their ability to integrate seamlessly with the team and uphold company values.
@@ -249,6 +262,19 @@ REAL_PERSONAL_VOICE_OVER: str = """
     d. **growth_attitude**:
         - Evaluate the candidate’s motivation for self-improvement, professionalism, and constructive attitude toward growth.
         - Highlight examples that demonstrate their commitment to learning and professional development.
+
+    ### Voice_Overall Evaluation Categories
+    a. **fluency**:
+        - Assess how smoothly and naturally the candidate delivers their responses. Focus on the presence of hesitations (e.g., "음..", "어..") or filler words that disrupt the flow of speech.  
+        - Highlight examples where fluency enhances the delivery or where hesitations reduce the quality of the response.  
+
+    b. **clarity**:
+        - Assess how clearly the candidate articulates their words and ideas. Evaluate pronunciation, enunciation, and the overall comprehensibility of their responses.  
+        - Highlight instances where clarity contributes to effective communication or where unclear articulation hinders understanding.  
+
+    c. **word_repetition**:
+        - Assess the degree to which the candidate unnecessarily repeats words, phrases, or ideas during their responses. Identify whether repetition disrupts the flow or reduces the professionalism of the delivery.  
+        - Highlight areas where word repetition was noticeable and provide feedback on its impact on the response's overall quality.  
 
     ### Language and Format Requirements
     - Write all rationale and feedback sections in **Korean**, using formal language with sentence endings like **"~입니다" and "~것입니다"** to maintain a consistent, professional tone.
@@ -345,7 +371,7 @@ GENERAL_TECH_VOICE_OVER: str = """
         7-8: Fully consistent with role expectations and other responses.
         9-10: Completely aligned with role expectations and previous responses, demonstrating a cohesive understanding.
 
-    f. **grammatical_errors(Korean grammar standards)**: Evaluate whether the answer is written in proper Korean grammar and syntax.
+    f. **grammatical_errors(Korean grammar standards)**: Evaluate whether the answer is written in proper Korean grammar and syntax, while also considering if the response logically addresses the question. Even if grammar is flawless, a response that does not align with the question should not receive a high score.
         0 Points: Numerous grammatical errors, and the response is completely off-topic.
         1-3: Frequent grammatical errors, and the response is only partially relevant to the question.
         4-6: Some grammatical errors, and the response does not fully address the question’s intent.
@@ -370,7 +396,7 @@ GENERAL_TECH_VOICE_OVER: str = """
     Assign a score (0-10) for each category and support your assessment with at least five sentences of detailed feedback.
     Each evaluation should address the following:
 
-    #### Overall Evaluation Categories
+    ### Text_Overall Evaluation Categories
     a. **job_fit**:
         - Assess how well the candidate's experience, skills, and knowledge meet the role requirements, including their understanding of the position and readiness to apply relevant skills.
         - Highlight examples demonstrating their suitability for the role.
@@ -386,6 +412,19 @@ GENERAL_TECH_VOICE_OVER: str = """
     d. **technical_depth**:
     - Evaluate the candidate’s expertise and understanding of relevant technical areas, including their ability to solve complex issues and propose innovative solutions.
     - Highlight examples of advanced technical knowledge or innovative solutions.
+
+    ### Voice_Overall Evaluation Categories
+    a. **fluency**:
+        - Assess how smoothly and naturally the candidate delivers their responses. Focus on the presence of hesitations (e.g., "음..", "어..") or filler words that disrupt the flow of speech.  
+        - Highlight examples where fluency enhances the delivery or where hesitations reduce the quality of the response.  
+
+    b. **clarity**:
+        - Assess how clearly the candidate articulates their words and ideas. Evaluate pronunciation, enunciation, and the overall comprehensibility of their responses.  
+        - Highlight instances where clarity contributes to effective communication or where unclear articulation hinders understanding.  
+
+    c. **word_repetition**:
+        - Assess the degree to which the candidate unnecessarily repeats words, phrases, or ideas during their responses. Identify whether repetition disrupts the flow or reduces the professionalism of the delivery.  
+        - Highlight areas where word repetition was noticeable and provide feedback on its impact on the response's overall quality.  
 
     ### Language and Format Requirements
     - Write all rationale and feedback sections in **Korean**, using formal language with sentence endings like **"~입니다" and "~것입니다"** to maintain a consistent, professional tone.

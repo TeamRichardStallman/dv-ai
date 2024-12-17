@@ -46,7 +46,7 @@ REAL_TECH_CHAT_OVER: str = """
         7-8: Fully consistent with role expectations and other responses.
         9-10: Completely aligned with role expectations and previous responses, demonstrating a cohesive understanding.
 
-    e. **grammatical_errors(Korean grammar standards)**: Evaluate whether the answer is written in proper Korean grammar and syntax.
+    e. **grammatical_errors(Korean grammar standards)**: Evaluate whether the answer is written in proper Korean grammar and syntax, while also considering if the response logically addresses the question. Even if grammar is flawless, a response that does not align with the question should not receive a high score.
         0 Points: Numerous grammatical errors, and the response is completely off-topic.
         1-3: Frequent grammatical errors, and the response is only partially relevant to the question.
         4-6: Some grammatical errors, and the response does not fully address the question’s intent.
@@ -257,7 +257,7 @@ GENERAL_TECH_CHAT_OVER: str = """
         7-8: Fully consistent with role expectations and other responses.
         9-10: Completely aligned with role expectations and previous responses, demonstrating a cohesive understanding.
 
-    e. **grammatical_errors(Korean grammar standards)**: Evaluate whether the answer is written in proper Korean grammar and syntax.
+    e. **grammatical_errors(Korean grammar standards)**: Evaluate whether the answer is written in proper Korean grammar and syntax, while also considering if the response logically addresses the question. Even if grammar is flawless, a response that does not align with the question should not receive a high score.
         0 Points: Numerous grammatical errors, and the response is completely off-topic.
         1-3: Frequent grammatical errors, and the response is only partially relevant to the question.
         4-6: Some grammatical errors, and the response does not fully address the question’s intent.
