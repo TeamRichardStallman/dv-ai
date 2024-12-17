@@ -1,6 +1,6 @@
-from langchain_core.prompts import load_prompt, PromptTemplate
-from app.schemas.question import QuestionsRequestModel
+from langchain_core.prompts import PromptTemplate, load_prompt
 
+from app.schemas.question import QuestionsRequestModel
 
 # Predefine the prompt mapping for clarity and efficiency
 PROMPT_MAP = {

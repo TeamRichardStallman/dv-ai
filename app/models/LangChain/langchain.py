@@ -1,23 +1,23 @@
-from typing import Literal, Union, List
 from operator import itemgetter
+from typing import List, Literal, Union
 
-from langchain_core.output_parsers import PydanticOutputParser
-from langchain_core.prompts import (
-    ChatPromptTemplate, 
-    SystemMessagePromptTemplate, 
-    HumanMessagePromptTemplate, 
-    PromptTemplate
-)
-from langchain_openai import ChatOpenAI, OpenAIEmbeddings
-from langchain_chroma import Chroma
-from langchain.retrievers.self_query.chroma import ChromaTranslator
+from langchain.chains.query_constructor.base import AttributeInfo
 from langchain.chains.summarize.chain import load_summarize_chain
 from langchain.docstore.document import Document
-from langchain.retrievers.self_query.base import SelfQueryRetriever
-from langchain.chains.query_constructor.base import AttributeInfo
 from langchain.retrievers import ContextualCompressionRetriever
 from langchain.retrievers.document_compressors import FlashrankRerank
+from langchain.retrievers.self_query.base import SelfQueryRetriever
+from langchain.retrievers.self_query.chroma import ChromaTranslator
+from langchain_chroma import Chroma
+from langchain_core.output_parsers import PydanticOutputParser
+from langchain_core.prompts import (
+    ChatPromptTemplate,
+    HumanMessagePromptTemplate,
+    PromptTemplate,
+    SystemMessagePromptTemplate,
+)
 from langchain_core.runnables import RunnableLambda
+from langchain_openai import ChatOpenAI, OpenAIEmbeddings
 from langsmith import traceable
 
 from app.core.config import Config
@@ -30,9 +30,7 @@ from app.schemas.evaluation import (
 from app.schemas.question import QuestionsRequestModel, QuestionsResponseModel
 
 vectorstore = Chroma(
-    persist_directory="app/chroma_vectorDB",
-    embedding_function=OpenAIEmbeddings(),
-    collection_name="my_db"
+    persist_directory="app/chroma_vectorDB", embedding_function=OpenAIEmbeddings(), collection_name="my_db"
 )
 
 
@@ -46,7 +44,7 @@ metadata_field_info = [
             "frameworks, platforms, caching technologies, design patterns, networks, data science, "
             "blockchain, security, DevOps, data structures, operating systems (OS), coding exercises, algorithms]."
         ),
-        type="string"
+        type="string",
     ),
     AttributeInfo(
         name="Technology",
@@ -55,9 +53,10 @@ metadata_field_info = [
             "Examples include JavaScript, Python, Android, Docker, ReactJS, SQL, Ruby, Swift, Angular, "
             "MongoDB, Redis, Golang, C++, NodeJS, C#, iOS, Spark, and more."
         ),
-        type="string"
-    )
+        type="string",
+    ),
 ]
+
 
 class BaseGenerator:
     def __init__(self, request_data: Union[QuestionsRequestModel, EvaluationRequestModel]):
@@ -68,6 +67,7 @@ class BaseGenerator:
             temperature=Config.TEMPERATURE,
             top_p=Config.TOP_P,
         )
+
 
 class QuestionGenerator(BaseGenerator):
     """Generates questions based on a cover letter and job role."""
@@ -97,12 +97,7 @@ class QuestionGenerator(BaseGenerator):
             search_type="mmr",
             search_kwargs={
                 "k": 5,
-                "filter": {
-                    "$or": [
-                        {"Technology": {"$in": keywords}},
-                        {"Category": {"$in": keywords}}
-                    ]
-                }
+                "filter": {"$or": [{"Technology": {"$in": keywords}}, {"Category": {"$in": keywords}}]},
             },
         )
 
@@ -111,14 +106,14 @@ class QuestionGenerator(BaseGenerator):
 
     def _generate_reference(self, text: str) -> str:
         """Generates reference data by summarizing text and retrieving related documents if conditions are met."""
-        if self.request_data.interview_mode == 'real' and self.request_data.interview_type == 'technical':
+        if self.request_data.interview_mode == "real" and self.request_data.interview_type == "technical":
             # 기술 키워드 추출
             extracted_keywords = self._extract_keywords_with_llm(text)
             print(f"Extracted Keywords: {extracted_keywords}")
 
             # 문서 요약
             summary_chain = load_summarize_chain(self.llm, chain_type="map_reduce")
-            summary = summary_chain.invoke([Document(page_content=text)]).get('output_text')
+            summary = summary_chain.invoke([Document(page_content=text)]).get("output_text")
 
             # Retriever 초기화 및 검색
             compression_retriever = self._initialize_retriever(extracted_keywords)
@@ -129,12 +124,16 @@ class QuestionGenerator(BaseGenerator):
         return ""
 
     @traceable
-    def generate_questions(self, questions_prompt: PromptTemplate, additional_context: str, interview_id: int) -> QuestionsResponseModel:
+    def generate_questions(
+        self, questions_prompt: PromptTemplate, additional_context: str, interview_id: int
+    ) -> QuestionsResponseModel:
         """Generates interview questions based on prompts and context."""
-        chat_prompt = ChatPromptTemplate.from_messages([
-            SystemMessagePromptTemplate.from_template(questions_prompt.template),
-            HumanMessagePromptTemplate.from_template(additional_context)
-        ])
+        chat_prompt = ChatPromptTemplate.from_messages(
+            [
+                SystemMessagePromptTemplate.from_template(questions_prompt.template),
+                HumanMessagePromptTemplate.from_template(additional_context),
+            ]
+        )
 
         parser = PydanticOutputParser(pydantic_object=QuestionsResponseModel)
 
@@ -146,7 +145,7 @@ class QuestionGenerator(BaseGenerator):
                 "user_id": itemgetter("user_id"),
                 "interview_id": itemgetter("interview_id"),
                 "cover_letter": itemgetter("cover_letter"),
-                "reference": itemgetter("cover_letter") | RunnableLambda(self._generate_reference)
+                "reference": itemgetter("cover_letter") | RunnableLambda(self._generate_reference),
             }
             | chat_prompt
             | self.llm
@@ -154,13 +153,15 @@ class QuestionGenerator(BaseGenerator):
         )
 
         # 체인 실행
-        response = chain.invoke({
-            "job_role": self.request_data.job_role,
-            "question_count": self.request_data.question_count,
-            "user_id": self.request_data.user_id,
-            "interview_id": interview_id,
-            "cover_letter": additional_context,
-        })
+        response = chain.invoke(
+            {
+                "job_role": self.request_data.job_role,
+                "question_count": self.request_data.question_count,
+                "user_id": self.request_data.user_id,
+                "interview_id": interview_id,
+                "cover_letter": additional_context,
+            }
+        )
 
         return response
 
