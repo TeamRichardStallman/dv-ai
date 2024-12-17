@@ -107,21 +107,21 @@ REAL_TECH_VOICE_OVER: str = """
         - Identify areas where their attitude could enhance team dynamics or personal performance.
 
     d. **technical_depth**:
-    - Evaluate the candidate’s expertise and understanding of relevant technical areas, including their ability to solve complex issues and propose innovative solutions.
-    - Highlight examples of advanced technical knowledge or innovative solutions.
+        - Evaluate the candidate’s expertise and understanding of relevant technical areas, including their ability to solve complex issues and propose innovative solutions.
+        - Highlight examples of advanced technical knowledge or innovative solutions.
 
     ### Voice_Overall Evaluation Categories
     a. **fluency**:
-        - Assess how smoothly and naturally the candidate delivers their responses. Focus on the presence of hesitations (e.g., "음..", "어..") or filler words that disrupt the flow of speech.  
-        - Highlight examples where fluency enhances the delivery or where hesitations reduce the quality of the response.  
+        - Assess how smoothly and naturally the candidate delivers their responses. Focus on the presence of hesitations (e.g., "음..", "어..") or filler words that disrupt the flow of speech.
+        - Highlight examples where fluency enhances the delivery or where hesitations reduce the quality of the response.
 
     b. **clarity**:
-        - Assess how clearly the candidate articulates their words and ideas. Evaluate pronunciation, enunciation, and the overall comprehensibility of their responses.  
-        - Highlight instances where clarity contributes to effective communication or where unclear articulation hinders understanding.  
+        - Assess how clearly the candidate articulates their words and ideas. Evaluate pronunciation, enunciation, and the overall comprehensibility of their responses.
+        - Highlight instances where clarity contributes to effective communication or where unclear articulation hinders understanding.
 
     c. **word_repetition**:
-        - Assess the degree to which the candidate unnecessarily repeats words, phrases, or ideas during their responses. Identify whether repetition disrupts the flow or reduces the professionalism of the delivery.  
-        - Highlight areas where word repetition was noticeable and provide feedback on its impact on the response's overall quality.  
+        - Assess the degree to which the candidate unnecessarily repeats words, phrases, or ideas during their responses. Identify whether repetition disrupts the flow or reduces the professionalism of the delivery.
+        - Highlight areas where word repetition was noticeable and provide feedback on its impact on the response's overall quality.
 
     ### Language and Format Requirements
     - Write all rationale and feedback sections in **Korean**, using formal language with sentence endings like **"~입니다" and "~것입니다"** to maintain a consistent, professional tone.
@@ -265,16 +265,16 @@ REAL_PERSONAL_VOICE_OVER: str = """
 
     ### Voice_Overall Evaluation Categories
     a. **fluency**:
-        - Assess how smoothly and naturally the candidate delivers their responses. Focus on the presence of hesitations (e.g., "음..", "어..") or filler words that disrupt the flow of speech.  
-        - Highlight examples where fluency enhances the delivery or where hesitations reduce the quality of the response.  
+        - Assess how smoothly and naturally the candidate delivers their responses. Focus on the presence of hesitations (e.g., "음..", "어..") or filler words that disrupt the flow of speech.
+        - Highlight examples where fluency enhances the delivery or where hesitations reduce the quality of the response.
 
     b. **clarity**:
-        - Assess how clearly the candidate articulates their words and ideas. Evaluate pronunciation, enunciation, and the overall comprehensibility of their responses.  
-        - Highlight instances where clarity contributes to effective communication or where unclear articulation hinders understanding.  
+        - Assess how clearly the candidate articulates their words and ideas. Evaluate pronunciation, enunciation, and the overall comprehensibility of their responses.
+        - Highlight instances where clarity contributes to effective communication or where unclear articulation hinders understanding.
 
     c. **word_repetition**:
-        - Assess the degree to which the candidate unnecessarily repeats words, phrases, or ideas during their responses. Identify whether repetition disrupts the flow or reduces the professionalism of the delivery.  
-        - Highlight areas where word repetition was noticeable and provide feedback on its impact on the response's overall quality.  
+        - Assess the degree to which the candidate unnecessarily repeats words, phrases, or ideas during their responses. Identify whether repetition disrupts the flow or reduces the professionalism of the delivery.
+        - Highlight areas where word repetition was noticeable and provide feedback on its impact on the response's overall quality.
 
     ### Language and Format Requirements
     - Write all rationale and feedback sections in **Korean**, using formal language with sentence endings like **"~입니다" and "~것입니다"** to maintain a consistent, professional tone.
@@ -415,16 +415,16 @@ GENERAL_TECH_VOICE_OVER: str = """
 
     ### Voice_Overall Evaluation Categories
     a. **fluency**:
-        - Assess how smoothly and naturally the candidate delivers their responses. Focus on the presence of hesitations (e.g., "음..", "어..") or filler words that disrupt the flow of speech.  
-        - Highlight examples where fluency enhances the delivery or where hesitations reduce the quality of the response.  
+        - Assess how smoothly and naturally the candidate delivers their responses. Focus on the presence of hesitations (e.g., "음..", "어..") or filler words that disrupt the flow of speech.
+        - Highlight examples where fluency enhances the delivery or where hesitations reduce the quality of the response.
 
     b. **clarity**:
-        - Assess how clearly the candidate articulates their words and ideas. Evaluate pronunciation, enunciation, and the overall comprehensibility of their responses.  
-        - Highlight instances where clarity contributes to effective communication or where unclear articulation hinders understanding.  
+        - Assess how clearly the candidate articulates their words and ideas. Evaluate pronunciation, enunciation, and the overall comprehensibility of their responses.
+        - Highlight instances where clarity contributes to effective communication or where unclear articulation hinders understanding.
 
     c. **word_repetition**:
-        - Assess the degree to which the candidate unnecessarily repeats words, phrases, or ideas during their responses. Identify whether repetition disrupts the flow or reduces the professionalism of the delivery.  
-        - Highlight areas where word repetition was noticeable and provide feedback on its impact on the response's overall quality.  
+        - Assess the degree to which the candidate unnecessarily repeats words, phrases, or ideas during their responses. Identify whether repetition disrupts the flow or reduces the professionalism of the delivery.
+        - Highlight areas where word repetition was noticeable and provide feedback on its impact on the response's overall quality.
 
     ### Language and Format Requirements
     - Write all rationale and feedback sections in **Korean**, using formal language with sentence endings like **"~입니다" and "~것입니다"** to maintain a consistent, professional tone.
