@@ -52,11 +52,11 @@ REAL_TECH_CHAT_EVAL: str = """
         9-10: Completely aligned with role expectations and previous responses, demonstrating a cohesive understanding.
 
     e. **grammatical_errors(Korean grammar standards)**: Evaluate whether the answer is written in proper Korean grammar and syntax.
-        0 points: Numerous grammatical and syntactical errors make the response difficult to understand.
-        1-3 points: Frequent errors that make the response hard to read, though some parts are understandable.
-        4-6 points: Some errors are present but do not significantly impede comprehension.
-        7-8 points: Minor errors that do not affect the overall clarity of the response.
-        9-10 points: Perfectly written with no noticeable errors.
+        0 Points: Numerous grammatical errors, and the response is completely off-topic.
+        1-3: Frequent grammatical errors, and the response is only partially relevant to the question.
+        4-6: Some grammatical errors, and the response does not fully address the question’s intent.
+        7-8: Minor grammatical errors, and the response generally aligns with the question.
+        9-10: Perfect grammar, and the response is highly relevant and fully addresses the question.
 
     ---
 
@@ -157,12 +157,12 @@ REAL_PERSONAL_CHAT_EVAL: str = """
         7-8: Demonstrates accountability and reliability, with examples of fulfilling commitments.
         9-10: Highly dependable, with strong examples of responsibility and consistent follow-through on commitments.
 
-    e. **growth_mindset**: Does the candidate show a positive attitude, professionalism, and desire to grow?
-        0: Negative attitude or lacks professionalism.
-        1-3: Limited openness to growth or self-improvement.
-        4-6: Shows some interest in growth but could be more enthusiastic.
-        7-8: Demonstrates professionalism and a desire for growth.
-        9-10: Highly professional, with strong commitment to growth and a positive attitude.
+    e. **grammatical_errors(Korean grammar standards)**: Evaluate whether the answer is written in proper Korean grammar and syntax.
+        0 Points: Numerous grammatical errors, and the response is completely off-topic.
+        1-3: Frequent grammatical errors, and the response is only partially relevant to the question.
+        4-6: Some grammatical errors, and the response does not fully address the question’s intent.
+        7-8: Minor grammatical errors, and the response generally aligns with the question.
+        9-10: Perfect grammar, and the response is highly relevant and fully addresses the question.
 
     ---
 
@@ -263,11 +263,11 @@ GENERAL_TECH_CHAT_EVAL: str = """
         9-10: Completely aligned with role expectations and previous responses, demonstrating a cohesive understanding.
 
     e. **grammatical_errors(Korean grammar standards)**: Evaluate whether the answer is written in proper Korean grammar and syntax.
-        0 points: Numerous grammatical and syntactical errors make the response difficult to understand.
-        1-3 points: Frequent errors that make the response hard to read, though some parts are understandable.
-        4-6 points: Some errors are present but do not significantly impede comprehension.
-        7-8 points: Minor errors that do not affect the overall clarity of the response.
-        9-10 points: Perfectly written with no noticeable errors.
+        0 Points: Numerous grammatical errors, and the response is completely off-topic.
+        1-3: Frequent grammatical errors, and the response is only partially relevant to the question.
+        4-6: Some grammatical errors, and the response does not fully address the question’s intent.
+        7-8: Minor grammatical errors, and the response generally aligns with the question.
+        9-10: Perfect grammar, and the response is highly relevant and fully addresses the question.
 
     ---
 

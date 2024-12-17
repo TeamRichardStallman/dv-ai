@@ -69,11 +69,11 @@ REAL_TECH_VOICE_OVER: str = """
         9-10: Completely aligned with role expectations and previous responses, demonstrating a cohesive understanding.
 
     f. **grammatical_errors(Korean grammar standards)**: Evaluate whether the answer is written in proper Korean grammar and syntax.
-        0 points: Numerous grammatical and syntactical errors make the response difficult to understand.
-        1-3 points: Frequent errors that make the response hard to read, though some parts are understandable.
-        4-6 points: Some errors are present but do not significantly impede comprehension.
-        7-8 points: Minor errors that do not affect the overall clarity of the response.
-        9-10 points: Perfectly written with no noticeable errors.
+        0 Points: Numerous grammatical errors, and the response is completely off-topic.
+        1-3: Frequent grammatical errors, and the response is only partially relevant to the question.
+        4-6: Some grammatical errors, and the response does not fully address the question’s intent.
+        7-8: Minor grammatical errors, and the response generally aligns with the question.
+        9-10: Perfect grammar, and the response is highly relevant and fully addresses the question.
 
     #### Each response includes detailed feedback in the following categories:
     a. **strengths**: Highlight the candidate's strong points across both steps, focusing on how they excelled in key aspects of the response.
@@ -346,11 +346,11 @@ GENERAL_TECH_VOICE_OVER: str = """
         9-10: Completely aligned with role expectations and previous responses, demonstrating a cohesive understanding.
 
     f. **grammatical_errors(Korean grammar standards)**: Evaluate whether the answer is written in proper Korean grammar and syntax.
-        0 points: Numerous grammatical and syntactical errors make the response difficult to understand.
-        1-3 points: Frequent errors that make the response hard to read, though some parts are understandable.
-        4-6 points: Some errors are present but do not significantly impede comprehension.
-        7-8 points: Minor errors that do not affect the overall clarity of the response.
-        9-10 points: Perfectly written with no noticeable errors.
+        0 Points: Numerous grammatical errors, and the response is completely off-topic.
+        1-3: Frequent grammatical errors, and the response is only partially relevant to the question.
+        4-6: Some grammatical errors, and the response does not fully address the question’s intent.
+        7-8: Minor grammatical errors, and the response generally aligns with the question.
+        9-10: Perfect grammar, and the response is highly relevant and fully addresses the question.
 
     #### Each response includes detailed feedback in the following categories:
     a. **strengths**: Highlight the candidate's strong points across both steps, focusing on how they excelled in key aspects of the response.
