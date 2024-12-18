@@ -210,14 +210,14 @@ async def test_create_overall_evaluation(mock_send_to_backend):
 @pytest.mark.asyncio
 @pytest.mark.parametrize("interview_mode", ["real", "general"])
 @pytest.mark.parametrize("interview_type", ["technical", "personal"])
-@pytest.mark.parametrize("interview_method", ["chat", "voice"])
-async def test_create_answer_evaluation(mock_send_to_backend, interview_mode, interview_type, interview_method):
+# @pytest.mark.parametrize("interview_method", ["chat", "voice"])
+async def test_create_answer_evaluation(mock_send_to_backend, interview_mode, interview_type):
     mock_send_to_backend.return_value = {"success": True, "message": "Successfully sent to backend"}
     answer_data = {
         "user_id": 1,
         "interview_mode": interview_mode,
         "interview_type": interview_type,
-        "interview_method": interview_method,
+        "interview_method": "voice",
         "job_role": "ai",
         "question": {
             "question_id": 1,

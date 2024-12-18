@@ -108,6 +108,14 @@ def generate_uuid() -> str:
 
 
 def ensure_feedback_fields(data: dict) -> dict:
-    if "feedback" not in data["answer"] or not isinstance(data["answer"]["feedback"], dict):
+    if "feedback" not in data["answer"]:
         data["answer"]["feedback"] = {"strengths": "N/A", "improvement": "N/A", "suggestion": "N/A"}
+    elif not isinstance(data["answer"]["feedback"], dict):
+        data["answer"]["feedback"] = {"strengths": "N/A", "improvement": "N/A", "suggestion": "N/A"}
+    else:
+        feedback = data["answer"]["feedback"]
+        for field in ["strengths", "improvement", "suggestion"]:
+            if field not in feedback:
+                feedback[field] = "N/A"
+
     return data

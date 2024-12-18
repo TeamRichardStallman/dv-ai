@@ -102,7 +102,6 @@ async def process_answer_evaluation(
     generator = ContentGenerator(request_data=new_request_data)
 
     data = generator.invoke(prompt, merged_input_str, "answer")
-
     return data
 
 
