@@ -40,14 +40,20 @@ async def process_interview_questions(
 ) -> QuestionsResponseModel:
     try:
         s3_service = S3Service()
-        tts_service = get_tts_service(model_name="openai")
+        tts_service = get_tts_service(model_name="elevenlabs")
         questions = await generate_interview_questions(interview_id, request_data)
 
         if request_data.interview_method != "chat":
             for question in questions.questions:
                 question_text = question.question.question_text
 
-                audio_bytes = await tts_service.generate_speech(question_text)
+                #audio_bytes = await tts_service.generate_speech(question_text)
+                try:
+                    audio_bytes = await tts_service.generate_speech(question_text)
+                    print("Elevenlabs TTS audio generated successfully.")
+                except Exception as e:
+                    print(f"Error generating TTS audio: {e}")
+                    raise
 
                 user_id = request_data.user_id
                 uuid = generate_uuid()
