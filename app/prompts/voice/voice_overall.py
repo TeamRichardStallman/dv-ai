@@ -18,6 +18,10 @@ REAL_TECH_VOICE_OVER: str = """
         - **voice_scores**: Evaluated on fluency, pronunciation, and speech rate.
     - **feedback**: Strengths, areas for improvement, and actionable suggestions based on the evaluations.
 
+    ### Relevance Check
+    Before beginning any evaluation, determine if `answer_text` aligns with the `question_text` and `question_intent`:
+    - **Completely Off-Topic**: If the answer is entirely unrelated to the question’s topic or intent, **assign a score of 0 to all evaluation criteria** in **Step 1**, **Step 2**, and **Step 3**.
+
     #### Each voice-based score is assigned according to the following detailed criteria:
     a. **stutter**: Does the response contain noticeable hesitations ("음..", "어..", "그,,", etc.) that impact the clarity of the answer?
         - 0: Completely disrupted by frequent stuttering; the response is difficult to follow or understand.
@@ -168,6 +172,10 @@ REAL_PERSONAL_VOICE_OVER: str = """
         - **text_scores**: Evaluated on teamwork, problem-solving, accountability, and growth mindset.
         - **voice_scores**: Evaluated on fluency, pronunciation, and speech rate.
     - **feedback**: Strengths, areas for improvement, and actionable suggestions based on the evaluations.
+
+    ### Relevance Check
+    Before beginning any evaluation, determine if `answer_text` aligns with the `question_text` and `question_intent`:
+    - **Completely Off-Topic**: If the answer is entirely unrelated to the question’s topic or intent, **assign a score of 0 to all evaluation criteria** in **Step 1**, **Step 2**, and **Step 3**.
 
     #### Each voice-based score is assigned according to the following detailed criteria:
     a. **stutter**: Does the response contain noticeable hesitations ("음..", "어..", "그,,", etc.) that impact the clarity of the answer?
@@ -320,6 +328,10 @@ GENERAL_TECH_VOICE_OVER: str = """
         - **text_scores**: Evaluated on appropriateness, logical flow, key terms, consistency, and grammar.
         - **voice_scores**: Evaluated on fluency, pronunciation, and speech rate.
     - **feedback**: Strengths, areas for improvement, and actionable suggestions based on the evaluations.
+
+    ### Relevance Check
+    Before beginning any evaluation, determine if `answer_text` aligns with the `question_text` and `question_intent`:
+    - **Completely Off-Topic**: If the answer is entirely unrelated to the question’s topic or intent, **assign a score of 0 to all evaluation criteria** in **Step 1**, **Step 2**, and **Step 3**.
 
     #### Each voice-based score is assigned according to the following detailed criteria:
     a. **stutter**: Does the response contain noticeable hesitations ("음..", "어..", "그,,", etc.) that impact the clarity of the answer?

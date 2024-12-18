@@ -18,15 +18,28 @@ REAL_TECH_VOICE_EVAL: str = """
     3. **Comprehensive Feedback**:
     - Summarize the evaluation with detailed feedback, highlighting strengths, areas for improvement, and actionable suggestions to guide the candidate’s development.
 
+    ### Relevance Check
+    Before beginning any evaluation, determine if `answer_text` aligns with the `question_text` and `question_intent`:
+    - **Completely Off-Topic**: If the answer is entirely unrelated to the question’s topic or intent, **assign a score of 0 to all evaluation criteria** in **Step 1**, **Step 2**, and **Step 3**. In the explanation or rationale, explicitly state that the answer does not address the question in any way and is irrelevant to the context provided.
+
     ---
 
     ### Step 1: Text Refinement and Fluency Analysis
     Refine the `answer_text` and evaluate the candidate’s fluency and pronunciation simultaneously. During this process:
 
     1. **Text Refinement**:
-    Correct typos, inappropriate words, and contextually mismatched terms in `answer_text`.
-    However, do not alter the overall structure, logical flow, or add any new sentences or information not present in the original answer_text.
-    Ensure the candidate's intent and meaning remain intact during refinement.
+    Correct only typos and Speech-to-Text (STT) errors in `answer_text`.
+
+    ### Strict Guidelines
+    - **Typos and STT Errors Only**: Fix clear typos and words misrecognized by the STT system.
+    - Examples:
+        - "됴하" → "좋아"
+        - "이제기" → "이제"
+    - **No New Content**: Do not add new words, sentences, or ideas that are not in the original `answer_text`.
+    - **Preserve Structure and Flow**: Do not alter the sentence structure, word order, or overall flow.
+    - **Maintain Original Meaning**: Ensure the candidate's original intent and meaning remain unchanged.
+    - **Exclude Grammar and Style Edits**: Do not correct grammar or style unless it is a clear typo or STT error.
+
     The refined text will be included in the `answer_text` field of the output as the final processed version.
 
     2. **Fluency and Pronunciation Evaluation**:
@@ -175,15 +188,28 @@ REAL_PERSONAL_VOICE_EVAL: str = """
     3. **Comprehensive Feedback**:
     - Summarize the evaluation with detailed feedback, highlighting strengths, areas for improvement, and actionable suggestions to guide the candidate’s development.
 
+    ### Relevance Check
+    Before beginning any evaluation, determine if `answer_text` aligns with the `question_text` and `question_intent`:
+    - **Completely Off-Topic**: If the answer is entirely unrelated to the question’s topic or intent, **assign a score of 0 to all evaluation criteria** in **Step 1**, **Step 2**, and **Step 3**. In the explanation or rationale, explicitly state that the answer does not address the question in any way and is irrelevant to the context provided.
+
     ---
 
     ### Step 1: Text Refinement and Fluency Analysis
     Refine the `answer_text` and evaluate the candidate’s fluency and pronunciation simultaneously. During this process:
 
     1. **Text Refinement**:
-    Correct typos, inappropriate words, and contextually mismatched terms in `answer_text`.
-    However, do not alter the overall structure, logical flow, or add any new sentences or information not present in the original answer_text.
-    Ensure the candidate's intent and meaning remain intact during refinement.
+    Correct only typos and Speech-to-Text (STT) errors in `answer_text`.
+
+    ### Strict Guidelines
+    - **Typos and STT Errors Only**: Fix clear typos and words misrecognized by the STT system.
+    - Examples:
+        - "됴하" → "좋아"
+        - "이제기" → "이제"
+    - **No New Content**: Do not add new words, sentences, or ideas that are not in the original `answer_text`.
+    - **Preserve Structure and Flow**: Do not alter the sentence structure, word order, or overall flow.
+    - **Maintain Original Meaning**: Ensure the candidate's original intent and meaning remain unchanged.
+    - **Exclude Grammar and Style Edits**: Do not correct grammar or style unless it is a clear typo or STT error.
+
     The refined text will be included in the `answer_text` field of the output as the final processed version.
 
     2. **Fluency and Pronunciation Evaluation**:
@@ -331,15 +357,28 @@ GENERAL_TECH_VOICE_EVAL: str = """
     3. **Comprehensive Feedback**:
     - Summarize the evaluation with detailed feedback, highlighting strengths, areas for improvement, and actionable suggestions to guide the candidate’s development.
 
+    ### Relevance Check
+    Before beginning any evaluation, determine if `answer_text` aligns with the `question_text` and `question_intent`:
+    - **Completely Off-Topic**: If the answer is entirely unrelated to the question’s topic or intent, **assign a score of 0 to all evaluation criteria** in **Step 1**, **Step 2**, and **Step 3**. In the explanation or rationale, explicitly state that the answer does not address the question in any way and is irrelevant to the context provided.
+
     ---
 
     ### Step 1: Text Refinement and Fluency Analysis
     Refine the `answer_text` and evaluate the candidate’s fluency and pronunciation simultaneously. During this process:
 
     1. **Text Refinement**:
-    Correct typos, inappropriate words, and contextually mismatched terms in `answer_text`.
-    However, do not alter the overall structure, logical flow, or add any new sentences or information not present in the original answer_text.
-    Ensure the candidate's intent and meaning remain intact during refinement.
+    Correct only typos and Speech-to-Text (STT) errors in `answer_text`.
+
+    ### Strict Guidelines
+    - **Typos and STT Errors Only**: Fix clear typos and words misrecognized by the STT system.
+    - Examples:
+        - "됴하" → "좋아"
+        - "이제기" → "이제"
+    - **No New Content**: Do not add new words, sentences, or ideas that are not in the original `answer_text`.
+    - **Preserve Structure and Flow**: Do not alter the sentence structure, word order, or overall flow.
+    - **Maintain Original Meaning**: Ensure the candidate's original intent and meaning remain unchanged.
+    - **Exclude Grammar and Style Edits**: Do not correct grammar or style unless it is a clear typo or STT error.
+
     The refined text will be included in the `answer_text` field of the output as the final processed version.
 
     2. **Fluency and Pronunciation Evaluation**:
