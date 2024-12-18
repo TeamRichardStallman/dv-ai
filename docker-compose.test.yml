@@ -22,6 +22,7 @@ services:
       - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
       - AWS_REGION=${AWS_REGION}
       - S3_BUCKET_NAME=${S3_BUCKET_NAME}
+      - ELEVENLABS_API_KEY=${ELEVENLABS_API_KEY}
 
   fastapi:
     build: .
@@ -43,3 +44,4 @@ services:
       - AWS_REGION=${AWS_REGION}
       - S3_BUCKET_NAME=${S3_BUCKET_NAME}
       - PYTHONPATH=/app
+      - ELEVENLABS_API_KEY=${ELEVENLABS_API_KEY}
