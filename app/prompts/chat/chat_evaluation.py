@@ -85,7 +85,7 @@ REAL_TECH_CHAT_EVAL: str = """
             "answer_text": "Refined text based on the STT output",
             "s3_audio_url": null,
             "s3_video_url": null,
-            "scores": {{
+            "scores": {{{{
                 "text_scores": {{
                     "appropriate_response": {{ "score": integer, "rationale": "Detailed rationale for score" }},
                     "logical_flow": {{ "score": integer, "rationale": "Detailed rationale for score" }},
@@ -94,7 +94,7 @@ REAL_TECH_CHAT_EVAL: str = """
                     "grammatical_errors": {{ "score": integer, "rationale": "Detailed rationale for score" }}
                 }},
                 "voice_scores": null,
-            }},
+            }}}},
             "feedback": {{
                 "strengths": "Detailed feedback on strengths",
                 "improvement": "Detailed feedback on areas for improvement",
@@ -191,7 +191,7 @@ REAL_PERSONAL_CHAT_EVAL: str = """
             "answer_text": "Refined text based on the STT output"
             "s3_audio_url": null,
             "s3_video_url": null,
-            "scores": {{
+            "scores": {{{{
                 "text_scores": {{
                     "teamwork": {{ "score": integer, "rationale": "Detailed rationale for score" }},
                     "communication": {{ "score": integer, "rationale": "Detailed rationale for score" }},
@@ -200,7 +200,7 @@ REAL_PERSONAL_CHAT_EVAL: str = """
                     "growth_mindset": {{ "score": integer, "rationale": "Detailed rationale for score" }}
                 }},
                 "voice_scores": null,
-            }},
+            }}}},
             "feedback": {{
                 "strengths": "Detailed feedback on strengths",
                 "improvement": "Detailed feedback on areas for improvement",
@@ -296,7 +296,7 @@ GENERAL_TECH_CHAT_EVAL: str = """
             "answer_text": "Refined text based on the STT output",
             "s3_audio_url": null,
             "s3_video_url": null,
-            "scores": {{
+            "scores": {{{{
                 "text_scores": {{
                     "appropriate_response": {{ "score": integer, "rationale": "Detailed rationale for score" }},
                     "logical_flow": {{ "score": integer, "rationale": "Detailed rationale for score" }},
@@ -305,7 +305,7 @@ GENERAL_TECH_CHAT_EVAL: str = """
                     "grammatical_errors": {{ "score": integer, "rationale": "Detailed rationale for score" }}
                 }},
                 "voice_scores": null,
-            }},
+            }}}},
             "feedback": {{
                 "strengths": "Detailed feedback on strengths",
                 "improvement": "Detailed feedback on areas for improvement",
