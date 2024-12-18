@@ -1,5 +1,7 @@
 import httpx
+
 from app.core.config import Config
+
 from .base import BaseTTSModel
 
 
@@ -19,12 +21,7 @@ class ElevenLabsTTSModel(BaseTTSModel):
         payload = {
             "text": text,
             "model_id": "eleven_multilingual_v2",
-            "voice_settings": {
-                "stability": 0.3,
-                "similarity_boost": 1,
-                "style": 1,
-                "use_speaker_boost": True
-            }
+            "voice_settings": {"stability": 0.3, "similarity_boost": 1, "style": 1, "use_speaker_boost": True},
         }
 
         # 요청 URL 생성

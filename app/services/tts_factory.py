@@ -1,10 +1,9 @@
 from typing import Literal
 
+from app.models.tts.elevenlabs import ElevenLabsTTSModel
 from app.models.tts.google import GoogleTTSModel
 from app.models.tts.openai import OpenAITTSModel
 from app.models.tts.typecast import TypecastTTSModel
-from app.models.tts.elevenlabs import ElevenLabsTTSModel
-
 
 
 def get_tts_model(model_name: Literal["openai", "google", "typecast", "elevenlabs"]):
