@@ -126,7 +126,7 @@ async def generate_interview_questions(
         file_data = await s3_service.get_files_from_s3(file_objects)
         extracted_text = process_file(file_data)
 
-    print(extracted_text)
+    print("extracted_text:", extracted_text)
     generator = QuestionGenerator(request_data=request_data)
     data = generator.generate_questions(prompt, extracted_text, interview_id)
     return data
