@@ -76,32 +76,32 @@ REAL_TECH_CHAT_EVAL: str = """
 
     ### JSON Output Example
     Refer to the following JSON structure for the format of your output:
-    {{
+    {{{{
         "user_id": {user_id},
         "interview_id": {interview_id},
         "interview_method": "chat",
         "question_id": {question_id},
-        "answer":{{
+        "answer":{{{{
             "answer_text": "Refined text based on the STT output",
             "s3_audio_url": null,
             "s3_video_url": null,
             "scores": {{{{
-                "text_scores": {{
-                    "appropriate_response": {{ "score": integer, "rationale": "Detailed rationale for score" }},
-                    "logical_flow": {{ "score": integer, "rationale": "Detailed rationale for score" }},
-                    "key_terms": {{ "score": integer, "rationale": "Detailed rationale for score" }},
-                    "consistency": {{ "score": integer, "rationale": "Detailed rationale for score" }},
-                    "grammatical_errors": {{ "score": integer, "rationale": "Detailed rationale for score" }}
-                }},
+                "text_scores": {{{{
+                    "appropriate_response": {{{{ "score": integer, "rationale": "Detailed rationale for score" }}}},
+                    "logical_flow": {{{{ "score": integer, "rationale": "Detailed rationale for score" }}}},
+                    "key_terms": {{{{ "score": integer, "rationale": "Detailed rationale for score" }}}},
+                    "consistency": {{{{ "score": integer, "rationale": "Detailed rationale for score" }}}},
+                    "grammatical_errors": {{{{ "score": integer, "rationale": "Detailed rationale for score" }}}}
+                }}}},
                 "voice_scores": null,
             }}}},
-            "feedback": {{
+            "feedback": {{{{
                 "strengths": "Detailed feedback on strengths",
                 "improvement": "Detailed feedback on areas for improvement",
                 "suggestion": "Detailed feedback on suggestions"
-            }}
-        }}
-    }}
+            }}}}
+        }}}}
+    }}}}
     """
 
 # 실전 / 인성 / 채팅 면접 평가
@@ -157,12 +157,12 @@ REAL_PERSONAL_CHAT_EVAL: str = """
         7-8: Demonstrates accountability and reliability, with examples of fulfilling commitments.
         9-10: Highly dependable, with strong examples of responsibility and consistent follow-through on commitments.
 
-    e. **growth_mindset**: Does the candidate show a positive attitude, professionalism, and desire to grow?
-        0: Negative attitude or lacks professionalism.
-        1-3: Limited openness to growth or self-improvement.
-        4-6: Shows some interest in growth but could be more enthusiastic.
-        7-8: Demonstrates professionalism and a desire for growth.
-        9-10: Highly professional, with strong commitment to growth and a positive attitude.
+    e. **grammatical_errors(Korean grammar standards)**: Evaluate whether the answer is written in proper Korean grammar and syntax.
+        0 Points: Numerous grammatical errors, and the response is completely off-topic.
+        1-3: Frequent grammatical errors, and the response is only partially relevant to the question.
+        4-6: Some grammatical errors, and the response does not fully address the question’s intent.
+        7-8: Minor grammatical errors, and the response generally aligns with the question.
+        9-10: Perfect grammar, and the response is highly relevant and fully addresses the question.
 
     ---
 
@@ -182,32 +182,32 @@ REAL_PERSONAL_CHAT_EVAL: str = """
 
     ### JSON Output Example
     Refer to the following JSON structure for the format of your output:
-    {{
+    {{{{
         "user_id": {user_id},
         "interview_id": {interview_id},
         "interview_method": "chat",
         "question_id": {question_id},
-        "answer":{{
-            "answer_text": "Refined text based on the STT output"
+        "answer": {{{{
+            "answer_text": "Refined text based on the STT output",
             "s3_audio_url": null,
             "s3_video_url": null,
             "scores": {{{{
-                "text_scores": {{
-                    "teamwork": {{ "score": integer, "rationale": "Detailed rationale for score" }},
-                    "communication": {{ "score": integer, "rationale": "Detailed rationale for score" }},
-                    "problem_solving": {{ "score": integer, "rationale": "Detailed rationale for score" }},
-                    "accountability": {{ "score": integer, "rationale": "Detailed rationale for score" }},
-                    "growth_mindset": {{ "score": integer, "rationale": "Detailed rationale for score" }}
-                }},
-                "voice_scores": null,
+                "text_scores": {{{{
+                    "teamwork": {{{{ "score": integer, "rationale": "Detailed rationale for score" }}}},
+                    "communication": {{{{ "score": integer, "rationale": "Detailed rationale for score" }}}},
+                    "problem_solving": {{{{ "score": integer, "rationale": "Detailed rationale for score" }}}},
+                    "accountability": {{{{ "score": integer, "rationale": "Detailed rationale for score" }}}},
+                    "growth_mindset": {{{{ "score": integer, "rationale": "Detailed rationale for score" }}}}
+                }}}},
+                "voice_scores": null
             }}}},
-            "feedback": {{
+            "feedback": {{{{
                 "strengths": "Detailed feedback on strengths",
                 "improvement": "Detailed feedback on areas for improvement",
                 "suggestion": "Detailed feedback on suggestions"
-            }}
-        }},
-    }}
+            }}}}
+        }}}}
+    }}}}
     """
 
 # 모의 / 기술 / 채팅 면접 평가
@@ -269,48 +269,32 @@ GENERAL_TECH_CHAT_EVAL: str = """
         7-8: Minor grammatical errors, and the response generally aligns with the question.
         9-10: Perfect grammar, and the response is highly relevant and fully addresses the question.
 
-    ---
-
-    ### STEP 2: Detailed Feedback and Suggestions
-    Along with scoring, provide detailed feedback for the candidate’s answer based on the evaluations in STEP 1. Each category requires at least three sentences of rationale.
-    **Note: For any score below 10, always include specific examples to explain which aspects led to the deduction.**
-
-    #### Feedback Categories
-    a. **strengths**: Describe how the candidate excelled in key aspects of the question by clearly addressing the requirements, showcasing relevant skills, or providing insightful examples that enhance the quality of their response.
-    b. **improvement**: Identify any weaknesses or areas where the response could be strengthened, including examples to clarify how these aspects fall short of the question's expectations.
-    c. **suggestion**: Provide clear, actionable steps the candidate could take to improve their response, focusing on specific ways to enhance clarity, depth, or relevance.
-
-    ### Language and Format Requirements
-    - Write all rationale and feedback sections in **Korean**, using formal language with sentence endings like **"~입니다" and "~것입니다"** to maintain a consistent, professional tone.
-    - Avoid starting with terms like "candidate" or similar titles.
-    - Limit comma usage to ensure clear and concise sentences.
-
     ### JSON Output Example
     Refer to the following JSON structure for the format of your output:
-    {{
+    {{{{
         "user_id": {user_id},
         "interview_id": {interview_id},
         "interview_method": "chat",
         "question_id": {question_id},
-        "answer":{{
+        "answer": {{{{
             "answer_text": "Refined text based on the STT output",
             "s3_audio_url": null,
             "s3_video_url": null,
             "scores": {{{{
-                "text_scores": {{
-                    "appropriate_response": {{ "score": integer, "rationale": "Detailed rationale for score" }},
-                    "logical_flow": {{ "score": integer, "rationale": "Detailed rationale for score" }},
-                    "key_terms": {{ "score": integer, "rationale": "Detailed rationale for score" }},
-                    "consistency": {{ "score": integer, "rationale": "Detailed rationale for score" }},
-                    "grammatical_errors": {{ "score": integer, "rationale": "Detailed rationale for score" }}
-                }},
-                "voice_scores": null,
+                "text_scores": {{{{
+                    "appropriate_response": {{{{ "score": integer, "rationale": "Detailed rationale for score" }}}},
+                    "logical_flow": {{{{ "score": integer, "rationale": "Detailed rationale for score" }}}},
+                    "key_terms": {{{{ "score": integer, "rationale": "Detailed rationale for score" }}}},
+                    "consistency": {{{{ "score": integer, "rationale": "Detailed rationale for score" }}}},
+                    "grammatical_errors": {{{{ "score": integer, "rationale": "Detailed rationale for score" }}}}
+                }}}},
+                "voice_scores": null
             }}}},
-            "feedback": {{
+            "feedback": {{{{
                 "strengths": "Detailed feedback on strengths",
                 "improvement": "Detailed feedback on areas for improvement",
                 "suggestion": "Detailed feedback on suggestions"
-            }}
-        }}
-    }}
+            }}}}
+        }}}}
+    }}}}
     """

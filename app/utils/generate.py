@@ -66,9 +66,10 @@ def process_pdf(file_data: bytes) -> str:
         return ""
 
 
-def process_txt(file_data: bytes) -> str:
+def process_txt(file_data: str) -> str:
     try:
-        text = file_data.decode("utf-8", errors="ignore")
+        # text = file_data.decode("utf-8", errors="ignore")
+        text = file_data
         return text.strip()
     except Exception as e:
         print(f"Error processing TXT: {e}")

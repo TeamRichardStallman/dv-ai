@@ -134,23 +134,23 @@ REAL_TECH_VOICE_OVER: str = """
 
     ### JSON Output Example
     Refer to the following JSON structure for the format of your output:
-    {{
+    {{{{
         "user_id": {user_id},
         "interview_id": {interview_id},
-        "overall_evaluation": {{
-            "text_overall": {{
-                "job_fit": {{ "score": integer, "rationale": "Detailed feedback on job_fit" }},
-                "growth_potential": {{ "score": integer, "rationale": "Detailed feedback on growth_potential" }},
-                "work_attitude": {{ "score": integer, "rationale": "Detailed feedback on work_attitude" }},
-                "technical_depth": {{ "score": integer, "rationale": "Detailed feedback on technical_depth" }}
-            }},
-            "voice_overall": {{
-                "fluency": {{ "score": integer, "rationale": "Detailed feedback on fluency" }},
-                "clarity": {{ "score": integer, "rationale": "Detailed feedback on clarity" }},
-                "word_repetition": {{ "score": integer, "rationale": "Detailed feedback on word_repetition" }}
-            }}
-        }}
-    }}
+        "overall_evaluation": {{{{
+            "text_overall": {{{{
+                "job_fit": {{{{ "score": integer, "rationale": "Detailed feedback on job_fit" }}}},
+                "growth_potential": {{{{ "score": integer, "rationale": "Detailed feedback on growth_potential" }}}},
+                "work_attitude": {{{{ "score": integer, "rationale": "Detailed feedback on work_attitude" }}}},
+                "technical_depth": {{{{ "score": integer, "rationale": "Detailed feedback on technical_depth" }}}}
+            }}}},
+            "voice_overall": {{{{
+                "fluency": {{{{ "score": integer, "rationale": "Detailed feedback on fluency" }}}},
+                "clarity": {{{{ "score": integer, "rationale": "Detailed feedback on clarity" }}}},
+                "word_repetition": {{{{ "score": integer, "rationale": "Detailed feedback on word_repetition" }}}}
+            }}}}
+        }}}}
+    }}}}
     """
 
 # 실전 인성 평가
@@ -291,23 +291,23 @@ REAL_PERSONAL_VOICE_OVER: str = """
 
     ### JSON Output Example
     Refer to the following JSON structure for the format of your output:
-    {{
+    {{{{
         "user_id": {user_id},
         "interview_id": {interview_id},
-        "overall_evaluation": {{
-            "text_overall": {{
-                "company_fit": {{ "score": integer, "rationale": "Detailed feedback on company_fit" }},
-                "adaptability": {{ "score": integer, "rationale": "Detailed feedback on adaptability" }},
-                "interpersonal_skills": {{ "score": integer, "rationale": "Detailed feedback on interpersonal_skills" }},
-                "growth_attitude": {{ "score": integer, "rationale": "Detailed feedback on growth_attitude" }}
-            }},
-            "voice_overall": {{
-                "fluency": {{ "score": integer, "rationale": "Detailed feedback on fluency" }},
-                "clarity": {{ "score": integer, "rationale": "Detailed feedback on clarity" }},
-                "word_repetition": {{ "score": integer, "rationale": "Detailed feedback on word_repetition" }}
-            }}
-        }}
-    }}
+        "overall_evaluation": {{{{
+            "text_overall": {{{{
+                "company_fit": {{{{ "score": integer, "rationale": "Detailed feedback on company_fit" }}}},
+                "adaptability": {{{{ "score": integer, "rationale": "Detailed feedback on adaptability" }}}},
+                "interpersonal_skills": {{{{ "score": integer, "rationale": "Detailed feedback on interpersonal_skills" }}}},
+                "growth_attitude": {{{{ "score": integer, "rationale": "Detailed feedback on growth_attitude" }}}}
+            }}}},
+            "voice_overall": {{{{
+                "fluency": {{{{ "score": integer, "rationale": "Detailed feedback on fluency" }}}},
+                "clarity": {{{{ "score": integer, "rationale": "Detailed feedback on clarity" }}}},
+                "word_repetition": {{{{ "score": integer, "rationale": "Detailed feedback on word_repetition" }}}}
+            }}}}
+        }}}}
+    }}}}
     """
 
 # 모의 기술 평가
@@ -445,21 +445,21 @@ GENERAL_TECH_VOICE_OVER: str = """
 
     ### JSON Output Example
     Refer to the following JSON structure for the format of your output:
-    {{
+    {{{{
         "user_id": {user_id},
         "interview_id": {interview_id},
-        "overall_evaluation": {{
-            "text_overall": {{
-                "job_fit": {{ "score": integer, "rationale": "Detailed feedback on job_fit" }},
-                "growth_potential": {{ "score": integer, "rationale": "Detailed feedback on growth_potential" }},
-                "work_attitude": {{ "score": integer, "rationale": "Detailed feedback on work_attitude" }},
-                "technical_depth": {{ "score": integer, "rationale": "Detailed feedback on technical_depth" }}
-            }},
-            "voice_overall": {{
-                "fluency": {{ "score": integer, "rationale": "Detailed feedback on fluency" }},
-                "clarity": {{ "score": integer, "rationale": "Detailed feedback on clarity" }},
-                "word_repetition": {{ "score": integer, "rationale": "Detailed feedback on word_repetition" }}
-            }}
-        }}
-    }}
+        "overall_evaluation": {{{{
+            "text_overall": {{{{
+                "job_fit": {{{{ "score": integer, "rationale": "Detailed feedback on job_fit" }}}},
+                "growth_potential": {{{{ "score": integer, "rationale": "Detailed feedback on growth_potential" }}}},
+                "work_attitude": {{{{ "score": integer, "rationale": "Detailed feedback on work_attitude" }}}},
+                "technical_depth": {{{{ "score": integer, "rationale": "Detailed feedback on technical_depth" }}}}
+            }}}},
+            "voice_overall": {{{{
+                "fluency": {{{{ "score": integer, "rationale": "Detailed feedback on fluency" }}}},
+                "clarity": {{{{ "score": integer, "rationale": "Detailed feedback on clarity" }}}},
+                "word_repetition": {{{{ "score": integer, "rationale": "Detailed feedback on word_repetition" }}}}
+            }}}}
+        }}}}
+    }}}}
     """
