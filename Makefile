@@ -46,4 +46,4 @@ test:
 
 # 폴더 구조를 tree 명령어로 파일로 저장
 tree:
-	tree -I 'wandb|**pycache**|\*.log|__pycache__|folder_structure' > folder_structure.txt
+	tree -I '**pycache**|\*.log|__pycache__|folder_structure' > folder_structure.txt

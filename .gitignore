@@ -22,9 +22,6 @@ venv/
 # 기타
 .idea/
 
-# wandb 폴더 무시
-wandb/
-
 # tox, egg-info ignore
 dv_ai.egg-info/
 .tox/

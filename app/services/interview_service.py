@@ -3,7 +3,6 @@ import logging
 import os
 from typing import Union
 
-import weave
 from dotenv import load_dotenv
 from openai import OpenAI
 
@@ -30,8 +29,6 @@ load_dotenv()
 
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 client_gpt = OpenAI(api_key=OPENAI_API_KEY)
-
-weave.init("ticani0610-no/prompt-test")
 
 logging.basicConfig(level=logging.INFO)
 

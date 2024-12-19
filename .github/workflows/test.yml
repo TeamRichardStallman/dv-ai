@@ -27,7 +27,6 @@ jobs:
           CELERY_RESULT_BACKEND: redis://redis-test:6379/0
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           OPENAI_GPT_MODEL: ${{ secrets.OPENAI_GPT_MODEL }}
-          WANDB_API_KEY: ${{ secrets.WANDB_API_KEY }}
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_REGION: ${{ secrets.AWS_REGION }}
