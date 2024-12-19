@@ -1,3 +1,4 @@
+import time
 from operator import itemgetter
 from typing import List, Literal, Union
 
@@ -88,6 +89,21 @@ class QuestionGenerator(BaseGenerator):
 
     def _initialize_retriever(self, keywords: List[str]) -> ContextualCompressionRetriever:
         """Initializes the retriever with metadata filtering and compression."""
+
+        def retry_compressor(max_retries=5, delay=2):
+            """Retries initializing FlashrankRerank up to max_retries times."""
+            attempt = 0
+            while attempt < max_retries:
+                try:
+                    print(f"Attempt {attempt + 1}/{max_retries} to initialize FlashrankRerank...")
+                    return FlashrankRerank(model="ms-marco-MultiBERT-L-12")
+                except Exception as e:
+                    print(f"Error on attempt {attempt + 1}: {e}")
+                    attempt += 1
+                    time.sleep(delay)
+            print("Failed to initialize FlashrankRerank after multiple retries. Using fallback compressor.")
+            return None
+
         retriever = SelfQueryRetriever.from_llm(
             llm=self.llm,
             vectorstore=vectorstore,
@@ -101,7 +117,13 @@ class QuestionGenerator(BaseGenerator):
             },
         )
 
-        compressor = FlashrankRerank(model="ms-marco-MultiBERT-L-12")
+        compressor = retry_compressor()
+
+        # If compressor fails, return retriever without compression
+        if compressor is None:
+            return retriever
+
+        # Return retriever with compression if successful
         return ContextualCompressionRetriever(base_compressor=compressor, base_retriever=retriever)
 
     def _generate_reference(self, text: str) -> str:
