@@ -9,7 +9,7 @@ class ElevenLabsTTSModel(BaseTTSModel):
     def __init__(self):
         self.api_key = Config.ELEVENLABS_API_KEY  # ElevenLabs API 키
         self.api_url = "https://api.elevenlabs.io/v1/text-to-speech/"
-        self.default_voice_id = "JBFqnCBsd6RMkjVDRZzb"  # 원하는 음성 ID
+        self.default_voice_id = Config.ELEVENLABS_VOICE_ID  # 원하는 음성 ID
         self.model_id = "eleven_multilingual_v2"  # 사용할 모델 ID
 
     async def synthesize(self, text: str, language_code: str = "ko") -> bytes:
@@ -21,7 +21,7 @@ class ElevenLabsTTSModel(BaseTTSModel):
         payload = {
             "text": text,
             "model_id": "eleven_multilingual_v2",
-            "voice_settings": {"stability": 0.3, "similarity_boost": 1, "style": 1, "use_speaker_boost": True},
+            "voice_settings": {"stability": 0.65, "similarity_boost": 0.65, "use_speaker_boost": True},
         }
 
         # 요청 URL 생성
