@@ -42,7 +42,7 @@ async def process_interview_questions(
 ) -> QuestionsResponseModel:
     try:
         s3_service = S3Service()
-        tts_service = get_tts_service(model_name="openai")
+        tts_service = get_tts_service(model_name="elevenlabs")
         questions = await generate_interview_questions(interview_id, request_data)
 
         if request_data.interview_method != "chat":
