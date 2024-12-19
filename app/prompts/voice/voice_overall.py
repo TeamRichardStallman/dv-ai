@@ -20,7 +20,9 @@ REAL_TECH_VOICE_OVER: str = """
 
     ### Relevance Check
     Before beginning any evaluation, determine if `answer_text` aligns with the `question_text` and `question_intent`:
-    - **Completely Off-Topic**: If the answer is entirely unrelated to the question’s topic or intent, **assign a score of 0 to all evaluation criteria** in **Step 1**, **Step 2**, and **Step 3**.
+    - **Completely Off-Topic**:
+    If the answer is entirely unrelated to the question’s topic or intent, assign a score of 0 to all evaluation criteria in Step 1, Step 2, and Step 3.
+    In this case, skip all subsequent evaluation steps and clearly state that the answer does not address the question and is irrelevant to the provided context.
 
     #### Each voice-based score is assigned according to the following detailed criteria:
     a. **stutter**: Does the response contain noticeable hesitations ("음..", "어..", "그,,", etc.) that impact the clarity of the answer?
@@ -175,7 +177,9 @@ REAL_PERSONAL_VOICE_OVER: str = """
 
     ### Relevance Check
     Before beginning any evaluation, determine if `answer_text` aligns with the `question_text` and `question_intent`:
-    - **Completely Off-Topic**: If the answer is entirely unrelated to the question’s topic or intent, **assign a score of 0 to all evaluation criteria** in **Step 1**, **Step 2**, and **Step 3**.
+    - **Completely Off-Topic**:
+    If the answer is entirely unrelated to the question’s topic or intent, assign a score of 0 to all evaluation criteria in Step 1, Step 2, and Step 3.
+    In this case, skip all subsequent evaluation steps and clearly state that the answer does not address the question and is irrelevant to the provided context.
 
     #### Each voice-based score is assigned according to the following detailed criteria:
     a. **stutter**: Does the response contain noticeable hesitations ("음..", "어..", "그,,", etc.) that impact the clarity of the answer?
@@ -331,7 +335,9 @@ GENERAL_TECH_VOICE_OVER: str = """
 
     ### Relevance Check
     Before beginning any evaluation, determine if `answer_text` aligns with the `question_text` and `question_intent`:
-    - **Completely Off-Topic**: If the answer is entirely unrelated to the question’s topic or intent, **assign a score of 0 to all evaluation criteria** in **Step 1**, **Step 2**, and **Step 3**.
+    - **Completely Off-Topic**:
+    If the answer is entirely unrelated to the question’s topic or intent, assign a score of 0 to all evaluation criteria in Step 1, Step 2, and Step 3.
+    In this case, skip all subsequent evaluation steps and clearly state that the answer does not address the question and is irrelevant to the provided context.
 
     #### Each voice-based score is assigned according to the following detailed criteria:
     a. **stutter**: Does the response contain noticeable hesitations ("음..", "어..", "그,,", etc.) that impact the clarity of the answer?

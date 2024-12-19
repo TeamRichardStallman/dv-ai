@@ -19,8 +19,44 @@ REAL_TECH_VOICE_EVAL: str = """
     - Summarize the evaluation with detailed feedback, highlighting strengths, areas for improvement, and actionable suggestions to guide the candidate’s development.
 
     ### Relevance Check
-    Before beginning any evaluation, determine if `answer_text` aligns with the `question_text` and `question_intent`:
-    - **Completely Off-Topic**: If the answer is entirely unrelated to the question’s topic or intent, **assign a score of 0 to all evaluation criteria** in **Step 1**, **Step 2**, and **Step 3**. In the explanation or rationale, explicitly state that the answer does not address the question in any way and is irrelevant to the context provided.
+    Before starting any evaluation, check if `answer_text` aligns with `question_text` and `question_intent`:
+    **If the answer is completely off-topic:**
+    - Set all scores in **Step 1** and **Step 2**, including `voice_scores`, to 0.
+    - Skip all subsequent evaluation steps.
+    - Return a response indicating the answer does not address the question.
+
+    ### Example Output for Off-Topic Response
+    Refer to the following JSON structure for the format of your output:
+    {{{{
+        "user_id": {user_id},
+        "interview_id": {interview_id},
+        "interview_method": "voice",
+        "question_id": {question_id},
+        "answer": {{{{
+            "answer_text": "Original STT-transcribed answer",
+            "s3_audio_url": {s3_audio_url},
+            "s3_video_url": {s3_video_url},
+            "scores": {{{{
+                "text_scores": {{{{
+                    "appropriate_response": {{{{ "score": 0, "rationale": "답변이 질문과 무관합니다." }}}},
+                    "logical_flow": {{{{ "score": 0, "rationale": "답변이 질문과 무관합니다." }}}},
+                    "key_terms": {{{{ "score": 0, "rationale": "답변이 질문과 무관합니다." }}}},
+                    "consistency": {{{{ "score": 0, "rationale": "답변이 질문과 무관합니다." }}}},
+                    "grammatical_errors": {{{{ "score": 0, "rationale": "답변이 질문과 무관합니다." }}}}
+                }}}},
+                "voice_scores": {{{{
+                    "wpm": {{{{ "score": 0, "rationale": "답변이 질문과 무관하여 평가를 진행하지 않습니다." }}}},
+                    "stutter": {{{{ "score": 0, "rationale": "답변이 질문과 무관하여 평가를 진행하지 않습니다." }}}},
+                    "pronunciation": {{{{ "score": 0, "rationale": "답변이 질문과 무관하여 평가를 진행하지 않습니다." }}}}
+                }}}}
+            }}}},
+            "feedback": {{{{
+                "strengths": "답변이 질문과 무관하여 강점을 평가할 수 없습니다.",
+                "improvement": "답변이 질문과 관련된 내용으로 이루어져야 합니다.",
+                "suggestion": "질문의 의도와 맥락을 이해한 후, 그에 맞는 답변을 준비하는 것이 중요합니다."
+            }}}}
+        }}}}
+    }}}}
 
     ---
 
@@ -69,7 +105,7 @@ REAL_TECH_VOICE_EVAL: str = """
     **Note: If a candidate’s answer scores below 10, always give specific examples to illustrate which parts of their response did not meet expectations.**
 
     #### Evaluation Criteria
-    a. **wpm (Words Per Minute)**: Was the provided speech rate (WPM) appropriate, allowing for clear and effective communication during the interview?
+    a. **{wpm} (Words Per Minute)**: Was the provided speech rate (WPM) appropriate, allowing for clear and effective communication during the interview?
         0: Speech rate is completely off the acceptable range (≤100 WPM or ≥200 WPM), making the response nearly impossible to follow or understand.
         1-3: Speech rate is significantly outside the ideal range (101-120 WPM or 180-199 WPM), causing major issues in comprehension or delivery.
         4-7: Speech rate is slightly outside the ideal range (121-139 WPM or 161-179 WPM), causing minor disruptions but still understandable.
@@ -128,6 +164,8 @@ REAL_TECH_VOICE_EVAL: str = """
     c. **suggestion**: Provide clear, actionable steps the candidate could take to address the identified weaknesses and improve their response.
         - For **Step 1**: Suggest ways to enhance speech delivery, such as maintaining an appropriate speech rate, reducing hesitations, or improving pronunciation for clearer communication.
         - For **Step 2**: Recommend specific strategies to strengthen the response, such as improving logical flow, including relevant key terms, or adding more detailed and relevant examples to enhance the depth and relevance of the answer.
+
+    ---
 
     ### Language and Format Requirements
     - Write all rationale and feedback sections in **Korean**, using formal language with sentence endings like **"~입니다" and "~것입니다"** to maintain a consistent, professional tone.
@@ -189,8 +227,44 @@ REAL_PERSONAL_VOICE_EVAL: str = """
     - Summarize the evaluation with detailed feedback, highlighting strengths, areas for improvement, and actionable suggestions to guide the candidate’s development.
 
     ### Relevance Check
-    Before beginning any evaluation, determine if `answer_text` aligns with the `question_text` and `question_intent`:
-    - **Completely Off-Topic**: If the answer is entirely unrelated to the question’s topic or intent, **assign a score of 0 to all evaluation criteria** in **Step 1**, **Step 2**, and **Step 3**. In the explanation or rationale, explicitly state that the answer does not address the question in any way and is irrelevant to the context provided.
+    Before starting any evaluation, check if `answer_text` aligns with `question_text` and `question_intent`:
+    **If the answer is completely off-topic:**
+    - Set all scores in **Step 1** and **Step 2**, including `voice_scores`, to 0.
+    - Skip all subsequent evaluation steps.
+    - Return a response indicating the answer does not address the question.
+
+    ### Example Output for Off-Topic Response
+    Refer to the following JSON structure for the format of your output:
+    {{{{
+        "user_id": {user_id},
+        "interview_id": {interview_id},
+        "interview_method": "voice",
+        "question_id": {question_id},
+        "answer": {{{{
+            "answer_text": "Original STT-transcribed answer",
+            "s3_audio_url": {s3_audio_url},
+            "s3_video_url": {s3_video_url},
+            "scores": {{{{
+                "text_scores": {{{{
+                    "appropriate_response": {{{{ "score": 0, "rationale": "답변이 질문과 무관합니다." }}}},
+                    "logical_flow": {{{{ "score": 0, "rationale": "답변이 질문과 무관합니다." }}}},
+                    "key_terms": {{{{ "score": 0, "rationale": "답변이 질문과 무관합니다." }}}},
+                    "consistency": {{{{ "score": 0, "rationale": "답변이 질문과 무관합니다." }}}},
+                    "grammatical_errors": {{{{ "score": 0, "rationale": "답변이 질문과 무관합니다." }}}}
+                }}}},
+                "voice_scores": {{{{
+                    "wpm": {{{{ "score": 0, "rationale": "답변이 질문과 무관하여 평가를 진행하지 않습니다." }}}},
+                    "stutter": {{{{ "score": 0, "rationale": "답변이 질문과 무관하여 평가를 진행하지 않습니다." }}}},
+                    "pronunciation": {{{{ "score": 0, "rationale": "답변이 질문과 무관하여 평가를 진행하지 않습니다." }}}}
+                }}}}
+            }}}},
+            "feedback": {{{{
+                "strengths": "답변이 질문과 무관하여 강점을 평가할 수 없습니다.",
+                "improvement": "답변이 질문과 관련된 내용으로 이루어져야 합니다.",
+                "suggestion": "질문의 의도와 맥락을 이해한 후, 그에 맞는 답변을 준비하는 것이 중요합니다."
+            }}}}
+        }}}}
+    }}}}
 
     ---
 
@@ -299,6 +373,8 @@ REAL_PERSONAL_VOICE_EVAL: str = """
         - For **Step 1**: Recommend ways to enhance speech delivery, such as achieving an optimal speech rate, reducing hesitations, or improving pronunciation for better clarity.
         - For **Step 2**: Suggest strategies to strengthen the response, such as improving logical flow, including relevant examples, or providing more detailed insights to address the question effectively.
 
+    ---
+
     ### Language and Format Requirements
     - Write all rationale and feedback sections in **Korean**, using formal language with sentence endings like **"~입니다" and "~것입니다"** to maintain a consistent, professional tone.
     - Avoid starting with terms like "candidate" or similar titles.
@@ -358,8 +434,44 @@ GENERAL_TECH_VOICE_EVAL: str = """
     - Summarize the evaluation with detailed feedback, highlighting strengths, areas for improvement, and actionable suggestions to guide the candidate’s development.
 
     ### Relevance Check
-    Before beginning any evaluation, determine if `answer_text` aligns with the `question_text` and `question_intent`:
-    - **Completely Off-Topic**: If the answer is entirely unrelated to the question’s topic or intent, **assign a score of 0 to all evaluation criteria** in **Step 1**, **Step 2**, and **Step 3**. In the explanation or rationale, explicitly state that the answer does not address the question in any way and is irrelevant to the context provided.
+    Before starting any evaluation, check if `answer_text` aligns with `question_text` and `question_intent`:
+    **If the answer is completely off-topic:**
+    - Set all scores in **Step 1** and **Step 2**, including `voice_scores`, to 0.
+    - Skip all subsequent evaluation steps.
+    - Return a response indicating the answer does not address the question.
+
+    ### Example Output for Off-Topic Response
+    Refer to the following JSON structure for the format of your output:
+    {{{{
+        "user_id": {user_id},
+        "interview_id": {interview_id},
+        "interview_method": "voice",
+        "question_id": {question_id},
+        "answer": {{{{
+            "answer_text": "Original STT-transcribed answer",
+            "s3_audio_url": {s3_audio_url},
+            "s3_video_url": {s3_video_url},
+            "scores": {{{{
+                "text_scores": {{{{
+                    "appropriate_response": {{{{ "score": 0, "rationale": "답변이 질문과 무관합니다." }}}},
+                    "logical_flow": {{{{ "score": 0, "rationale": "답변이 질문과 무관합니다." }}}},
+                    "key_terms": {{{{ "score": 0, "rationale": "답변이 질문과 무관합니다." }}}},
+                    "consistency": {{{{ "score": 0, "rationale": "답변이 질문과 무관합니다." }}}},
+                    "grammatical_errors": {{{{ "score": 0, "rationale": "답변이 질문과 무관합니다." }}}}
+                }}}},
+                "voice_scores": {{{{
+                    "wpm": {{{{ "score": 0, "rationale": "답변이 질문과 무관하여 평가를 진행하지 않습니다." }}}},
+                    "stutter": {{{{ "score": 0, "rationale": "답변이 질문과 무관하여 평가를 진행하지 않습니다." }}}},
+                    "pronunciation": {{{{ "score": 0, "rationale": "답변이 질문과 무관하여 평가를 진행하지 않습니다." }}}}
+                }}}}
+            }}}},
+            "feedback": {{{{
+                "strengths": "답변이 질문과 무관하여 강점을 평가할 수 없습니다.",
+                "improvement": "답변이 질문과 관련된 내용으로 이루어져야 합니다.",
+                "suggestion": "질문의 의도와 맥락을 이해한 후, 그에 맞는 답변을 준비하는 것이 중요합니다."
+            }}}}
+        }}}}
+    }}}}
 
     ---
 
@@ -465,6 +577,8 @@ GENERAL_TECH_VOICE_EVAL: str = """
     c. **suggestion**: Provide clear, actionable steps the candidate could take to address the identified weaknesses and improve their response.
         - For **Step 1**: Suggest ways to enhance speech delivery, such as maintaining an appropriate speech rate, reducing hesitations, or improving pronunciation for clearer communication.
         - For **Step 2**: Recommend specific strategies to strengthen the response, such as improving logical flow, including relevant key terms, or adding more detailed and relevant examples to enhance the depth and relevance of the answer.
+
+    ---
 
     ### Language and Format Requirements
     - Write all rationale and feedback sections in **Korean**, using formal language with sentence endings like **"~입니다" and "~것입니다"** to maintain a consistent, professional tone.
