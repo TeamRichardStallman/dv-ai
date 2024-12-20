@@ -4,9 +4,9 @@ from app.schemas.question import QuestionsRequestModel
 
 # Predefine the prompt mapping for clarity and efficiency
 PROMPT_MAP = {
-    ("real", "technical"): "app/prompts/real_tech.yaml",
-    ("real", "personal"): "app/prompts/real_personal.yaml",
-    ("general", "technical"): "app/prompts/general_tech.yaml",
+    ("real", "technical"): "app/prompts/questions/real_tech.yaml",
+    ("real", "personal"): "app/prompts/questions/real_personal.yaml",
+    ("general", "technical"): "app/prompts/questions/general_tech.yaml",
 }
 
 

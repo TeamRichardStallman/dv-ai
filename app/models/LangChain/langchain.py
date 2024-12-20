@@ -192,9 +192,11 @@ class EvaluationGenerator(BaseGenerator):
     @traceable
     def evaluate(
         self,
-        evaluation_prompt: str,
+        evaluation_prompt: PromptTemplate,
         qa_input: str,
+        interview_id: int,
         choice: Literal["answer", "evaluation"],
+        wpm: float = 0.0,
     ) -> Union[
         TechnicalAnswerResponseModel,
         PersonalAnswerResponseModel,
@@ -205,27 +207,51 @@ class EvaluationGenerator(BaseGenerator):
 
         chat_prompt = ChatPromptTemplate.from_messages(
             [
-                ("system", evaluation_prompt),
+                ("system", evaluation_prompt.template),
                 ("human", "{qa_input}"),
             ]
         )
 
         chain = chat_prompt | self.llm | parser
 
-        return chain.invoke({"qa_input": qa_input})
+        # Base input for both request types
+        input_data = {
+            "job_role": self.request_data.job_role,
+            "interview_type": self.request_data.interview_type,
+            "user_id": self.request_data.user_id,
+            "interview_id": interview_id,
+            "wpm": wpm,
+            "qa_input": qa_input,
+        }
+
+        if hasattr(self.request_data, "answer"):
+            input_data.update(
+                {
+                    "question_id": getattr(self.request_data, "question", {}).get("question_id", None),
+                    "s3_audio_url": getattr(self.request_data.answers, "s3_audio_url", None),
+                    "s3_video_url": getattr(self.request_data.answers, "s3_video_url", None),
+                }
+            )
+
+        return chain.invoke(input_data)
 
     def _get_parser(self, choice: Literal["answer", "evaluation"]):
-        if choice == "answer":
-            if self.request_data.interview_type == "technical":
-                return PydanticOutputParser(pydantic_object=TechnicalAnswerResponseModel)
-            elif self.request_data.interview_type == "personal":
-                return PydanticOutputParser(pydantic_object=PersonalAnswerResponseModel)
-            else:
-                raise ValueError(f"Invalid interview type: {self.request_data.interview_type}")
-        elif choice == "evaluation":
-            if self.request_data.interview_type == "technical":
-                return PydanticOutputParser(pydantic_object=TechnicalEvaluationResponseModel)
-            elif self.request_data.interview_type == "personal":
-                return PydanticOutputParser(pydantic_object=PersonalEvaluationResponseModel)
-            else:
-                raise ValueError(f"Invalid interview type: {self.request_data.interview_type}")
+        parsers = {
+            "answer": {
+                "technical": TechnicalAnswerResponseModel,
+                "personal": PersonalAnswerResponseModel,
+            },
+            "evaluation": {
+                "technical": TechnicalEvaluationResponseModel,
+                "personal": PersonalEvaluationResponseModel,
+            },
+        }
+
+        # Fetch the appropriate parser model
+        model = parsers.get(choice, {}).get(self.request_data.interview_type)
+        if not model:
+            raise ValueError(
+                f"Invalid combination of choice '{choice}' and interview type '{self.request_data.interview_type}'"
+            )
+
+        return PydanticOutputParser(pydantic_object=model)
