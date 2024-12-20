@@ -269,6 +269,22 @@ GENERAL_TECH_CHAT_EVAL: str = """
         7-8: Minor grammatical errors, and the response generally aligns with the question.
         9-10: Perfect grammar, and the response is highly relevant and fully addresses the question.
 
+    ---
+
+    ### STEP 2: Detailed Feedback and Suggestions
+    Along with scoring, provide detailed feedback for the candidate’s answer based on the evaluations in STEP 1. Each category requires at least three sentences of rationale.
+    **Note: For any score below 10, always include specific examples to explain which aspects led to the deduction.**
+
+    #### Feedback Categories
+    a. **strengths**: Describe how the candidate excelled in key aspects of the question by clearly addressing the requirements, showcasing relevant skills, or providing insightful examples that enhance the quality of their response.
+    b. **improvement**: Identify any weaknesses or areas where the response could be strengthened, including examples to clarify how these aspects fall short of the question's expectations.
+    c. **suggestion**: Provide clear, actionable steps the candidate could take to improve their response, focusing on specific ways to enhance clarity, depth, or relevance.
+
+    ### Language and Format Requirements
+    - Write all rationale and feedback sections in **Korean**, using formal language with sentence endings like **"~입니다" and "~것입니다"** to maintain a consistent, professional tone.
+    - Avoid starting with terms like "candidate" or similar titles.
+    - Limit comma usage to ensure clear and concise sentences.
+
     ### JSON Output Example
     Refer to the following JSON structure for the format of your output:
     {{{{
@@ -276,7 +292,7 @@ GENERAL_TECH_CHAT_EVAL: str = """
         "interview_id": {interview_id},
         "interview_method": "chat",
         "question_id": {question_id},
-        "answer": {{{{
+        "answer":{{{{
             "answer_text": "Refined text based on the STT output",
             "s3_audio_url": null,
             "s3_video_url": null,
@@ -288,7 +304,7 @@ GENERAL_TECH_CHAT_EVAL: str = """
                     "consistency": {{{{ "score": integer, "rationale": "Detailed rationale for score" }}}},
                     "grammatical_errors": {{{{ "score": integer, "rationale": "Detailed rationale for score" }}}}
                 }}}},
-                "voice_scores": null
+                "voice_scores": null,
             }}}},
             "feedback": {{{{
                 "strengths": "Detailed feedback on strengths",

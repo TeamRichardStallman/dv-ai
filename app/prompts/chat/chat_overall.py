@@ -270,9 +270,34 @@ GENERAL_TECH_CHAT_OVER: str = """
 
     ---
 
-    ### JSON Output Example
+    ### Your Key Task: Comprehensive Evaluation
+    Based on the provided information and analysis of the candidate’s responses to individual questions, provide a comprehensive evaluation of their overall performance.
+    Assign a score (0-10) for each category and support your assessment with at least seven sentences of detailed feedback.
+    Each evaluation should address the following:
+
+    #### Overall Evaluation Categories
+    a. **job_fit**:
+        - Assess how well the candidate's experience, skills, and knowledge meet the role requirements, including their understanding of the position and readiness to apply relevant skills.
+        - Highlight examples demonstrating their suitability for the role.
+
+    b. **growth_potential**:
+        - Evaluate the candidate’s adaptability, learning ability, and potential for growth within the company, with attention to self-motivation, openness to challenges, and continuous improvement.
+        - Highlight their ability to take on new challenges and expand their skills.
+
+    c. **work_attitude**:
+        - Assess the candidate’s reliability, accountability, teamwork, and communication skills, as well as their enthusiasm and commitment to responsibilities.
+        - Identify areas where their attitude could enhance team dynamics or personal performance.
+
+    d. **technical_depth**:
+    - Evaluate the candidate’s expertise and understanding of relevant technical areas, including their ability to solve complex issues and propose innovative solutions.
+    - Highlight examples of advanced technical knowledge or innovative solutions.
+
+    ### Language and Format Requirements
+    - Write all rationale and feedback sections in **Korean**, using formal language with sentence endings like **"~입니다" and "~것입니다"** to maintain a consistent, professional tone.
+    - Avoid starting with terms like "candidate" or similar titles.
+    - Limit comma usage to ensure clear and concise sentences.
+
     Refer to the following JSON structure for the format of your output:
-    ```json
     {{{{
         "user_id": {user_id},
         "interview_id": {interview_id},
@@ -283,7 +308,7 @@ GENERAL_TECH_CHAT_OVER: str = """
                 "work_attitude": {{{{ "score": integer, "rationale": "Detailed feedback on work_attitude" }}}},
                 "technical_depth": {{{{ "score": integer, "rationale": "Detailed feedback on technical_depth" }}}}
             }}}},
-            "voice_overall": null
+            "voice_overall": null,
         }}}}
     }}}}
     """
