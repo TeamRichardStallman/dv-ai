@@ -1,0 +1,30 @@
+# Python 관련
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# 환경 변수 파일
+.env
+
+# 가상 환경
+venv/
+.env/
+.env.*
+!.env.sample
+
+# DS_store
+.DS_Store
+
+# Docker 관련
+*.log
+
+# 기타
+.idea/
+
+# tox, egg-info ignore
+dv_ai.egg-info/
+.tox/
+
+# github actions 로컬 테스트를 위한 환경변수 파일
+.secrets

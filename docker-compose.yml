@@ -1,0 +1,18 @@
+services:
+  celery:
+    build: .
+    container_name: celery
+    working_dir: /app
+    command: poetry run celery -A app.worker worker --loglevel=info
+    env_file:
+      - .env
+
+  fastapi:
+    build: .
+    container_name: fastapi
+    working_dir: /app
+    command: poetry run uvicorn app.main:app --host 0.0.0.0 --port 8000 --loop asyncio
+    ports:
+      - "8000:8000"
+    env_file:
+      - .env

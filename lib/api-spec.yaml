@@ -1,0 +1,585 @@
+components:
+  schemas:
+    AnswerBaseModel:
+      properties:
+        answer_text:
+          default: "\uD14C\uC2A4\uD2B8\uC6A9 \uB2F5\uBCC0\uC785\uB2C8\uB2E4."
+          title: Answer Text
+          type: string
+        s3_audio_url:
+          default: questions/audio_1.mp3
+          title: S3 Audio Url
+          type: string
+        s3_video_url:
+          title: S3 Video Url
+          type: string
+      required:
+      - s3_video_url
+      title: AnswerBaseModel
+      type: object
+    AnswerPartialResponse:
+      properties:
+        answer:
+          $ref: '#/components/schemas/SimplifiedAnswerDetail'
+        question_id:
+          title: Question Id
+          type: integer
+      required:
+      - question_id
+      - answer
+      title: AnswerPartialResponse
+      type: object
+    AnswerRequestModel:
+      properties:
+        answer:
+          $ref: '#/components/schemas/AnswerBaseModel'
+        file_path:
+          anyOf:
+          - type: string
+          - type: 'null'
+          default: cover-letters/SK_AI_01.txt
+          title: File Path
+        interview_method:
+          default: voice
+          enum:
+          - chat
+          - voice
+          - video
+          title: Interview Method
+          type: string
+        interview_mode:
+          default: real
+          enum:
+          - real
+          - general
+          title: Interview Mode
+          type: string
+        interview_type:
+          default: technical
+          enum:
+          - technical
+          - personal
+          title: Interview Type
+          type: string
+        job_role:
+          default: ai
+          enum:
+          - frontend
+          - backend
+          - infra
+          - ai
+          title: Job Role
+          type: string
+        question:
+          $ref: '#/components/schemas/QuestionBaseModelWithId'
+        user_id:
+          anyOf:
+          - type: integer
+          - type: string
+          title: User Id
+      required:
+      - user_id
+      - question
+      - answer
+      title: AnswerRequestModel
+      type: object
+    EvaluationRequestModel:
+      properties:
+        answers:
+          items:
+            $ref: '#/components/schemas/AnswerPartialResponse'
+          title: Answers
+          type: array
+        file_paths:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          default:
+          - cover-letters/SK_AI_01.txt
+          title: File Paths
+        interview_method:
+          default: voice
+          enum:
+          - chat
+          - voice
+          - video
+          title: Interview Method
+          type: string
+        interview_mode:
+          default: real
+          enum:
+          - real
+          - general
+          title: Interview Mode
+          type: string
+        interview_type:
+          default: technical
+          enum:
+          - technical
+          - personal
+          title: Interview Type
+          type: string
+        job_role:
+          default: ai
+          enum:
+          - frontend
+          - backend
+          - infra
+          - ai
+          title: Job Role
+          type: string
+        questions:
+          items:
+            $ref: '#/components/schemas/QuestionBaseModelWithId'
+          title: Questions
+          type: array
+        user_id:
+          anyOf:
+          - type: integer
+          - type: string
+          title: User Id
+      required:
+      - user_id
+      - questions
+      - answers
+      title: EvaluationRequestModel
+      type: object
+    Feedback:
+      properties:
+        improvement:
+          title: Improvement
+          type: string
+        strengths:
+          title: Strengths
+          type: string
+        suggestion:
+          title: Suggestion
+          type: string
+      required:
+      - strengths
+      - improvement
+      - suggestion
+      title: Feedback
+      type: object
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          title: Detail
+          type: array
+      title: HTTPValidationError
+      type: object
+    MessageQueueResponse:
+      properties:
+        message:
+          title: Message
+          type: string
+        status:
+          title: Status
+          type: string
+        task_id:
+          title: Task Id
+          type: string
+      required:
+      - message
+      - task_id
+      - status
+      title: MessageQueueResponse
+      type: object
+    PersonalTextScores:
+      properties:
+        accountability:
+          $ref: '#/components/schemas/ScoreDetail'
+        communication:
+          $ref: '#/components/schemas/ScoreDetail'
+        growth_mindset:
+          $ref: '#/components/schemas/ScoreDetail'
+        problem_solving:
+          $ref: '#/components/schemas/ScoreDetail'
+        teamwork:
+          $ref: '#/components/schemas/ScoreDetail'
+      required:
+      - teamwork
+      - communication
+      - problem_solving
+      - accountability
+      - growth_mindset
+      title: PersonalTextScores
+      type: object
+    QuestionBaseModelWithId:
+      properties:
+        key_terms:
+          items:
+            type: string
+          title: Key Terms
+          type: array
+        question:
+          $ref: '#/components/schemas/QuestionDeatil'
+        question_excerpt:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Question Excerpt
+        question_id:
+          title: Question Id
+          type: integer
+        question_intent:
+          title: Question Intent
+          type: string
+      required:
+      - question
+      - question_intent
+      - key_terms
+      - question_id
+      title: QuestionBaseModelWithId
+      type: object
+    QuestionDeatil:
+      properties:
+        question_text:
+          title: Question Text
+          type: string
+        s3_audio_url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: S3 Audio Url
+        s3_video_url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: S3 Video Url
+      required:
+      - question_text
+      title: QuestionDeatil
+      type: object
+    QuestionsRequestModel:
+      properties:
+        file_paths:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          default:
+          - cover-letters/cover_letter_01.txt
+          title: File Paths
+        interview_method:
+          default: voice
+          enum:
+          - chat
+          - voice
+          - video
+          title: Interview Method
+          type: string
+        interview_mode:
+          default: real
+          enum:
+          - real
+          - general
+          title: Interview Mode
+          type: string
+        interview_type:
+          default: technical
+          enum:
+          - technical
+          - personal
+          title: Interview Type
+          type: string
+        job_role:
+          default: ai
+          enum:
+          - frontend
+          - backend
+          - infra
+          - ai
+          title: Job Role
+          type: string
+        question_count:
+          default: 1
+          title: Question Count
+          type: integer
+        user_id:
+          anyOf:
+          - type: integer
+          - type: string
+          title: User Id
+      required:
+      - user_id
+      title: QuestionsRequestModel
+      type: object
+    ScoreDetail:
+      properties:
+        rationale:
+          title: Rationale
+          type: string
+        score:
+          title: Score
+          type: integer
+      required:
+      - score
+      - rationale
+      title: ScoreDetail
+      type: object
+    Scores:
+      properties:
+        text_scores:
+          anyOf:
+          - $ref: '#/components/schemas/TechnicalTextScores'
+          - $ref: '#/components/schemas/PersonalTextScores'
+          title: Text Scores
+        voice_scores:
+          anyOf:
+          - $ref: '#/components/schemas/VoiceScores'
+          - type: 'null'
+      required:
+      - text_scores
+      - voice_scores
+      title: Scores
+      type: object
+    SimplifiedAnswerDetail:
+      properties:
+        answer_text:
+          title: Answer Text
+          type: string
+        feedback:
+          $ref: '#/components/schemas/Feedback'
+        s3_audio_url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: S3 Audio Url
+        s3_video_url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: S3 Video Url
+        scores:
+          $ref: '#/components/schemas/Scores'
+      required:
+      - answer_text
+      - scores
+      - feedback
+      title: SimplifiedAnswerDetail
+      type: object
+    TechnicalTextScores:
+      properties:
+        appropriate_response:
+          $ref: '#/components/schemas/ScoreDetail'
+        consistency:
+          $ref: '#/components/schemas/ScoreDetail'
+        grammatical_errors:
+          $ref: '#/components/schemas/ScoreDetail'
+        key_terms:
+          $ref: '#/components/schemas/ScoreDetail'
+        logical_flow:
+          $ref: '#/components/schemas/ScoreDetail'
+      required:
+      - appropriate_response
+      - logical_flow
+      - key_terms
+      - consistency
+      - grammatical_errors
+      title: TechnicalTextScores
+      type: object
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          title: Location
+          type: array
+        msg:
+          title: Message
+          type: string
+        type:
+          title: Error Type
+          type: string
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+      type: object
+    VoiceScores:
+      properties:
+        pronunciation:
+          $ref: '#/components/schemas/ScoreDetail'
+        stutter:
+          $ref: '#/components/schemas/ScoreDetail'
+        wpm:
+          $ref: '#/components/schemas/ScoreDetail'
+      required:
+      - wpm
+      - stutter
+      - pronunciation
+      title: VoiceScores
+      type: object
+info:
+  description: "\n        Devterview AI API\uB294 \uAC1C\uBC1C\uC790 \uBA74\uC811\uC744\
+    \ \uC704\uD55C \uC9C8\uBB38 \uC0DD\uC131\uACFC \uD3C9\uAC00\uB97C \uC218\uD589\
+    \uD558\uB294 API\uC785\uB2C8\uB2E4.\n        \uC774 API\uB294 \uC9C0\uC6D0\uC790\
+    \uC758 \uC790\uC18C\uC11C\uC640 \uBA74\uC811 \uB370\uC774\uD130\uB97C \uAE30\uBC18\
+    \uC73C\uB85C \uB9DE\uCDA4\uD615 \uBA74\uC811 \uC9C8\uBB38\uC744 \uC0DD\uC131\uD558\
+    \uACE0,\n        \uC9C0\uC6D0\uC790\uC758 \uB2F5\uBCC0\uC5D0 \uB300\uD55C \uD3C9\
+    \uAC00\uB97C \uC81C\uACF5\uD569\uB2C8\uB2E4.\n\n        \uC8FC\uC694 \uAE30\uB2A5\
+    :\n        - \uC790\uC18C\uC11C\uB97C \uAE30\uBC18\uC73C\uB85C \uD55C \uB9DE\uCDA4\
+    \uD615 \uBA74\uC811 \uC9C8\uBB38 \uC0DD\uC131\n        - \uAE30\uC220\uC801, \uC131\
+    \uACA9\uC801 \uBA74\uC811 \uD3C9\uAC00\n        - \uB2F5\uBCC0\uC5D0 \uB300\uD55C\
+    \ \uC138\uBD80\uC801\uC778 \uD53C\uB4DC\uBC31 \uC81C\uACF5\n        - \uC0AC\uC6A9\
+    \uC790 \uC815\uC758 \uAC00\uB2A5\uD55C \uBA74\uC811 \uC720\uD615\uACFC \uC9C1\uBB34\
+    \uC5D0 \uB530\uB978 \uC9C8\uBB38 \uBC0F \uD3C9\uAC00\n\n        \uC774 API\uB294\
+    \ \uB2E4\uC591\uD55C \uC9C1\uBB34(\uD504\uB860\uD2B8\uC5D4\uB4DC, \uBC31\uC5D4\
+    \uB4DC, \uD074\uB77C\uC6B0\uB4DC, AI \uB4F1)\uC640 \uB2E4\uC591\uD55C \uBA74\uC811\
+    \ \uBC29\uC2DD(\uC2E4\uC804 \uBA74\uC811, \uBAA8\uC758 \uBA74\uC811)\uC744\n \
+    \       \uC9C0\uC6D0\uD558\uBA70, \uAE30\uC220\uC801\uC778 \uC131\uC7A5 \uAC00\
+    \uB2A5\uC131\uACFC \uC5C5\uBB34 \uD0DC\uB3C4\uC5D0 \uB300\uD55C \uC885\uD569\uC801\
+    \uC778 \uD3C9\uAC00\uB97C \uC81C\uACF5\uD569\uB2C8\uB2E4.\n        "
+  title: Devterview AI API
+  version: 1.0.0
+openapi: 3.1.0
+paths:
+  /:
+    get:
+      operationId: ping__get
+      responses:
+        '200':
+          content:
+            application/json:
+              schema: {}
+          description: Successful Response
+      summary: Ping
+      tags:
+      - Common
+  /interview/{interview_id}/answer/{question_id}:
+    post:
+      operationId: create_answer_evaluation_interview__interview_id__answer__question_id__post
+      parameters:
+      - in: path
+        name: interview_id
+        required: true
+        schema:
+          title: Interview Id
+          type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AnswerRequestModel'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MessageQueueResponse'
+          description: Successful Response
+        '422':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+          description: Validation Error
+      summary: Create Answer Evaluation
+      tags:
+      - Interview
+      - Interview
+  /interview/{interview_id}/evaluation:
+    post:
+      operationId: create_overall_evaluation_interview__interview_id__evaluation_post
+      parameters:
+      - in: path
+        name: interview_id
+        required: true
+        schema:
+          anyOf:
+          - type: integer
+          - type: string
+          title: Interview Id
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EvaluationRequestModel'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MessageQueueResponse'
+          description: Successful Response
+        '422':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+          description: Validation Error
+      summary: Create Overall Evaluation
+      tags:
+      - Interview
+      - Interview
+  /interview/{interview_id}/questions:
+    post:
+      operationId: create_interview_questions_interview__interview_id__questions_post
+      parameters:
+      - in: path
+        name: interview_id
+        required: true
+        schema:
+          anyOf:
+          - type: integer
+          - type: string
+          title: Interview Id
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/QuestionsRequestModel'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MessageQueueResponse'
+          description: Successful Response
+        '422':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+          description: Validation Error
+      summary: Create Interview Questions
+      tags:
+      - Interview
+      - Interview
+  /tasks/{task_id}:
+    get:
+      operationId: get_task_status_tasks__task_id__get
+      parameters:
+      - in: path
+        name: task_id
+        required: true
+        schema:
+          title: Task Id
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema: {}
+          description: Successful Response
+        '422':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+          description: Validation Error
+      summary: Get Task Status
+      tags:
+      - Task
