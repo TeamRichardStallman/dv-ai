@@ -88,19 +88,68 @@ class QuestionGenerator(BaseGenerator):
             metadata_field_info=ResourceLoader.get_metadata_field_info(),
         )
         self.multiquery_retriever = MultiQueryRetriever.from_llm(llm=self.llm, retriever=self.retriever)
+        self.query_cache = {}  # Initialize cache
 
-    @staticmethod
-    def _fallback_questions(keywords: List[str]) -> List[str]:
-        """Provides default questions in case of an error."""
-        return [
-            (
-                f"What are the key differences between {keywords[0]} and {keywords[1]}?"
-                if len(keywords) > 1
-                else "What is the role of this concept in software development?"
-            ),
-            "Can you explain the advantages of using this technique?",
-            "What are the common use cases for this approach?",
-        ]
+    def _generate_reference(self, text: str) -> str:
+        """Generates summarized reference data and retrieves related documents."""
+        try:
+            if self.request_data.interview_mode == "real" and self.request_data.interview_type == "technical":
+                keywords = self._extract_keywords(text)
+                print(f"Extracted Keywords: {keywords}")
+
+                # Use keywords as a cache key
+                cache_key = tuple(sorted(keywords))
+                if cache_key in self.query_cache:
+                    print("Using cached results")
+                    return self.query_cache[cache_key]
+
+                # Combine multiple keywords into a single batch query
+                combined_query = " OR ".join([f'"{keyword}"' for keyword in keywords])
+
+                # Initialize compressor
+                compressor = self._initialize_compressor()
+
+                retriever = (
+                    ContextualCompressionRetriever(base_compressor=compressor, base_retriever=self.multiquery_retriever)
+                    if compressor
+                    else self.multiquery_retriever
+                )
+
+                tools = [
+                    TavilySearchResults(k=6),
+                    create_retriever_tool(
+                        retriever,
+                        name="question_search",
+                        description="Use this tool to extract questions where the metadata key 'category' matches any of the given keywords, focusing on retrieving relevant technical questions.",
+                    ),
+                ]
+
+                prompt = ChatPromptTemplate.from_messages(
+                    [
+                        (
+                            "system",
+                            "You are a helpful assistant. Use the `question_search` tool to find relevant questions "
+                            "matching the metadata key 'category' and given keywords. If you cannot find suitable information using `question_search`, switch to "
+                            "the `search` tool to perform a broader web search.",
+                        ),
+                        ("human", "{input}"),
+                        ("placeholder", "{agent_scratchpad}"),
+                    ]
+                )
+
+                agent = create_tool_calling_agent(self.llm, tools, prompt)
+                agent_executor = AgentExecutor(agent=agent, tools=tools, verbose=False)
+
+                # Execute query in batch
+                docs = agent_executor.invoke({"input": combined_query})
+
+                # Cache the results
+                self.query_cache[cache_key] = docs
+                return docs
+            return ""
+        except Exception as e:
+            print(f"Error in generating reference: {e}")
+            return "Error occurred while generating reference data."
 
     def _extract_keywords(self, text: str) -> List[str]:
         """Extracts technical keywords using LLM."""
@@ -133,51 +182,6 @@ class QuestionGenerator(BaseGenerator):
                 time.sleep(delay)
         print("Failed to initialize FlashrankRerank. Proceeding without compression.")
         return None
-
-    def _generate_reference(self, text: str) -> str:
-        """Generates summarized reference data and retrieves related documents."""
-        try:
-            if self.request_data.interview_mode == "real" and self.request_data.interview_type == "technical":
-                keywords = self._extract_keywords(text)
-                print(f"Extracted Keywords: {keywords}")
-
-                compressor = self._initialize_compressor()
-                retriever = (
-                    ContextualCompressionRetriever(base_compressor=compressor, base_retriever=self.multiquery_retriever)
-                    if compressor
-                    else self.multiquery_retriever
-                )
-
-                tools = [
-                    TavilySearchResults(k=6),
-                    create_retriever_tool(
-                        retriever,
-                        name="question_search",
-                        description="Use this tool to extract questions where the metadata key 'category' matches any of the given keywords, focusing on retrieving relevant technical questions.",
-                    ),
-                ]
-
-                prompt = ChatPromptTemplate.from_messages(
-                    [
-                        (
-                            "system",
-                            "You are a helpful assistant. Use the `question_search` tool to find relevant questions "
-                            "matching the metadata key 'category' and given keywords. If you cannot find suitable information using `question_search`, switch to "
-                            "the `search` tool to perform a broader web search.",
-                        ),
-                        ("human", "{input}"),
-                        ("placeholder", "{agent_scratchpad}"),
-                    ]
-                )
-
-                agent = create_tool_calling_agent(self.llm, tools, prompt)
-                agent_executor = AgentExecutor(agent=agent, tools=tools, verbose=False)
-                docs = agent_executor.invoke({"input": keywords})
-                return docs.get("output")
-            return ""
-        except Exception as e:
-            print(f"Error in generating reference: {e}")
-            return "Error occurred while generating reference data."
 
     @traceable
     def generate_questions(
