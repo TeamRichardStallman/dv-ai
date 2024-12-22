@@ -89,38 +89,6 @@ class QuestionGenerator(BaseGenerator):
         )
         self.multiquery_retriever = MultiQueryRetriever.from_llm(llm=self.llm, retriever=self.retriever)
 
-    def _build_query(self, keywords: List[str]) -> List[str]:
-        """
-        Builds multiple variations of a predefined technical question
-        based on the provided keywords using an LLM.
-        """
-        try:
-            original_question = "What is the difference between an abstract class and an interface in Java?"
-            prompt_template = PromptTemplate(
-                template="""
-                You are an AI assistant specialized in generating technical interview questions. 
-                Generate five different versions of the following technical question, focusing on 
-                the related technical keywords provided.
-
-                ORIGINAL QUESTION:
-                {original_question}
-
-                RELATED KEYWORDS:
-                {keywords}
-
-                Return a list of alternative questions separated by new lines.
-                """
-            )
-            prompt = prompt_template.format_prompt(
-                original_question=original_question,
-                keywords=", ".join(keywords),
-            )
-            response = self.llm.invoke(prompt).content
-            return [query.strip() for query in response.split("\n") if query.strip()]
-        except Exception as e:
-            print(f"Error in generating queries: {e}")
-            return self._fallback_questions(keywords)
-
     @staticmethod
     def _fallback_questions(keywords: List[str]) -> List[str]:
         """Provides default questions in case of an error."""
@@ -174,8 +142,6 @@ class QuestionGenerator(BaseGenerator):
                 print(f"Extracted Keywords: {keywords}")
 
                 compressor = self._initialize_compressor()
-                multi_queries = self._build_query(keywords)
-
                 retriever = (
                     ContextualCompressionRetriever(base_compressor=compressor, base_retriever=self.multiquery_retriever)
                     if compressor
@@ -187,7 +153,7 @@ class QuestionGenerator(BaseGenerator):
                     create_retriever_tool(
                         retriever,
                         name="question_search",
-                        description="Use this tool to search relevant questions from the question document.",
+                        description="Use this tool to extract questions where the metadata key 'category' matches any of the given keywords, focusing on retrieving relevant technical questions.",
                     ),
                 ]
 
@@ -195,10 +161,9 @@ class QuestionGenerator(BaseGenerator):
                     [
                         (
                             "system",
-                            "You are a helpful assistant. Your primary task is to use the `question_search` tool to find relevant questions "
-                            "from the question document. If you cannot find suitable information using `question_search`, then switch to "
-                            "the `search` tool to perform a broader web search. Always ensure that your responses are based on the most relevant information "
-                            "retrieved from these tools.",
+                            "You are a helpful assistant. Use the `question_search` tool to find relevant questions "
+                            "matching the metadata key 'category' and given keywords. If you cannot find suitable information using `question_search`, switch to "
+                            "the `search` tool to perform a broader web search.",
                         ),
                         ("human", "{input}"),
                         ("placeholder", "{agent_scratchpad}"),
@@ -207,8 +172,8 @@ class QuestionGenerator(BaseGenerator):
 
                 agent = create_tool_calling_agent(self.llm, tools, prompt)
                 agent_executor = AgentExecutor(agent=agent, tools=tools, verbose=False)
-                docs: Dict = agent_executor.invoke({"input": multi_queries})
-                return docs
+                docs = agent_executor.invoke({"input": keywords})
+                return docs.get("output")
             return ""
         except Exception as e:
             print(f"Error in generating reference: {e}")
@@ -222,6 +187,7 @@ class QuestionGenerator(BaseGenerator):
         try:
             parser = PydanticOutputParser(pydantic_object=QuestionsResponseModel)
 
+            # Prepare dynamic prompt
             prepared_prompt = questions_prompt.partial(
                 job_role=self.request_data.job_role,
                 question_count=self.request_data.question_count,
@@ -229,6 +195,7 @@ class QuestionGenerator(BaseGenerator):
                 interview_id=interview_id,
             )
 
+            # Create and execute chain
             chain = (
                 {
                     "cover_letter": itemgetter("cover_letter"),
