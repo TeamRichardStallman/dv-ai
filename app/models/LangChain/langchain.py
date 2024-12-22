@@ -1,27 +1,26 @@
 import time
+import os
 from operator import itemgetter
-from typing import List, Literal, Union
+from typing import List, Literal, Union, Dict
 
 from langchain.chains.query_constructor.base import AttributeInfo
-from langchain.chains.summarize.chain import load_summarize_chain
-from langchain.docstore.document import Document
 from langchain.storage import InMemoryByteStore
 from langchain.embeddings import CacheBackedEmbeddings
 from langchain.retrievers import ContextualCompressionRetriever
 from langchain.retrievers.document_compressors import FlashrankRerank
 from langchain.retrievers.self_query.base import SelfQueryRetriever
-from langchain.retrievers.self_query.chroma import ChromaTranslator
 from langchain.retrievers.multi_query import MultiQueryRetriever
 from langchain_chroma import Chroma
-from langchain_core.output_parsers import PydanticOutputParser, CommaSeparatedListOutputParser, StrOutputParser
+from langchain_core.output_parsers import PydanticOutputParser, CommaSeparatedListOutputParser
 from langchain_core.prompts import (
     ChatPromptTemplate,
-    HumanMessagePromptTemplate,
     PromptTemplate,
-    SystemMessagePromptTemplate,
 )
-from langchain_core.runnables import RunnableLambda, RunnablePassthrough
+from langchain_core.runnables import RunnableLambda
 from langchain_openai import ChatOpenAI, OpenAIEmbeddings
+from langchain.tools.retriever import create_retriever_tool
+from langchain_community.tools.tavily_search import TavilySearchResults
+from langchain.agents import create_tool_calling_agent, AgentExecutor
 from langsmith import traceable
 
 from app.core.config import Config
@@ -32,6 +31,8 @@ from app.schemas.evaluation import (
     TechnicalEvaluationResponseModel,
 )
 from app.schemas.question import QuestionsRequestModel, QuestionsResponseModel
+
+os.environ["TAVILY_API_KEY"] = "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"
 
 
 # Preloading reusable resources
@@ -94,53 +95,64 @@ class QuestionGenerator(BaseGenerator):
         based on the provided keywords using an LLM.
         """
         try:
-            # Predefined original question
             original_question = "What is the difference between an abstract class and an interface in Java?"
-
-            # Define the reusable prompt template
             prompt_template = PromptTemplate(
                 template="""
-            You are an AI assistant specialized in generating technical interview questions. 
-            Your task is to generate five different versions of the following technical question 
-            by focusing on the related technical keywords provided.
+                You are an AI assistant specialized in generating technical interview questions. 
+                Generate five different versions of the following technical question, focusing on 
+                the related technical keywords provided.
 
-            ORIGINAL QUESTION:
-            {original_question}
+                ORIGINAL QUESTION:
+                {original_question}
 
-            RELATED KEYWORDS:
-            {keywords}
+                RELATED KEYWORDS:
+                {keywords}
 
-            Generate a list of alternative questions that are varied and focus on the technical aspects 
-            of the keywords. Return them as a list separated by new lines.
-            """
+                Return a list of alternative questions separated by new lines.
+                """
             )
-
-            # Dynamically format the prompt with inputs
             prompt = prompt_template.format_prompt(
                 original_question=original_question,
                 keywords=", ".join(keywords),
             )
-
-            return self.llm.invoke(prompt).content
+            response = self.llm.invoke(prompt).content
+            return [query.strip() for query in response.split("\n") if query.strip()]
         except Exception as e:
-            # Graceful error handling
             print(f"Error in generating queries: {e}")
-            return []
+            return self._fallback_questions(keywords)
+
+    @staticmethod
+    def _fallback_questions(keywords: List[str]) -> List[str]:
+        """Provides default questions in case of an error."""
+        return [
+            (
+                f"What are the key differences between {keywords[0]} and {keywords[1]}?"
+                if len(keywords) > 1
+                else "What is the role of this concept in software development?"
+            ),
+            "Can you explain the advantages of using this technique?",
+            "What are the common use cases for this approach?",
+        ]
 
     def _extract_keywords(self, text: str) -> List[str]:
         """Extracts technical keywords using LLM."""
-        output_parser = CommaSeparatedListOutputParser()
-        prompt = PromptTemplate(
-            template="""Extract the main technical skills and tools mentioned in the following cover letter:
-            {cover_letter}
-            
-            Return them as a comma-separated list.
-            """,
-            input_variables=["cover_letter"],
-            partial_variables={"format_instructions": output_parser.get_format_instructions()},
-        )
-        chain = prompt | self.llm | output_parser
-        return chain.invoke(text)
+        try:
+            output_parser = CommaSeparatedListOutputParser()
+            prompt_template = PromptTemplate(
+                template="""
+                Extract the main technical skills and tools mentioned in the following text:
+                {cover_letter}
+
+                Return them as a comma-separated list.
+                """,
+                input_variables=["cover_letter"],
+                partial_variables={"format_instructions": output_parser.get_format_instructions()},
+            )
+            chain = prompt_template | self.llm | output_parser
+            return chain.invoke(text)
+        except Exception as e:
+            print(f"Error in extracting keywords: {e}")
+            return ["Java", "Python", "Redis", "MongoDB", "AWS"]
 
     def _initialize_compressor(self, max_retries=5, delay=2):
         """Initializes a document compressor with retry logic."""
@@ -156,51 +168,80 @@ class QuestionGenerator(BaseGenerator):
 
     def _generate_reference(self, text: str) -> str:
         """Generates summarized reference data and retrieves related documents."""
-        if self.request_data.interview_mode == "real" and self.request_data.interview_type == "technical":
-            keywords = self._extract_keywords(text)
-            print(f"Extracted Keywords: {keywords}")
+        try:
+            if self.request_data.interview_mode == "real" and self.request_data.interview_type == "technical":
+                keywords = self._extract_keywords(text)
+                print(f"Extracted Keywords: {keywords}")
 
-            compressor = self._initialize_compressor()
-            multi_queries = self._build_query(keywords)
-            print("나오긴 함?", multi_queries)
-            retriever = (
-                ContextualCompressionRetriever(base_compressor=compressor, base_retriever=self.multiquery_retriever)
-                if compressor
-                else self.multiquery_retriever
-            )
+                compressor = self._initialize_compressor()
+                multi_queries = self._build_query(keywords)
 
-            docs = retriever.invoke(multi_queries)
-            return "\n\n".join([doc.page_content for doc in docs])
+                retriever = (
+                    ContextualCompressionRetriever(base_compressor=compressor, base_retriever=self.multiquery_retriever)
+                    if compressor
+                    else self.multiquery_retriever
+                )
 
-        return ""
+                tools = [
+                    TavilySearchResults(k=6),
+                    create_retriever_tool(
+                        retriever,
+                        name="question_search",
+                        description="Use this tool to search relevant questions from the question document.",
+                    ),
+                ]
+
+                prompt = ChatPromptTemplate.from_messages(
+                    [
+                        (
+                            "system",
+                            "You are a helpful assistant. Your primary task is to use the `question_search` tool to find relevant questions "
+                            "from the question document. If you cannot find suitable information using `question_search`, then switch to "
+                            "the `search` tool to perform a broader web search. Always ensure that your responses are based on the most relevant information "
+                            "retrieved from these tools.",
+                        ),
+                        ("human", "{input}"),
+                        ("placeholder", "{agent_scratchpad}"),
+                    ]
+                )
+
+                agent = create_tool_calling_agent(self.llm, tools, prompt)
+                agent_executor = AgentExecutor(agent=agent, tools=tools, verbose=False)
+                docs: Dict = agent_executor.invoke({"input": multi_queries})
+                return docs
+            return ""
+        except Exception as e:
+            print(f"Error in generating reference: {e}")
+            return "Error occurred while generating reference data."
 
     @traceable
     def generate_questions(
         self, questions_prompt: PromptTemplate, additional_context: str, interview_id: int
     ) -> QuestionsResponseModel:
         """Generates interview questions based on prompts and context."""
-        parser = PydanticOutputParser(pydantic_object=QuestionsResponseModel)
+        try:
+            parser = PydanticOutputParser(pydantic_object=QuestionsResponseModel)
 
-        # Prepare dynamic prompt
-        prepared_prompt = questions_prompt.partial(
-            job_role=self.request_data.job_role,
-            question_count=self.request_data.question_count,
-            user_id=self.request_data.user_id,
-            interview_id=interview_id,
-        )
+            prepared_prompt = questions_prompt.partial(
+                job_role=self.request_data.job_role,
+                question_count=self.request_data.question_count,
+                user_id=self.request_data.user_id,
+                interview_id=interview_id,
+            )
 
-        # Create and execute chain
-        chain = (
-            {
-                "cover_letter": itemgetter("cover_letter"),
-                "reference": itemgetter("cover_letter") | RunnableLambda(self._generate_reference),
-            }
-            | prepared_prompt
-            | self.llm
-            | parser
-        )
-
-        return chain.invoke({"cover_letter": additional_context})
+            chain = (
+                {
+                    "cover_letter": itemgetter("cover_letter"),
+                    "reference": itemgetter("cover_letter") | RunnableLambda(self._generate_reference),
+                }
+                | prepared_prompt
+                | self.llm
+                | parser
+            )
+            return chain.invoke({"cover_letter": additional_context})
+        except Exception as e:
+            print(f"Error in generating questions: {e}")
+            raise RuntimeError("Failed to generate questions.") from e
 
 
 class EvaluationGenerator(BaseGenerator):
