@@ -1,26 +1,23 @@
-import time
 import os
+import time
 from operator import itemgetter
-from typing import List, Literal, Union, Dict
+from typing import List, Literal, Union
 
+from langchain.agents import AgentExecutor, create_tool_calling_agent
 from langchain.chains.query_constructor.base import AttributeInfo
-from langchain.storage import InMemoryByteStore
 from langchain.embeddings import CacheBackedEmbeddings
 from langchain.retrievers import ContextualCompressionRetriever
 from langchain.retrievers.document_compressors import FlashrankRerank
-from langchain.retrievers.self_query.base import SelfQueryRetriever
 from langchain.retrievers.multi_query import MultiQueryRetriever
+from langchain.retrievers.self_query.base import SelfQueryRetriever
+from langchain.storage import InMemoryByteStore
+from langchain.tools.retriever import create_retriever_tool
 from langchain_chroma import Chroma
-from langchain_core.output_parsers import PydanticOutputParser, CommaSeparatedListOutputParser
-from langchain_core.prompts import (
-    ChatPromptTemplate,
-    PromptTemplate,
-)
+from langchain_community.tools.tavily_search import TavilySearchResults
+from langchain_core.output_parsers import CommaSeparatedListOutputParser, PydanticOutputParser
+from langchain_core.prompts import ChatPromptTemplate, PromptTemplate
 from langchain_core.runnables import RunnableLambda
 from langchain_openai import ChatOpenAI, OpenAIEmbeddings
-from langchain.tools.retriever import create_retriever_tool
-from langchain_community.tools.tavily_search import TavilySearchResults
-from langchain.agents import create_tool_calling_agent, AgentExecutor
 from langsmith import traceable
 
 from app.core.config import Config

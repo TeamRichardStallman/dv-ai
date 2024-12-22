@@ -1,4 +1,5 @@
 from langchain_core.prompts import PromptTemplate, load_prompt
+
 from app.schemas.evaluation import EvaluationRequestModel
 
 # Predefine the prompt mapping for clarity and efficiency
