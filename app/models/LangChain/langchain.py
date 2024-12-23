@@ -1,5 +1,6 @@
 import os
 import time
+import logging
 from operator import itemgetter
 from typing import List, Literal, Union
 
@@ -87,65 +88,73 @@ class QuestionGenerator(BaseGenerator):
         self.multiquery_retriever = MultiQueryRetriever.from_llm(llm=self.llm, retriever=self.retriever)
         self.query_cache = {}  # Initialize cache
 
+    def _log(self, message: str):
+        """Log a message for debugging."""
+        logger = logging.getLogger(__name__)
+        logger.info(message)
+
     def _generate_reference(self, text: str) -> str:
         """Generates summarized reference data and retrieves related documents."""
         try:
-            if self.request_data.interview_mode == "real" and self.request_data.interview_type == "technical":
-                keywords = self._extract_keywords(text)
-                print(f"Extracted Keywords: {keywords}")
+            if self.request_data.interview_mode != "real" or self.request_data.interview_type != "technical":
+                return ""
 
-                # Use keywords as a cache key
-                cache_key = tuple(sorted(keywords))
-                if cache_key in self.query_cache:
-                    print("Using cached results")
-                    return self.query_cache[cache_key]
+            keywords = self._extract_keywords(text)
+            self._log(f"Extracted Keywords: {keywords}")
 
-                # Combine multiple keywords into a single batch query
-                combined_query = " OR ".join([f'"{keyword}"' for keyword in keywords])
+            # Use keywords as a cache key
+            cache_key = tuple(sorted(keywords))
+            if cache_key in self.query_cache:
+                self._log("Using cached results")
+                return self.query_cache[cache_key]
 
-                # Initialize compressor
-                compressor = self._initialize_compressor()
+            queries = [f'"{keyword}"' for keyword in keywords]
+            batch_inputs = [{"input": query} for query in queries]
 
-                retriever = (
-                    ContextualCompressionRetriever(base_compressor=compressor, base_retriever=self.multiquery_retriever)
-                    if compressor
-                    else self.multiquery_retriever
-                )
+            # Initialize compressor
+            compressor = self._initialize_compressor()
+            retriever = (
+                ContextualCompressionRetriever(base_compressor=compressor, base_retriever=self.retriever)
+                if compressor
+                else self.multiquery_retriever
+            )
 
-                tools = [
-                    TavilySearchResults(k=6),
-                    create_retriever_tool(
-                        retriever,
-                        name="question_search",
-                        description="Use this tool to extract questions where the metadata key 'category' matches any of the given keywords, focusing on retrieving relevant technical questions.",
+            tools = [
+                TavilySearchResults(k=6),
+                create_retriever_tool(
+                    retriever,
+                    name="question_search",
+                    description="Use this tool to extract questions where the metadata key 'category' matches any of the given keywords, focusing on retrieving relevant technical questions.",
+                ),
+            ]
+
+            prompt = ChatPromptTemplate.from_messages(
+                [
+                    (
+                        "system",
+                        "You are a helpful assistant. Use the `question_search` tool to find relevant questions "
+                        "matching the metadata key 'category' and given keywords. If you cannot find suitable information using `question_search`, switch to "
+                        "the `search` tool to perform a broader web search.",
                     ),
+                    ("human", "{input}"),
+                    ("placeholder", "{agent_scratchpad}"),
                 ]
+            )
 
-                prompt = ChatPromptTemplate.from_messages(
-                    [
-                        (
-                            "system",
-                            "You are a helpful assistant. Use the `question_search` tool to find relevant questions "
-                            "matching the metadata key 'category' and given keywords. If you cannot find suitable information using `question_search`, switch to "
-                            "the `search` tool to perform a broader web search.",
-                        ),
-                        ("human", "{input}"),
-                        ("placeholder", "{agent_scratchpad}"),
-                    ]
-                )
+            agent = create_tool_calling_agent(self.llm, tools, prompt)
+            agent_executor = AgentExecutor(agent=agent, tools=tools, verbose=False)
 
-                agent = create_tool_calling_agent(self.llm, tools, prompt)
-                agent_executor = AgentExecutor(agent=agent, tools=tools, verbose=False)
+            # Execute query in batch
+            responses = agent_executor.batch(batch_inputs, return_only_outputs=True)
 
-                # Execute query in batch
-                docs = agent_executor.invoke({"input": combined_query})
+            outputs = [response["output"] for response in responses if "output" in response]
 
-                # Cache the results
-                self.query_cache[cache_key] = docs
-                return docs
-            return ""
+            # Cache the results
+            combined_results = "\n\n".join(outputs)
+            self.query_cache[cache_key] = combined_results
+            return combined_results
         except Exception as e:
-            print(f"Error in generating reference: {e}")
+            self._log(f"Error in generating reference: {e}")
             return "Error occurred while generating reference data."
 
     def _extract_keywords(self, text: str) -> List[str]:
@@ -154,30 +163,33 @@ class QuestionGenerator(BaseGenerator):
             output_parser = CommaSeparatedListOutputParser()
             prompt_template = PromptTemplate(
                 template="""
-                Extract the main technical skills and tools mentioned in the following text:
+                You are an expert in identifying technical skills and tools.
+                Extract the 3 most relevant technical skills and tools mentioned in the following text, focusing specifically on the job role: {job_role}.
+                
+                TEXT:
                 {cover_letter}
 
                 Return them as a comma-separated list.
                 """,
-                input_variables=["cover_letter"],
+                input_variables=["cover_letter", "job_role"],
                 partial_variables={"format_instructions": output_parser.get_format_instructions()},
             )
             chain = prompt_template | self.llm | output_parser
-            return chain.invoke(text)
+            return chain.invoke({"cover_letter": text, "job_role": self.request_data.job_role})
         except Exception as e:
-            print(f"Error in extracting keywords: {e}")
-            return ["Java", "Python", "Redis", "MongoDB", "AWS"]
+            self._log(f"Error in extracting keywords: {e}")
+            return ["Java", "Python", "Redis"]  # Fallback default keywords
 
     def _initialize_compressor(self, max_retries=5, delay=2):
         """Initializes a document compressor with retry logic."""
         for attempt in range(max_retries):
             try:
-                print(f"Attempt {attempt + 1}/{max_retries} to initialize FlashrankRerank...")
+                self._log(f"Attempt {attempt + 1}/{max_retries} to initialize FlashrankRerank...")
                 return FlashrankRerank(model="ms-marco-MultiBERT-L-12")
             except Exception as e:
-                print(f"Error on attempt {attempt + 1}: {e}")
+                self._log(f"Error on attempt {attempt + 1}: {e}")
                 time.sleep(delay)
-        print("Failed to initialize FlashrankRerank. Proceeding without compression.")
+        self._log("Failed to initialize FlashrankRerank. Proceeding without compression.")
         return None
 
     @traceable
@@ -208,7 +220,7 @@ class QuestionGenerator(BaseGenerator):
             )
             return chain.invoke({"cover_letter": additional_context})
         except Exception as e:
-            print(f"Error in generating questions: {e}")
+            self._log(f"Error in generating questions: {e}")
             raise RuntimeError("Failed to generate questions.") from e
 
 

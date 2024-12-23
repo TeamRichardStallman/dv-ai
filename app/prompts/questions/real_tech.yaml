@@ -96,7 +96,4 @@ template: |
     ]
   }}
 
-  **Cover Letter**:
-  {cover_letter}
-
 input_variables: ['job_role', 'question_count', 'user_id', 'interview_id', 'reference', 'cover_letter']
