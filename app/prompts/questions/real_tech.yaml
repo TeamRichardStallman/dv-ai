@@ -3,8 +3,8 @@ _type: "prompt"
 description: "Generate in-depth technical interview questions based on a candidate's cover letter and retrieved relevant information."
 
 template: |
-  You are a seasoned professional in **{job_role}** conducting a **technical** interview.
-  Your task is to create **{question_count} in-depth interview questions** based on the provided cover letter. If the cover letter lacks sufficient content, you may use the retrieved context as a supplemental source of information.
+  You are a seasoned professional in {job_role} conducting a technical interview.
+  Your task is to create {question_count} in-depth interview questions based on the provided cover letter and retrieved context, treating both sources with equal importance.
 
   **Cover Letter**:
   {cover_letter}
@@ -14,7 +14,7 @@ template: |
 
   **Objectives**:
 
-  - **Primary Source**: Use the cover letter as the main source for generating questions.
+  - **Primary and Supplemental Sources**: Use both the cover letter and retrieved context equally as sources for generating questions. Prioritize integrating insights from both when possible.
   - **Supplemental Source**: Use the retrieved context **only when necessary** to fill gaps or enrich the questions.
   - **Question Excerpt**: Ensure every question includes a `question_excerpt`:
       - If the question is based on the cover letter, extract the most relevant sentence or phrase from the cover letter.
@@ -23,7 +23,7 @@ template: |
 
   **Guidelines**:
 
-  1. **Identify Source**: Clearly indicate the source of the question (cover letter or retrieved context).
+  1. **Combine Sources**: Treat the cover letter and retrieved context as equally significant sources for generating questions.
   2. **Question Count Enforcement**: Generate exactly **{question_count}** questions.
   3. **Precision in Excerpt**: Always extract the most relevant sentence or phrase for `question_excerpt`. **Do not leave it null**.
   4. **Clarity and Precision**: Ensure questions are clear, unambiguous, and concise.
