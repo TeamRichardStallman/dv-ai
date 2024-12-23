@@ -1,6 +1,5 @@
-import os
-import time
 import logging
+import time
 from operator import itemgetter
 from typing import List, Literal, Union
 
@@ -29,8 +28,6 @@ from app.schemas.evaluation import (
     TechnicalEvaluationResponseModel,
 )
 from app.schemas.question import QuestionsRequestModel, QuestionsResponseModel
-
-os.environ["TAVILY_API_KEY"] = "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"
 
 
 # Preloading reusable resources
@@ -165,7 +162,7 @@ class QuestionGenerator(BaseGenerator):
                 template="""
                 You are an expert in identifying technical skills and tools.
                 Extract the 3 most relevant technical skills and tools mentioned in the following text, focusing specifically on the job role: {job_role}.
-                
+
                 TEXT:
                 {cover_letter}
 
