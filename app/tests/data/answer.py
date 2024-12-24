@@ -1,8 +1,8 @@
-from app.schemas.answer import AnswerRequestModel, AnswerResponseModel
+from app.schemas.answer import AnswerRequestModel, TechnicalAnswerResponseModel
 
 ANSWER_REQUEST_DATA: AnswerRequestModel = {}
 
-ANSWER_RESPONSE_DATA: AnswerResponseModel = {
+ANSWER_RESPONSE_DATA: TechnicalAnswerResponseModel = {
     "user_id": 1,
     "interview_id": 1,
     "question_id": 1,

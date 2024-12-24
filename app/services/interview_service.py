@@ -9,7 +9,7 @@ from openai import OpenAI
 from app.models.LangChain.langchain import EvaluationGenerator, QuestionGenerator
 
 # from app.models.openai.gpt import ContentGenerator
-from app.schemas.answer import AnswerRequestModel, AnswerResponseModel
+from app.schemas.answer import AnswerRequestModel, PersonalAnswerResponseModel, TechnicalAnswerResponseModel
 from app.schemas.evaluation import (
     EvaluationRequestModel,
     PersonalEvaluationResponseModel,
@@ -91,7 +91,7 @@ def process_overall_evaluation(
 async def process_answer_evaluation(
     interview_id: int,
     request_data: AnswerRequestModel,
-) -> AnswerResponseModel:
+) -> Union[TechnicalAnswerResponseModel, PersonalAnswerResponseModel]:
     s3_service = get_s3_service()
     stt_service = get_stt_service(model_name="whisper")
 

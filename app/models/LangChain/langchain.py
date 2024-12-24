@@ -22,7 +22,7 @@ from langchain_openai import ChatOpenAI, OpenAIEmbeddings
 from langsmith import traceable
 
 from app.core.config import Config
-from app.schemas.answer import AnswerResponseModel
+from app.schemas.answer import PersonalAnswerResponseModel, TechnicalAnswerResponseModel
 from app.schemas.evaluation import (
     EvaluationRequestModel,
     PersonalEvaluationResponseModel,
@@ -195,7 +195,12 @@ class EvaluationGenerator(BaseGenerator):
         evaluation_prompt: str,
         qa_input: str,
         choice: Literal["answer", "evaluation"],
-    ) -> Union[TechnicalEvaluationResponseModel, PersonalEvaluationResponseModel, AnswerResponseModel]:
+    ) -> Union[
+        TechnicalAnswerResponseModel,
+        PersonalAnswerResponseModel,
+        TechnicalEvaluationResponseModel,
+        PersonalEvaluationResponseModel,
+    ]:
         parser = self._get_parser(choice)
 
         chat_prompt = ChatPromptTemplate.from_messages(
@@ -206,11 +211,17 @@ class EvaluationGenerator(BaseGenerator):
         )
 
         chain = chat_prompt | self.llm | parser
+
         return chain.invoke({"qa_input": qa_input})
 
     def _get_parser(self, choice: Literal["answer", "evaluation"]):
         if choice == "answer":
-            return PydanticOutputParser(pydantic_object=AnswerResponseModel)
+            if self.request_data.interview_type == "technical":
+                return PydanticOutputParser(pydantic_object=TechnicalAnswerResponseModel)
+            elif self.request_data.interview_type == "personal":
+                return PydanticOutputParser(pydantic_object=PersonalAnswerResponseModel)
+            else:
+                raise ValueError(f"Invalid interview type: {self.request_data.interview_type}")
         elif choice == "evaluation":
             if self.request_data.interview_type == "technical":
                 return PydanticOutputParser(pydantic_object=TechnicalEvaluationResponseModel)

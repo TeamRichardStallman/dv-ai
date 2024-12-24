@@ -6,7 +6,7 @@ from chromadb.utils.embedding_functions import OpenAIEmbeddingFunction
 from openai import OpenAI
 
 from app.core.config import Config
-from app.schemas.answer import AnswerResponseModel
+from app.schemas.answer import PersonalAnswerResponseModel, TechnicalAnswerResponseModel
 from app.schemas.evaluation import (
     EvaluationRequestModel,
     PersonalEvaluationResponseModel,
@@ -64,7 +64,10 @@ class ContentGenerator:
             return QuestionsResponseModel(**parsed_content)
         elif choice == "answer":
             parsed_content = ensure_feedback_fields(parsed_content)
-            return AnswerResponseModel(**parsed_content)
+            if self.request_data.interview_type == "technical":
+                return TechnicalAnswerResponseModel(**parsed_content)
+            elif self.request_data.interview_type == "personal":
+                return PersonalAnswerResponseModel(**parsed_content)
         elif choice == "evaluation":
             if self.request_data.interview_type == "technical":
                 return TechnicalEvaluationResponseModel(**parsed_content)

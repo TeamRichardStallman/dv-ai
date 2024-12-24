@@ -2,7 +2,7 @@ from typing import List, Union
 
 from pydantic import BaseModel
 
-from app.schemas.answer import ScoreDetail, Scores
+from app.schemas.answer import PersonalTextScores, ScoreDetail, TechnicalTextScores, VoiceScores
 from app.schemas.base import BaseRequest
 from app.schemas.question import QuestionBaseModelWithId
 
@@ -11,6 +11,11 @@ class Feedback(BaseModel):
     strengths: str
     improvement: str
     suggestion: str
+
+
+class Scores(BaseModel):
+    text_scores: Union[TechnicalTextScores, PersonalTextScores]
+    voice_scores: Union[VoiceScores, None]
 
 
 class SimplifiedAnswerDetail(BaseModel):
