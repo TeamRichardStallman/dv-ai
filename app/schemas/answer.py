@@ -33,8 +33,13 @@ class VoiceScores(BaseModel):
     pronunciation: ScoreDetail
 
 
-class Scores(BaseModel):
-    text_scores: Union[TechnicalTextScores, PersonalTextScores]
+class TechnicalScores(BaseModel):
+    text_scores: TechnicalTextScores
+    voice_scores: Union[VoiceScores, None]
+
+
+class PersonalScores(BaseModel):
+    text_scores: PersonalTextScores
     voice_scores: Union[VoiceScores, None]
 
 
@@ -44,11 +49,19 @@ class Feedback(BaseModel):
     suggestion: str
 
 
-class AnswerDetail(BaseModel):
+class TechnicalAnswerDetail(BaseModel):
     answer_text: str
     s3_audio_url: Union[str, None] = None
     s3_video_url: Union[str, None] = None
-    scores: Scores
+    scores: TechnicalScores
+    feedback: Feedback
+
+
+class PersonalAnswerDetail(BaseModel):
+    answer_text: str
+    s3_audio_url: Union[str, None] = None
+    s3_video_url: Union[str, None] = None
+    scores: PersonalScores
     feedback: Feedback
 
 
@@ -66,10 +79,17 @@ class AnswerRequestModel(BaseRequest):
     file_path: Union[str, None] = "cover-letters/SK_AI_01.txt"
 
 
-# Request: 응답으로 나오는 Reponse 모델
-class AnswerResponseModel(BaseModel):
+class TechnicalAnswerResponseModel(BaseModel):
     user_id: int
     interview_id: int
     interview_method: str
     question_id: int
-    answer: AnswerDetail
+    answer: TechnicalAnswerDetail
+
+
+class PersonalAnswerResponseModel(BaseModel):
+    user_id: int
+    interview_id: int
+    interview_method: str
+    question_id: int
+    answer: PersonalAnswerDetail

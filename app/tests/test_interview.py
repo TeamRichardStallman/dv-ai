@@ -6,6 +6,7 @@ import pytest
 from httpx import ASGITransport, AsyncClient
 
 from app.main import app
+
 from app.tests.data.evaluation import EVALUATION_REQUEST_DATA
 from app.tests.utils.tasks import retry_task_execution
 
@@ -208,16 +209,26 @@ async def test_create_overall_evaluation(mock_send_to_backend):
 
 @patch("app.services.tasks.BaseTaskWithAPICallback.send_to_backend", return_value=None)
 @pytest.mark.asyncio
-@pytest.mark.parametrize("interview_mode", ["real", "general"])
-@pytest.mark.parametrize("interview_type", ["technical", "personal"])
-# @pytest.mark.parametrize("interview_method", ["chat", "voice"])
-async def test_create_answer_evaluation(mock_send_to_backend, interview_mode, interview_type):
+@pytest.mark.parametrize(
+    "interview_id, interview_mode, interview_type, interview_method",
+    [
+        (7, "real", "technical", "chat"),
+        (8, "real", "technical", "voice"),
+        (9, "real", "personal", "chat"),
+        (10, "real", "personal", "voice"),
+        (11, "general", "technical", "chat"),
+        (12, "general", "technical", "voice"),
+    ],
+)
+async def test_create_answer_evaluation(
+    mock_send_to_backend, interview_id, interview_mode, interview_type, interview_method
+):
     mock_send_to_backend.return_value = {"success": True, "message": "Successfully sent to backend"}
     answer_data = {
         "user_id": 1,
         "interview_mode": interview_mode,
         "interview_type": interview_type,
-        "interview_method": "voice",
+        "interview_method": interview_method,
         "job_role": "ai",
         "question": {
             "question_id": 1,
@@ -235,7 +246,7 @@ async def test_create_answer_evaluation(mock_send_to_backend, interview_mode, in
     }
 
     async with AsyncClient(transport=ASGITransport(app=app), base_url=BASE_URL) as ac:
-        response = await ac.post("/interview/1/answer/1", json=answer_data)
+        response = await ac.post(f"/interview/{interview_id}/answer/1", json=answer_data)
         assert (
             response.status_code == 200
         ), f"Expected status code 200, got {response.status_code}. Response: {response.text}"
