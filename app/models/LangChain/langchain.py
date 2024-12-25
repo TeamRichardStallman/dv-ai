@@ -7,7 +7,7 @@ from langchain.agents import AgentExecutor, create_tool_calling_agent
 from langchain.chains.query_constructor.base import AttributeInfo
 from langchain.embeddings import CacheBackedEmbeddings
 from langchain.retrievers import ContextualCompressionRetriever
-from langchain.retrievers.document_compressors import FlashrankRerank
+from langchain_community.document_compressors.flashrank_rerank import FlashrankRerank
 from langchain.retrievers.multi_query import MultiQueryRetriever
 from langchain.retrievers.self_query.base import SelfQueryRetriever
 from langchain.storage import InMemoryByteStore
@@ -182,7 +182,7 @@ class QuestionGenerator(BaseGenerator):
         for attempt in range(max_retries):
             try:
                 self._log(f"Attempt {attempt + 1}/{max_retries} to initialize FlashrankRerank...")
-                return FlashrankRerank(model="ms-marco-MultiBERT-L-12")
+                return FlashrankRerank()
             except Exception as e:
                 self._log(f"Error on attempt {attempt + 1}: {e}")
                 time.sleep(delay)
