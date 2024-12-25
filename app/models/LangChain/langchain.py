@@ -21,7 +21,7 @@ from langchain_openai import ChatOpenAI, OpenAIEmbeddings
 from langsmith import traceable
 
 from app.core.config import Config
-from app.schemas.answer import PersonalAnswerResponseModel, TechnicalAnswerResponseModel
+from app.schemas.answer import AnswerRequestModel, PersonalAnswerResponseModel, TechnicalAnswerResponseModel
 from app.schemas.evaluation import (
     EvaluationRequestModel,
     PersonalEvaluationResponseModel,
@@ -61,7 +61,7 @@ class ResourceLoader:
 
 
 class BaseGenerator:
-    def __init__(self, request_data: Union[QuestionsRequestModel, EvaluationRequestModel]):
+    def __init__(self, request_data: Union[QuestionsRequestModel, AnswerRequestModel, EvaluationRequestModel]):
         self.request_data = request_data
         self.llm = ChatOpenAI(
             api_key=Config.OPENAI_API_KEY,
@@ -260,9 +260,9 @@ class EvaluationGenerator(BaseGenerator):
         if hasattr(self.request_data, "answer"):
             input_data.update(
                 {
-                    "question_id": getattr(self.request_data, "question", {}).get("question_id", None),
-                    "s3_audio_url": getattr(self.request_data.answers, "s3_audio_url", None),
-                    "s3_video_url": getattr(self.request_data.answers, "s3_video_url", None),
+                    "question_id": getattr(self.request_data.question, "question_id", None),
+                    "s3_audio_url": getattr(self.request_data.answer, "s3_audio_url", None),
+                    "s3_video_url": getattr(self.request_data.answer, "s3_video_url", None),
                 }
             )
 

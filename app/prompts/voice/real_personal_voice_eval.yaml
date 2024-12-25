@@ -41,11 +41,11 @@ template: |
             "s3_video_url": {s3_video_url},
             "scores": {{{{
                 "text_scores": {{{{
-                    "appropriate_response": {{{{ "score": 0, "rationale": "답변이 질문과 무관합니다." }}}},
-                    "logical_flow": {{{{ "score": 0, "rationale": "답변이 질문과 무관합니다." }}}},
-                    "key_terms": {{{{ "score": 0, "rationale": "답변이 질문과 무관합니다." }}}},
-                    "consistency": {{{{ "score": 0, "rationale": "답변이 질문과 무관합니다." }}}},
-                    "grammatical_errors": {{{{ "score": 0, "rationale": "답변이 질문과 무관합니다." }}}}
+                    "teamwork": {{{{ "score": 0, "rationale": "답변이 질문과 무관합니다." }}}},
+                    "communication": {{{{ "score": 0, "rationale": "답변이 질문과 무관합니다." }}}},
+                    "problem_solving": {{{{ "score": 0, "rationale": "답변이 질문과 무관합니다." }}}},
+                    "accountability": {{{{ "score": 0, "rationale": "답변이 질문과 무관합니다." }}}},
+                    "growth_mindset": {{{{ "score": 0, "rationale": "답변이 질문과 무관합니다." }}}}
                 }}}},
                 "voice_scores": {{{{
                     "wpm": {{{{ "score": 0, "rationale": "답변이 질문과 무관하여 평가를 진행하지 않습니다." }}}},
