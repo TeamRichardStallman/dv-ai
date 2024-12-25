@@ -1,51 +1,27 @@
-from langchain_core.prompts import PromptTemplate
+from langchain_core.prompts import PromptTemplate, load_prompt
 
-from app.prompts.chat.chat_overall import GENERAL_TECH_CHAT_OVER, REAL_PERSONAL_CHAT_OVER, REAL_TECH_CHAT_OVER
-from app.prompts.voice.voice_overall import GENERAL_TECH_VOICE_OVER, REAL_PERSONAL_VOICE_OVER, REAL_TECH_VOICE_OVER
 from app.schemas.evaluation import EvaluationRequestModel
 
+# Predefine the prompt mapping for clarity and efficiency
+PROMPT_MAP = {
+    ("chat", "real", "technical"): "app/prompts/chat/real_tech_chat_over.yaml",
+    ("chat", "real", "personal"): "app/prompts/chat/real_personal_chat_over.yaml",
+    ("chat", "general", "technical"): "app/prompts/chat/general_tech_chat_over.yaml",
+    ("voice", "real", "technical"): "app/prompts/voice/real_tech_voice_over.yaml",
+    ("voice", "real", "personal"): "app/prompts/voice/real_personal_voice_over.yaml",
+    ("voice", "general", "technical"): "app/prompts/voice/general_tech_voice_over.yaml",
+}
 
-def generate_interview_evaluation_prompt(interview_id: int, request_data: EvaluationRequestModel) -> str:
-    try:
-        user_id = request_data.user_id
-        job_role = request_data.job_role
-        interview_method = request_data.interview_method
-        interview_type = request_data.interview_type
-        interview_mode = request_data.interview_mode
 
-    except KeyError as e:
-        raise KeyError(f"Missing required key in request_data: {e}")
+def generate_interview_evaluation_prompt(request_data: EvaluationRequestModel) -> PromptTemplate:
+    key = (request_data.interview_method, request_data.interview_mode, request_data.interview_type)
+    prompt_path = PROMPT_MAP.get(key)
 
-    if interview_method == "chat":
-        if interview_mode == "real":
-            if interview_type == "technical":
-                generation_prompt = REAL_TECH_CHAT_OVER
-            elif interview_type == "personal":
-                generation_prompt = REAL_PERSONAL_CHAT_OVER
-        elif interview_mode == "general":
-            generation_prompt = GENERAL_TECH_CHAT_OVER
-        else:
-            raise ValueError(f"Unknown interview_mode: {interview_mode}")
-
-    else:
-        if interview_mode == "real":
-            if interview_type == "technical":
-                generation_prompt = REAL_TECH_VOICE_OVER
-            elif interview_type == "personal":
-                generation_prompt = REAL_PERSONAL_VOICE_OVER
-        elif interview_mode == "general":
-            generation_prompt = GENERAL_TECH_VOICE_OVER
-        else:
-            raise ValueError(f"Unknown interview_mode: {interview_mode}")
-    generation_prompt = PromptTemplate.from_template(generation_prompt)
-    try:
-        prompt = generation_prompt.format(
-            job_role=job_role,
-            interview_type=interview_type,
-            user_id=user_id,
-            interview_id=interview_id,
+    if not prompt_path:
+        raise ValueError(
+            f"Invalid combination of interview_method '{request_data.interview_method}', "
+            f"interview_mode '{request_data.interview_mode}', "
+            f"and interview_type '{request_data.interview_type}'"
         )
-    except KeyError as e:
-        raise KeyError(f"Missing key during prompt formatting: {e}")
 
-    return prompt
+    return load_prompt(prompt_path)

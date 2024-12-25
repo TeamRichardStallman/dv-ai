@@ -6,7 +6,6 @@ import pytest
 from httpx import ASGITransport, AsyncClient
 
 from app.main import app
-
 from app.tests.data.evaluation import EVALUATION_REQUEST_DATA
 from app.tests.utils.tasks import retry_task_execution
 

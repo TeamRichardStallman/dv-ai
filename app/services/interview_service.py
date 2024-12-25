@@ -78,13 +78,13 @@ def process_overall_evaluation(
     interview_id: int,
     request_data: EvaluationRequestModel,
 ) -> Union[TechnicalEvaluationResponseModel, PersonalEvaluationResponseModel]:
-    prompt = generate_interview_evaluation_prompt(interview_id, request_data)
+    prompt = generate_interview_evaluation_prompt(request_data)
 
     merged_input = merge_questions_and_answers(request_data.questions, request_data.answers)
     merged_input_str = json.dumps(merged_input, ensure_ascii=False)
 
     generator = EvaluationGenerator(request_data=request_data)
-    data = generator.evaluate(prompt, merged_input_str, "evaluation")
+    data = generator.evaluate(prompt, merged_input_str, interview_id, "evaluation")
     return data
 
 
@@ -96,7 +96,7 @@ async def process_answer_evaluation(
     stt_service = get_stt_service(model_name="whisper")
 
     new_request_data, wpm = await generate_answer_evaluation_new_request_data(request_data, s3_service, stt_service)
-    prompt = await generate_answer_evaluation_prompt(interview_id, new_request_data, wpm)
+    prompt = await generate_answer_evaluation_prompt(new_request_data)
 
     merged_input = merge_question_and_answer(
         question=new_request_data.question,
@@ -105,8 +105,7 @@ async def process_answer_evaluation(
     merged_input_str = json.dumps(merged_input, ensure_ascii=False)
 
     generator = EvaluationGenerator(request_data=new_request_data)
-
-    data = generator.evaluate(prompt, merged_input_str, "answer")
+    data = generator.evaluate(prompt, merged_input_str, interview_id, "answer", wpm)
 
     return data
 
